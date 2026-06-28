@@ -1,0 +1,5 @@
+[project]
+name = "semantic-foundation"
+version = "0.1.0"
+description = "Enterprise Semantic Foundation Platform"
+requires-python = ">=3.11"

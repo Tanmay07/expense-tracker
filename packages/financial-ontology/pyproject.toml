@@ -1,0 +1,5 @@
+[project]
+name = "financial-ontology"
+version = "0.1.0"
+description = "Enterprise Financial Ontology Platform"
+requires-python = ">=3.11"

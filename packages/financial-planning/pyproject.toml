@@ -1,0 +1,5 @@
+[project]
+name = "financial-planning"
+version = "0.1.0"
+description = "Financial Planning Platform"
+requires-python = ">=3.11"

@@ -1,0 +1,5 @@
+[project]
+name = "wealth-foundation"
+version = "0.1.0"
+description = "Enterprise Wealth Foundation"
+requires-python = ">=3.11"

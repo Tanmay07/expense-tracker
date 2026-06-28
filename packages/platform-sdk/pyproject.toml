@@ -1,0 +1,8 @@
+[project]
+name = "platform-sdk"
+version = "0.1.0"
+description = "Internal Platform SDK"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.0.0"
+]

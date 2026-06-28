@@ -1,0 +1,5 @@
+[project]
+name = "wealth-management"
+version = "0.1.0"
+description = "Enterprise Wealth Management Platform"
+requires-python = ">=3.11"

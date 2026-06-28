@@ -1,0 +1,22 @@
+{
+    "concepts": [
+        {
+            "id": "concept_account",
+            "name": "Account",
+            "business_name": "Financial Account",
+            "description": "A ledger-backed store of value representing assets or liabilities belonging to an entity.",
+            "aliases": ["bank account", "wallet", "depository", "checking"],
+            "version": "1.0",
+            "owner": "core_platform"
+        },
+        {
+            "id": "concept_net_worth",
+            "name": "Net Worth",
+            "business_name": "Total Net Worth",
+            "description": "The absolute sum of all Asset accounts minus Liability accounts.",
+            "aliases": ["wealth", "total assets", "portfolio value"],
+            "version": "1.0",
+            "owner": "analytics_platform"
+        }
+    ]
+}

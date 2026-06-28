@@ -1,0 +1,35 @@
+[project]
+name = "ai-financial-coach"
+version = "0.1.0"
+description = "Enterprise AI Financial Coach Platform"
+authors = [
+    { name = "Admin", email = "admin@example.com" }
+]
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn>=0.27.0",
+    "sqlalchemy>=2.0.25",
+    "pgvector>=0.2.4",
+    "pydantic>=2.5.3",
+    "pydantic-settings>=2.1.0",
+    "alembic>=1.13.1",
+    "psycopg2-binary>=2.9.9",
+    "redis>=5.0.1",
+    "celery>=5.3.6",
+    "opentelemetry-api>=1.22.0",
+    "opentelemetry-sdk>=1.22.0",
+    "opentelemetry-instrumentation-fastapi>=0.43b0",
+    "litellm>=1.28.0",
+    "platform-sdk @ file://../platform-sdk",
+    "enterprise-compliance @ file://../enterprise-compliance"
+]
+readme = "README.md"
+requires-python = ">= 3.10"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+addopts = "-v --cov=ai_financial_coach"
+testpaths = ["tests"]

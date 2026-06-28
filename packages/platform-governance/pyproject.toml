@@ -1,0 +1,5 @@
+[project]
+name = "platform-governance"
+version = "0.1.0"
+description = "Platform Governance and FinOps"
+requires-python = ">=3.11"

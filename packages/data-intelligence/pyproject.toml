@@ -1,0 +1,5 @@
+[project]
+name = "data-intelligence"
+version = "0.1.0"
+description = "Financial Data Intelligence Platform"
+requires-python = ">=3.11"

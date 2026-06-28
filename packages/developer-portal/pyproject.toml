@@ -1,0 +1,8 @@
+[project]
+name = "developer-portal"
+version = "0.1.0"
+description = "Internal Developer Portal"
+requires-python = ">=3.11"
+dependencies = [
+    "pyyaml>=6.0"
+]

@@ -1,0 +1,16 @@
+[project]
+name = "finance-os-monorepo"
+version = "1.0.0"
+description = "AI Personal Finance OS Platform Monorepo"
+requires-python = ">=3.11"
+
+[tool.uv.workspace]
+members = [
+    "apps/*",
+    "packages/*",
+    "shared/*"
+]
+exclude = [
+    "tests",
+    "docs"
+]

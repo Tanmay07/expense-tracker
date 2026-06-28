@@ -1,0 +1,5 @@
+[project]
+name = "analytics-platform"
+version = "0.1.0"
+description = "Enterprise Analytics Platform"
+requires-python = ">=3.11"
