@@ -67,3 +67,28 @@ volumes:
     depends_on:
       - db
       - redis
+
+  ai-copilot-api:
+    build:
+      context: ./packages/ai-copilot
+    ports:
+      - "8004:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-mock}
+    depends_on:
+      - db
+      - redis
+
+  ai-copilot-worker:
+    build:
+      context: ./packages/ai-copilot
+    command: celery -A ai_copilot.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-mock}
+    depends_on:
+      - db
+      - redis
