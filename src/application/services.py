@@ -1,3 +1,4 @@
+from typing import List, Optional, Dict, Any
 from fastapi import HTTPException, status
 from src.domain.enums import AccountStatus, AccountType, EntryType
 from src.infrastructure.models import Account
