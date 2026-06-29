@@ -20,7 +20,7 @@ dependencies = [
     "opentelemetry-sdk>=1.22.0",
     "opentelemetry-instrumentation-fastapi>=0.43b0",
     "litellm>=1.28.0",
-    "ai-financial-coach @ file://../ai-financial-coach"
+    "ai-financial-coach"
 ]
 readme = "README.md"
 requires-python = ">= 3.10"

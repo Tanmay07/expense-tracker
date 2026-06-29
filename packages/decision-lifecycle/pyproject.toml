@@ -18,7 +18,7 @@ dependencies = [
     "opentelemetry-instrumentation-fastapi>=0.43b0",
     "celery>=5.3.6",
     "redis>=5.0.1",
-    "decision-registry @ file://../decision-registry"
+    "decision-registry"
 ]
 readme = "README.md"
 requires-python = ">= 3.10"

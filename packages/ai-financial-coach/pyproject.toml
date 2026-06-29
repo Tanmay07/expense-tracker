@@ -20,8 +20,8 @@ dependencies = [
     "opentelemetry-sdk>=1.22.0",
     "opentelemetry-instrumentation-fastapi>=0.43b0",
     "litellm>=1.28.0",
-    "platform-sdk @ file://../platform-sdk",
-    "enterprise-compliance @ file://../enterprise-compliance"
+    "platform-sdk",
+    "enterprise-compliance"
 ]
 readme = "README.md"
 requires-python = ">= 3.10"

@@ -22,7 +22,7 @@ dependencies = [
     "numpy>=1.26.2",
     "ortools>=9.8.3296",
     "polars>=0.20.0",
-    "decision-registry @ file://../decision-registry"
+    "decision-registry"
 ]
 readme = "README.md"
 requires-python = ">= 3.10"
