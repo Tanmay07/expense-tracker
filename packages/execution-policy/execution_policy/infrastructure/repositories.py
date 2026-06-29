@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional, Any, Dict, cast
 
 from .database import PolicyModel, EvaluationLogModel
 from ..domain.models import ExecutionPolicy, EvaluationResult, RuleAST
@@ -21,7 +21,7 @@ class PolicyRepository(BaseRepository):
             category=record.category,
             version=record.version,
             priority=record.priority,
-            rule_ast=RuleAST(**record.rule_ast_json),
+            rule_ast=RuleAST(**cast(Dict[str, Any], record.rule_ast_json)),
             outcome_if_matched=record.outcome_if_matched,
             is_active=record.is_active,
             metadata=record.metadata_json or {},
@@ -39,7 +39,7 @@ class PolicyRepository(BaseRepository):
                 category=r.category,
                 version=r.version,
                 priority=r.priority,
-                rule_ast=RuleAST(**r.rule_ast_json),
+                rule_ast=RuleAST(**cast(Dict[str, Any], r.rule_ast_json)),
                 outcome_if_matched=r.outcome_if_matched,
                 is_active=r.is_active,
                 metadata=r.metadata_json or {},
