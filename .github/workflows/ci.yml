@@ -28,4 +28,5 @@ jobs:
       - name: Run Tests Across Workspace
         # In the future, this will be replaced with an 'affected-only' graph command
         run: |
+          uv sync --all-packages
           uv run pytest apps/ packages/ shared/
