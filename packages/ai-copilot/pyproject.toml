@@ -32,3 +32,6 @@ build-backend = "hatchling.build"
 [tool.pytest.ini_options]
 addopts = "-v --cov=ai_copilot"
 testpaths = ["tests"]
+
+[tool.hatch.metadata]
+allow-direct-references = true

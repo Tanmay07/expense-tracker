@@ -34,3 +34,6 @@ build-backend = "hatchling.build"
 [tool.pytest.ini_options]
 addopts = "-v --cov=decision_intelligence"
 testpaths = ["tests"]
+
+[tool.hatch.metadata]
+allow-direct-references = true

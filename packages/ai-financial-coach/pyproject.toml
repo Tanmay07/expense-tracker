@@ -33,3 +33,6 @@ build-backend = "hatchling.build"
 [tool.pytest.ini_options]
 addopts = "-v --cov=ai_financial_coach"
 testpaths = ["tests"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
