@@ -28,7 +28,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
-addopts = "-v --cov=decision_lifecycle"
+addopts = "--import-mode=importlib -v --cov=decision_lifecycle"
 testpaths = ["tests"]
 
 [tool.hatch.metadata]

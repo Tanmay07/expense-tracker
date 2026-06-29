@@ -30,7 +30,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
-addopts = "-v --cov=ai_copilot"
+addopts = "--import-mode=importlib -v --cov=ai_copilot"
 testpaths = ["tests"]
 
 [tool.hatch.metadata]

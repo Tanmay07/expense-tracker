@@ -28,5 +28,5 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
-addopts = "-v --cov=execution_policy"
+addopts = "--import-mode=importlib -v --cov=execution_policy"
 testpaths = ["tests"]

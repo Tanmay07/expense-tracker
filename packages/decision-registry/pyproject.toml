@@ -27,5 +27,5 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
-addopts = "-v --cov=decision_registry"
+addopts = "--import-mode=importlib -v --cov=decision_registry"
 testpaths = ["tests"]
