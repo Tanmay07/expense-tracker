@@ -150,3 +150,72 @@ volumes:
     depends_on:
       - db
       - redis
+
+  decision-lifecycle-api:
+    build:
+      context: ./packages/decision-lifecycle
+    ports:
+      - "8008:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  decision-lifecycle-worker:
+    build:
+      context: ./packages/decision-lifecycle
+    command: celery -A decision_lifecycle.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  execution-capability-api:
+    build:
+      context: ./packages/execution-capability
+    ports:
+      - "8009:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  execution-capability-worker:
+    build:
+      context: ./packages/execution-capability
+    command: celery -A execution_capability.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  execution-policy-api:
+    build:
+      context: ./packages/execution-policy
+    ports:
+      - "8010:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  execution-policy-worker:
+    build:
+      context: ./packages/execution-policy
+    command: celery -A execution_policy.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
