@@ -1,5 +1,5 @@
 from financial_planning.domain.models import Budget, Goal
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 import uuid
 from datetime import datetime
 
