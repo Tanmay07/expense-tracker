@@ -36,3 +36,7 @@ testpaths = ["tests"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
+
+[tool.uv.sources]
+ai-copilot = { workspace = true }
+ai-financial-coach = { workspace = true }

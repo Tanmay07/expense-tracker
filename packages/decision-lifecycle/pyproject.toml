@@ -33,3 +33,6 @@ testpaths = ["tests"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
+
+[tool.uv.sources]
+decision-registry = { workspace = true }

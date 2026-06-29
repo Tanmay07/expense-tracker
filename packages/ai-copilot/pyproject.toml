@@ -35,3 +35,6 @@ testpaths = ["tests"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
+
+[tool.uv.sources]
+ai-financial-coach = { workspace = true }

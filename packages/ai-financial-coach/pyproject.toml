@@ -36,3 +36,7 @@ testpaths = ["tests"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
+
+[tool.uv.sources]
+platform-sdk = { workspace = true }
+enterprise-compliance = { workspace = true }
