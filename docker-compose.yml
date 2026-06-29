@@ -92,3 +92,61 @@ volumes:
     depends_on:
       - db
       - redis
+
+  mission-control-api:
+    build:
+      context: ./packages/mission-control
+    ports:
+      - "8005:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-mock}
+    depends_on:
+      - db
+      - redis
+
+  mission-control-worker:
+    build:
+      context: ./packages/mission-control
+    command: celery -A mission_control.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-mock}
+    depends_on:
+      - db
+      - redis
+
+  decision-registry-api:
+    build:
+      context: ./packages/decision-registry
+    ports:
+      - "8006:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+    depends_on:
+      - db
+
+  decision-intelligence-api:
+    build:
+      context: ./packages/decision-intelligence
+    ports:
+      - "8007:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  decision-intelligence-worker:
+    build:
+      context: ./packages/decision-intelligence
+    command: celery -A decision_intelligence.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis

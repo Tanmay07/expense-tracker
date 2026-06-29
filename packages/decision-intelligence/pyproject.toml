@@ -1,0 +1,36 @@
+[project]
+name = "decision-intelligence"
+version = "0.1.0"
+description = "Enterprise Decision Intelligence & Optimization Platform"
+authors = [
+    { name = "Admin", email = "admin@example.com" }
+]
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "sqlalchemy>=2.0.25",
+    "pydantic>=2.5.3",
+    "pydantic-settings>=2.1.0",
+    "alembic>=1.13.1",
+    "psycopg2-binary>=2.9.9",
+    "opentelemetry-api>=1.22.0",
+    "opentelemetry-sdk>=1.22.0",
+    "opentelemetry-instrumentation-fastapi>=0.43b0",
+    "celery>=5.3.6",
+    "redis>=5.0.1",
+    "scipy>=1.11.4",
+    "numpy>=1.26.2",
+    "ortools>=9.8.3296",
+    "polars>=0.20.0",
+    "decision-registry @ file://../decision-registry"
+]
+readme = "README.md"
+requires-python = ">= 3.10"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+addopts = "-v --cov=decision_intelligence"
+testpaths = ["tests"]
