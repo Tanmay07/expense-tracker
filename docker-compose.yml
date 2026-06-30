@@ -480,3 +480,21 @@ volumes:
     depends_on:
       - db
       - redis
+
+  mission-control-bff:
+    build:
+      context: ./packages/mission-control-bff
+    ports:
+      - "8030:8000"
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      - redis
+
+  mission-control-ui:
+    build:
+      context: ./packages/mission-control-ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mission-control-bff
