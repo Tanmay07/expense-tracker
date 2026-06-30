@@ -242,3 +242,26 @@ volumes:
     depends_on:
       - db
       - redis
+
+  hierarchical-learning-api:
+    build:
+      context: ./packages/hierarchical-learning
+    ports:
+      - "8012:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  hierarchical-learning-worker:
+    build:
+      context: ./packages/hierarchical-learning
+    command: celery -A hierarchical_learning.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
