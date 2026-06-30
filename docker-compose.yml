@@ -265,3 +265,26 @@ volumes:
     depends_on:
       - db
       - redis
+
+  marketplace-platform-api:
+    build:
+      context: ./packages/marketplace-platform
+    ports:
+      - "8013:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  marketplace-platform-worker:
+    build:
+      context: ./packages/marketplace-platform
+    command: celery -A marketplace_platform.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
