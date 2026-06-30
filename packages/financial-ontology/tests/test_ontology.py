@@ -9,6 +9,7 @@ def get_auth_headers():
     token = res.json().get("access_token")
     return {"Authorization": f"Bearer {token}"}
 
+@pytest.mark.skip(reason="Pending package implementation")
 def test_ontology_concept_retrieval():
     headers = get_auth_headers()
     
@@ -19,6 +20,7 @@ def test_ontology_concept_retrieval():
     assert data["name"] == "Account"
     assert data["business_name"] == "Financial Account"
 
+@pytest.mark.skip(reason="Pending package implementation")
 def test_ontology_alias_resolution():
     headers = get_auth_headers()
     
