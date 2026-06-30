@@ -12,7 +12,8 @@ members = [
 ]
 exclude = [
     "tests",
-    "docs"
+    "docs",
+    "packages/mission-control-ui"
 ]
 
 [dependency-groups]
