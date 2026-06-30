@@ -388,3 +388,26 @@ volumes:
     depends_on:
       - db
       - redis
+
+  experimentation-platform-api:
+    build:
+      context: ./packages/experimentation-platform
+    ports:
+      - "8018:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  experimentation-platform-worker:
+    build:
+      context: ./packages/experimentation-platform
+    command: celery -A experimentation_platform.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
