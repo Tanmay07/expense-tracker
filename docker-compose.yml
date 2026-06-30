@@ -365,3 +365,26 @@ volumes:
     depends_on:
       - db
       - redis
+
+  observability-platform-api:
+    build:
+      context: ./packages/observability-platform
+    ports:
+      - "8017:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  observability-platform-worker:
+    build:
+      context: ./packages/observability-platform
+    command: celery -A observability_platform.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
