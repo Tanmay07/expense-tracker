@@ -216,7 +216,7 @@ def import_csv(
 ):
     # 1. Save to Storage
     storage_service = StorageService()
-    saved_path = storage_service.save_file(file.file, file.filename)
+    saved_path = storage_service.save_file(file.file, file.filename or "upload.csv")
     
     # 2. Parse Mapping
     try:
@@ -377,7 +377,7 @@ def approve_agent_execution(
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/platform-governance")))
-from platform_governance.application.services import FinOpsService, ScorecardService, PolicyService
+from platform_governance.application.services import FinOpsService, ScorecardService, PolicyService  # type: ignore
 
 finops = FinOpsService()
 scorecard = ScorecardService()
@@ -422,7 +422,7 @@ def get_finops_dashboard(
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/developer-portal")))
-from developer_portal.application.services import CatalogService, DiscoveryService
+from developer_portal.application.services import CatalogService, DiscoveryService  # type: ignore
 
 catalog = CatalogService()
 discovery = DiscoveryService(catalog)
@@ -445,7 +445,7 @@ def get_catalog(
     return {"packages": catalog.get_catalog()}
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/platform-control-plane")))
-from platform_control_plane.application.services import PlatformRegistryService, ConfigurationService
+from platform_control_plane.application.services import PlatformRegistryService, ConfigurationService  # type: ignore
 
 registry = PlatformRegistryService()
 config_svc = ConfigurationService()
@@ -485,7 +485,7 @@ def get_config(
 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/timeline-engine")))
-from timeline_engine.application.services import TimelineService, ReplayService
+from timeline_engine.application.services import TimelineService, ReplayService  # type: ignore
 
 timeline_svc = TimelineService()
 replay_svc = ReplayService(timeline_svc)
@@ -515,7 +515,7 @@ def replay_net_worth(
     return {"target_timestamp": target_timestamp, "reconstructed_net_worth": nw}
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/digital-twin")))
-from digital_twin.application.services import ScenarioEngine, MonteCarloEngine
+from digital_twin.application.services import ScenarioEngine, MonteCarloEngine  # type: ignore
 
 scenario_engine = ScenarioEngine()
 monte_carlo_engine = MonteCarloEngine(scenario_engine)
@@ -578,7 +578,7 @@ def evaluate_metric(
     return {"metric_id": metric_id, "value": value}
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/semantic-metrics")))
-from semantic_metrics.application.services import LineageService, CalculationGraphEngine
+from semantic_metrics.application.services import LineageService, CalculationGraphEngine  # type: ignore
 
 lineage_svc = LineageService()
 graph_engine = CalculationGraphEngine(lineage_svc)
@@ -600,7 +600,7 @@ def get_semantic_lineage(
     return lineage_svc.get_lineage(query_id)
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/financial-ontology")))
-from financial_ontology.application.registry import OntologyRegistryService
+from financial_ontology.application.registry import OntologyRegistryService  # type: ignore
 
 ontology_registry = OntologyRegistryService()
 # Load initial ontology (if file exists)
@@ -628,7 +628,7 @@ def search_concept(
     return concept
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/semantic-foundation")))
-from semantic_foundation.application.services import GlossaryService, MetadataService
+from semantic_foundation.application.services import GlossaryService, MetadataService  # type: ignore
 
 glossary_svc = GlossaryService()
 metadata_svc = MetadataService()
@@ -680,8 +680,8 @@ def get_concept_metadata(
 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/data-intelligence")))
-from data_intelligence.application.services import CategorizationService, DuplicateService, PipelineService
-from data_intelligence.infrastructure.connectors.base import GmailConnector, SMSConnector
+from data_intelligence.application.services import CategorizationService, DuplicateService, PipelineService  # type: ignore
+from data_intelligence.infrastructure.connectors.base import GmailConnector, SMSConnector  # type: ignore
 
 cat_svc = CategorizationService()
 dup_svc = DuplicateService()
@@ -715,7 +715,7 @@ def get_review_queue(
 # --- FINANCIAL PLANNING PLATFORM (WAVE 3) ---
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/financial-planning")))
-from financial_planning.application.services import BudgetService, GoalService
+from financial_planning.application.services import BudgetService, GoalService  # type: ignore
 from pydantic import BaseModel
 
 budget_svc = BudgetService()
@@ -725,7 +725,7 @@ class BudgetCreateReq(BaseModel):
     name: str
     amount: float
     period: str
-    category_id: str = None
+    category_id: str | None = None
 
 class GoalCreateReq(BaseModel):
     name: str
@@ -775,7 +775,7 @@ def fund_goal(
     return goal_svc.add_funds(goal_id, amount)
 
 # --- WAVE 3 STEP 2: CASH FLOW & FORECASTING ---
-from financial_planning.application.services import CashFlowService, ForecastService, HealthService, RecommendationService
+from financial_planning.application.services import CashFlowService, ForecastService, HealthService, RecommendationService  # type: ignore
 
 cashflow_svc = CashFlowService()
 forecast_svc = ForecastService()
@@ -810,7 +810,7 @@ def get_recommendations(
     return recommendation_svc.generate_recommendations(user_id, health)
 
 # --- WAVE 3 STEP 3: LIABILITIES & RECURRING ---
-from financial_planning.application.services import SubscriptionService, BillService, RecurringService, ReminderService
+from financial_planning.application.services import SubscriptionService, BillService, RecurringService, ReminderService  # type: ignore
 from datetime import datetime
 
 subscription_svc = SubscriptionService()
@@ -865,7 +865,7 @@ def add_recurring(
 
 # --- WAVE 4 STEP 1: WEALTH MANAGEMENT PORTFOLIOS ---
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/wealth-management")))
-from wealth_management.application.services import PortfolioService, HoldingService, InvestmentTransactionService
+from wealth_management.application.services import PortfolioService, HoldingService, InvestmentTransactionService  # type: ignore
 
 wealth_portfolio_svc = PortfolioService()
 wealth_holding_svc = HoldingService()
@@ -921,7 +921,7 @@ def buy_investment(
 
 # --- WAVE 4A STEP 1: WEALTH FOUNDATION ---
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../packages/wealth-foundation")))
-from wealth_foundation.application.services import HouseholdService, FXService
+from wealth_foundation.application.services import HouseholdService, FXService  # type: ignore
 from typing import Optional
 
 foundation_household_svc = HouseholdService()
@@ -981,7 +981,7 @@ def convert_currency(
         raise HTTPException(status_code=400, detail=str(e))
 
 # --- WAVE 4A STEP 2: CORP ACTIONS & GOAL FUNDING ---
-from wealth_foundation.application.services import CorporateActionService, GoalFundingService
+from wealth_foundation.application.services import CorporateActionService, GoalFundingService  # type: ignore
 
 foundation_ca_svc = CorporateActionService()
 foundation_gf_svc = GoalFundingService()
@@ -1023,7 +1023,7 @@ def link_asset_to_goal(
     )
 
 # --- WAVE 4A STEP 3: PROVIDERS & EXPLAINABILITY ---
-from wealth_foundation.application.services import ProviderRegistryService, ExplainabilityService
+from wealth_foundation.application.services import ProviderRegistryService, ExplainabilityService  # type: ignore
 
 foundation_provider_svc = ProviderRegistryService()
 foundation_explain_svc = ExplainabilityService()
@@ -1075,7 +1075,7 @@ def get_explanation(
     return exp
 
 # --- WAVE 4B STEP 1: CUSTODIAN & BROKER ABSTRACTION ---
-from wealth_foundation.application.services import CustodianService, BrokerService
+from wealth_foundation.application.services import CustodianService, BrokerService  # type: ignore
 
 foundation_custodian_svc = CustodianService()
 foundation_broker_svc = BrokerService()
@@ -1132,7 +1132,7 @@ def assign_custody(
         raise HTTPException(status_code=400, detail=str(e))
 
 # --- WAVE 4B STEP 2: TAX-LOTS & POLICIES ---
-from wealth_foundation.application.services import TaxLotService, PolicyService
+from wealth_foundation.application.services import TaxLotService, PolicyService  # type: ignore
 
 foundation_tax_svc = TaxLotService()
 foundation_policy_svc = PolicyService()
@@ -1192,7 +1192,7 @@ def create_portfolio_policy(
     )
 
 # --- WAVE 4B STEP 3: PERMISSIONS, SNAPSHOTS & REPLAY ---
-from wealth_foundation.application.services import PermissionService, SnapshotService, ReplayService
+from wealth_foundation.application.services import PermissionService, SnapshotService, ReplayService  # type: ignore
 
 foundation_perm_svc = PermissionService()
 foundation_snap_svc = SnapshotService()
