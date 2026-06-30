@@ -326,7 +326,6 @@ volumes:
       - db
       - redis
     volumes:
-  validation_artifacts:
       - validation_artifacts:/app/data/artifacts
 
   validation-registry-worker:
@@ -340,7 +339,6 @@ volumes:
       - db
       - redis
     volumes:
-  validation_artifacts:
       - validation_artifacts:/app/data/artifacts
 
   governance-platform-api:
