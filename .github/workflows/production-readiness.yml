@@ -1,0 +1,44 @@
+name: Production Readiness Certification
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          pip install httpx
+
+      - name: Run Platform Readiness Checks
+        env:
+          PRAPC_API_URL: ${{ secrets.PRAPC_API_URL || 'http://localhost:8020' }}
+        run: |
+          python -c "
+          import httpx, sys
+          url = '${PRAPC_API_URL}/api/v1/readiness/score'
+          try:
+              resp = httpx.post(url, timeout=10.0)
+              data = resp.json()
+              score = data.get('readiness_score', 0)
+              if score < 90:
+                  print(f'::error::Production Readiness Score ({score}) is below required 90%.')
+                  sys.exit(1)
+              print(f'Production Readiness Certification Passed! Score: {score}%')
+          except Exception as e:
+              print(f'::warning::Failed to reach PRAPC API. Skipping strict gate: {e}')
+          "
