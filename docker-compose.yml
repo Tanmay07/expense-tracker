@@ -457,3 +457,26 @@ volumes:
     depends_on:
       - db
       - redis
+
+  platform-release-api:
+    build:
+      context: ./packages/platform-release
+    ports:
+      - "8021:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  platform-release-worker:
+    build:
+      context: ./packages/platform-release
+    command: celery -A platform_release.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis

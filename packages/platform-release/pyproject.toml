@@ -1,0 +1,25 @@
+[project]
+name = "platform-release"
+version = "0.1.0"
+description = "Enterprise Platform Release, Freeze & Certification"
+authors = [{ name = "Tanmay Adhikary", email = "tanmayadhikary@example.com" }]
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.31.0",
+    "pydantic>=2.9.0",
+    "sqlalchemy>=2.0.35",
+    "alembic>=1.13.3",
+    "psycopg2-binary>=2.9.9",
+    "celery>=5.4.0",
+    "redis>=5.1.1",
+    "requests>=2.32.3",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["platform_release"]
