@@ -1,32 +1,33 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Shell } from './shared/components/layout/Shell';
-
-import { MissionHome } from './features/home/MissionHome';
-import { MissionCenter } from './features/missions/MissionCenter';
-import { DecisionCenter } from './features/decisions/DecisionCenter';
-import { Timeline } from './features/timeline/Timeline';
-import { Copilot } from './features/copilot/Copilot';
-import { GraphExp } from './features/graph/GraphExp';
-
-const queryClient = new QueryClient();
+import { Shell } from './layout/Shell';
+import { Home } from './pages/Home';
+import { Expenses } from './pages/Expenses';
+import { Missions } from './pages/Missions';
+import { PlaceholderPage } from './pages/PlaceholderPage';
+import { DeveloperWorkspace } from './features/developer/DeveloperWorkspace';
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Shell>
-          <Routes>
-            <Route path="/" element={<MissionHome />} />
-            <Route path="/missions" element={<MissionCenter />} />
-            <Route path="/decisions" element={<DecisionCenter />} />
-            <Route path="/timeline" element={<Timeline />} />
-            <Route path="/copilot" element={<Copilot />} />
-            <Route path="/graph" element={<GraphExp />} />
-          </Routes>
-        </Shell>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Shell />}>
+          <Route index element={<Home />} />
+          <Route path="expenses" element={<Expenses />} />
+          <Route path="missions" element={<Missions />} />
+          <Route path="settings" element={<DeveloperWorkspace />} />
+          
+          {/* Feature Flagged routes */}
+          <Route path="investments" element={<PlaceholderPage flag="investments" title="Investment Portfolio" />} />
+          <Route path="analytics" element={<PlaceholderPage flag="analytics" title="Analytics Platform" />} />
+          <Route path="budgets" element={<PlaceholderPage flag="budgets" title="Budget Planner" />} />
+          <Route path="governance" element={<PlaceholderPage flag="governance" title="Governance Platform" />} />
+          <Route path="knowledge-graph" element={<PlaceholderPage flag="knowledgeGraph" title="Knowledge Graph Explorer" />} />
+          
+          {/* Catch all */}
+          <Route path="*" element={<PlaceholderPage flag="analytics" title="Module Not Found" />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
