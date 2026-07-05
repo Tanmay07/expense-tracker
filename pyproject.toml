@@ -14,7 +14,8 @@ exclude = [
     "tests",
     "docs",
     "packages/mission-control-ui",
-    "apps/mobile-mxp"
+    "apps/mobile-mxp",
+    "packages/mobile_sdk"
 ]
 
 [dependency-groups]
