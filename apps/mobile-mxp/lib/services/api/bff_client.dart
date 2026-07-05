@@ -58,6 +58,13 @@ class BffClient {
     await Future.delayed(const Duration(milliseconds: 1200));
     return 'The AI Platform has processed your intent: "$intent". Capability resolved successfully.';
   }
+
+  Future<String> uploadImageForExtraction(String filePath) async {
+    // Simulates uploading the image to the BFF for OCR/Document extraction
+    // using the AI Platform (e.g. Gemini 1.5 Pro Vision).
+    await Future.delayed(const Duration(milliseconds: 2000));
+    return 'Receipt analyzed successfully.\nTotal: \$42.50\nMerchant: Coffee Shop';
+  }
 }
 
 // Riverpod providers for UI consumption

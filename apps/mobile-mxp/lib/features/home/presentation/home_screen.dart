@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../services/api/bff_client.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -25,7 +26,7 @@ class HomeScreen extends ConsumerWidget {
           children: [
             _buildContextGreeting(theme),
             const SizedBox(height: 24),
-            _buildQuickActions(theme),
+            _buildQuickActions(context, theme),
             const SizedBox(height: 24),
             Text('Active Missions', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 12),
@@ -53,29 +54,37 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildQuickActions(ThemeData theme) {
+  Widget _buildQuickActions(BuildContext context, ThemeData theme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _buildActionBtn(Icons.document_scanner, 'Scan Receipt', theme),
-        _buildActionBtn(Icons.auto_awesome, 'Ask AI', theme),
-        _buildActionBtn(Icons.add_card, 'Add Expense', theme),
-        _buildActionBtn(Icons.insights, 'Analyze', theme),
+        _buildActionBtn(Icons.document_scanner, 'Scan Receipt', theme, onTap: () {
+          GoRouter.of(context).push('/camera');
+        }),
+        _buildActionBtn(Icons.auto_awesome, 'Ask AI', theme, onTap: () {
+          GoRouter.of(context).go('/ai');
+        }),
+        _buildActionBtn(Icons.add_card, 'Add Expense', theme, onTap: () {}),
+        _buildActionBtn(Icons.insights, 'Analyze', theme, onTap: () {}),
       ],
     );
   }
 
-  Widget _buildActionBtn(IconData icon, String label, ThemeData theme) {
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 28,
-          backgroundColor: theme.colorScheme.primaryContainer,
-          child: Icon(icon, color: theme.colorScheme.onPrimaryContainer),
-        ),
-        const SizedBox(height: 8),
-        Text(label, style: theme.textTheme.labelMedium),
-      ],
+  Widget _buildActionBtn(IconData icon, String label, ThemeData theme, {VoidCallback? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 28,
+            backgroundColor: theme.colorScheme.primaryContainer,
+            child: Icon(icon, color: theme.colorScheme.onPrimaryContainer),
+          ),
+          const SizedBox(height: 8),
+          Text(label, style: theme.textTheme.labelMedium),
+        ],
+      ),
     );
   }
 

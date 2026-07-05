@@ -6,6 +6,7 @@ import '../../features/shell/presentation/adaptive_shell.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/workspaces/presentation/workspaces_screen.dart';
 import '../../features/ai/presentation/ai_shell_screen.dart';
+import '../../features/camera/presentation/camera_screen.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -40,6 +41,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/workspaces',
             builder: (context, state) => const WorkspacesScreen(),
+          ),
+          GoRoute(
+            path: '/camera',
+            builder: (context, state) => const CameraScreen(),
           ),
         ],
       ),
