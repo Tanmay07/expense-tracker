@@ -25,4 +25,25 @@ export class BackendProvider implements IDataProvider {
     if (!res.ok) throw new Error('Failed to fetch dashboard metrics');
     return res.json();
   }
+
+  async getActiveContexts(): Promise<any[]> {
+    const res = await fetch(`${this.baseUrl}/bff/context`);
+    if (!res.ok) throw new Error('Failed to fetch context');
+    const data = await res.json();
+    return data.contexts;
+  }
+
+  async getAdaptiveDashboardLayout(): Promise<any> {
+    const res = await fetch(`${this.baseUrl}/bff/dashboard/adaptive`);
+    if (!res.ok) throw new Error('Failed to fetch dashboard layout');
+    const data = await res.json();
+    return data.layout;
+  }
+
+  async getQuickActions(): Promise<any[]> {
+    const res = await fetch(`${this.baseUrl}/bff/quick-actions`);
+    if (!res.ok) throw new Error('Failed to fetch quick actions');
+    const data = await res.json();
+    return data.actions;
+  }
 }

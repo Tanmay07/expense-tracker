@@ -1,8 +1,12 @@
 import { motion } from 'framer-motion';
-import { TrendingUp, DollarSign, Target, Calendar, ArrowRight, Zap, Loader2 } from 'lucide-react';
+import { TrendingUp, DollarSign, Target, Calendar, Loader2 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { cn } from '../utils/cn';
 import { useDashboardMetrics } from '../hooks/useData';
+import { useContextStore } from '../store/useContextStore';
+import { ContextCard } from '../shared/components/context/ContextCard';
+import { AdaptiveQuickActions } from '../shared/components/context/AdaptiveQuickActions';
+import { ContextTimeline } from '../shared/components/context/ContextTimeline';
 
 const FADE_UP = {
   initial: { opacity: 0, y: 20 },
@@ -20,15 +24,19 @@ const MOCK_CHART_DATA = [
 ];
 
 export function Home() {
-  const { data: metrics, isLoading } = useDashboardMetrics();
+  const { data: metrics, isLoading: metricsLoading } = useDashboardMetrics();
+  const { activeContexts, dashboardLayout, quickActions, isLoading: contextLoading } = useContextStore();
 
-  if (isLoading || !metrics) {
+  if (metricsLoading || contextLoading || !metrics || !dashboardLayout) {
     return (
-      <div className="flex items-center justify-center h-[50vh]">
+      <div className="flex flex-col items-center justify-center h-[60vh] gap-4">
         <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+        <p className="text-muted-foreground text-sm font-medium animate-pulse">Analyzing Financial Context...</p>
       </div>
     );
   }
+
+  const pinnedCards = dashboardLayout.pinned_cards || [];
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -38,11 +46,17 @@ export function Home() {
           <p className="text-muted-foreground mt-1">Here's your financial operating system at a glance.</p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-emerald-500/10 text-emerald-500 rounded-full border border-emerald-500/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            System Healthy
-          </span>
-          <button className="px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors">
+          {activeContexts.map(ctx => (
+            <span key={ctx.id} className={cn(
+              "flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full border",
+              ctx.priority === 'CRITICAL' ? "bg-red-500/10 text-red-500 border-red-500/20" :
+              "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+            )}>
+              <span className={cn("w-1.5 h-1.5 rounded-full animate-pulse", ctx.priority === 'CRITICAL' ? 'bg-red-500' : 'bg-emerald-500')}></span>
+              {ctx.name}
+            </span>
+          ))}
+          <button className="px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors ml-2">
             New Mission
           </button>
         </div>
@@ -58,6 +72,16 @@ export function Home() {
         <MetricCard title="Active Goals" value={`${metrics.activeGoals} On Track`} trend={`${metrics.atRiskGoals} At Risk`} isPositive={metrics.atRiskGoals === 0} icon={Target} delay={0.2} />
         <MetricCard title="Pending Bills" value={metrics.pendingBills.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} trend={`Due in ${metrics.billsDueDays} days`} isPositive={metrics.billsDueDays > 5} icon={Calendar} delay={0.3} />
       </motion.div>
+
+      <AdaptiveQuickActions actions={quickActions} />
+
+      {pinnedCards.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {pinnedCards.map(card => (
+            <ContextCard key={card.id} card={card} />
+          ))}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
@@ -94,7 +118,9 @@ export function Home() {
               </ResponsiveContainer>
             </div>
           </motion.section>
+        </div>
 
+        <div className="space-y-6">
           <motion.section 
             className="rounded-xl border border-border bg-card p-5"
             variants={FADE_UP}
@@ -127,45 +153,15 @@ export function Home() {
               ))}
             </div>
           </motion.section>
-        </div>
 
-        <div className="space-y-6">
-           <motion.section 
-            className="rounded-xl border border-border bg-card p-5 border-blue-500/30 relative overflow-hidden shadow-[0_0_20px_rgba(59,130,246,0.1)]"
+          <motion.section 
+            className="rounded-xl border border-border bg-card p-5"
             variants={FADE_UP}
           >
-            <div className="absolute top-0 right-0 p-32 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
-            <div className="flex items-center justify-between mb-4 relative">
-              <h2 className="text-lg font-semibold flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                Active Mission
-              </h2>
-            </div>
-            <div className="relative">
-              <h3 className="font-medium text-foreground text-lg">Tax Loss Harvesting</h3>
-              <p className="text-sm text-muted-foreground mt-1 mb-4">Execute trades to harvest $4,500 in unrealized losses before EOY.</p>
-              
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-sm">
-                  <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0">✓</div>
-                  <span className="text-muted-foreground line-through">Identify losing positions</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm">
-                   <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0">✓</div>
-                  <span className="text-muted-foreground line-through">Analyze wash sale rules</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm font-medium">
-                  <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
-                    <span className="absolute w-full h-full bg-blue-500/20 rounded-full animate-ping"></span>
-                    <div className="w-2 h-2 bg-blue-500 rounded-full relative z-10"></div>
-                  </div>
-                  <span className="text-blue-400">Execute sell orders</span>
-                </div>
-              </div>
-
-              <button className="w-full mt-6 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition-colors flex items-center justify-center gap-2">
-                Authorize Execution <ArrowRight className="w-4 h-4" />
-              </button>
+            <h2 className="text-lg font-semibold mb-4">AI Recommendations</h2>
+            <div className="p-3 rounded-md bg-secondary/30 border border-border/50 text-sm hover:border-border transition-colors cursor-pointer group">
+              <span className="font-medium block mb-1 group-hover:text-blue-400 transition-colors">Increase Emergency Fund</span>
+              Based on your recent spending volatility, consider increasing your target by $1k.
             </div>
           </motion.section>
 
@@ -173,20 +169,8 @@ export function Home() {
             className="rounded-xl border border-border bg-card p-5"
             variants={FADE_UP}
           >
-            <h2 className="text-lg font-semibold mb-4">AI Recommendations</h2>
-            <div className="space-y-3 relative">
-              <div className="p-3 rounded-md bg-secondary/30 border border-border/50 text-sm hover:border-border transition-colors cursor-pointer group">
-                <span className="font-medium flex items-center gap-2 mb-1 group-hover:text-blue-400 transition-colors">
-                  <Zap className="w-4 h-4 text-amber-500" />
-                  Optimize Subscriptions
-                </span>
-                Found $45/mo in unused subscriptions. Review and cancel.
-              </div>
-              <div className="p-3 rounded-md bg-secondary/30 border border-border/50 text-sm hover:border-border transition-colors cursor-pointer group">
-                <span className="font-medium block mb-1 group-hover:text-blue-400 transition-colors">Increase Emergency Fund</span>
-                Based on your recent spending volatility, consider increasing your target by $1k.
-              </div>
-            </div>
+            <h2 className="text-lg font-semibold mb-4">Context Timeline</h2>
+            <ContextTimeline />
           </motion.section>
         </div>
       </div>

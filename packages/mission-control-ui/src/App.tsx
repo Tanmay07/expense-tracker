@@ -4,9 +4,12 @@ import { Home } from './pages/Home';
 import { Expenses } from './pages/Expenses';
 import { Missions } from './pages/Missions';
 import { PlaceholderPage } from './pages/PlaceholderPage';
-import { DeveloperWorkspace } from './features/developer/DeveloperWorkspace';
+import { DeveloperWorkspace } from './pages/DeveloperWorkspace';
+import { useContextInit } from './hooks/useContextInit';
 
 function App() {
+  useContextInit();
+
   return (
     <BrowserRouter>
       <Routes>
