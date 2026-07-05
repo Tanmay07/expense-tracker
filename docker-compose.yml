@@ -496,3 +496,26 @@ volumes:
       - "3000:3000"
     depends_on:
       - mission-control-bff
+
+  autonomous-intelligence-api:
+    build:
+      context: ./packages/autonomous-intelligence
+    ports:
+      - "8022:8000"
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  autonomous-intelligence-worker:
+    build:
+      context: ./packages/autonomous-intelligence
+    command: celery -A autonomous_intelligence.application.tasks worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
