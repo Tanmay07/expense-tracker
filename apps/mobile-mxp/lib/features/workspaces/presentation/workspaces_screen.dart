@@ -17,10 +17,20 @@ class WorkspacesScreen extends ConsumerWidget {
       ),
       body: workspacesAsync.when(
         data: (workspaces) {
+          final screenWidth = MediaQuery.of(context).size.width;
+          int crossAxisCount = 2;
+          if (screenWidth >= 1200) {
+            crossAxisCount = 6;
+          } else if (screenWidth >= 800) {
+            crossAxisCount = 4;
+          } else if (screenWidth >= 600) {
+            crossAxisCount = 3;
+          }
+
           return GridView.builder(
             padding: const EdgeInsets.all(16.0),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
               childAspectRatio: 1.1,
