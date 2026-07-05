@@ -50,6 +50,14 @@ class BffClient {
       {'id': 'goals', 'name': 'Goals', 'icon': 'flag'},
     ];
   }
+
+  Future<String> sendIntent(String intent) async {
+    // This represents the Capability Abstraction Layer in the mobile client.
+    // The mobile client NEVER talks to OpenAI or Anthropic directly.
+    // It sends an abstracted intent to the BFF which routes it to the AI Platform.
+    await Future.delayed(const Duration(milliseconds: 1200));
+    return 'The AI Platform has processed your intent: "$intent". Capability resolved successfully.';
+  }
 }
 
 // Riverpod providers for UI consumption

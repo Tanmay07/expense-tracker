@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/shell/presentation/adaptive_shell.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/workspaces/presentation/workspaces_screen.dart';
+import '../../features/ai/presentation/ai_shell_screen.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -34,7 +35,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/ai',
-            builder: (context, state) => const Center(child: Text('AI Copilot')),
+            builder: (context, state) => const AiShellScreen(),
           ),
           GoRoute(
             path: '/workspaces',
