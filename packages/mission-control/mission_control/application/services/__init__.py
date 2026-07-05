@@ -1,11 +1,11 @@
 from typing import List, Dict, Any
 import uuid
 
-from ..domain.models import (
+from ...domain.models import (
     Mission, MissionType, MissionStatus, MissionPriority, 
     MissionExplanation, Opportunity, Risk, ActionTask
 )
-from ..infrastructure.repositories import (
+from ...infrastructure.repositories import (
     MissionRepository, OpportunityRepository, RiskRepository
 )
 
