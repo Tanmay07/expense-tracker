@@ -1,5 +1,20 @@
 import type { Expense, Mission, DashboardMetrics } from '../../core/models';
 
+const MERCHANTS = ['Whole Foods', 'Equinox', 'Vanguard', 'Apple Store', 'PG&E', 'Chevron', 'Netflix', 'Amazon', 'Target', 'Starbucks'];
+const CATEGORIES = ['Groceries', 'Health', 'Investment', 'Electronics', 'Bills', 'Auto', 'Entertainment', 'Shopping', 'Dining'];
+
+function generateExpenses(count: number, personaPrefix: string): Expense[] {
+  return Array.from({ length: count }).map((_, i) => ({
+    id: `${personaPrefix}-exp-${i}`,
+    merchant: MERCHANTS[Math.floor(Math.random() * MERCHANTS.length)],
+    category: CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)],
+    amount: parseFloat((Math.random() * 500 + 5).toFixed(2)),
+    date: new Date(Date.now() - Math.floor(Math.random() * 90) * 86400000).toISOString().split('T')[0],
+    status: Math.random() > 0.2 ? 'Cleared' : 'Pending',
+    tags: Math.random() > 0.5 ? ['Needs'] : ['Wants']
+  }));
+}
+
 export const GROWTH_PERSONA = {
   id: 'growth-1',
   name: 'Growth & Investments',
@@ -14,12 +29,7 @@ export const GROWTH_PERSONA = {
     pendingBills: 850.00,
     billsDueDays: 3
   } as DashboardMetrics,
-  expenses: [
-    { id: '1', merchant: 'Whole Foods Market', category: 'Groceries', amount: 142.50, date: '2023-10-25', status: 'Cleared', tags: ['Needs'] },
-    { id: '2', merchant: 'Equinox', category: 'Health', amount: 300.00, date: '2023-10-24', status: 'Cleared', tags: ['Subscription', 'Wants'] },
-    { id: '3', merchant: 'Vanguard S&P 500', category: 'Investment', amount: 5000.00, date: '2023-10-22', status: 'Cleared', tags: ['Growth'] },
-    { id: '4', merchant: 'Apple Store', category: 'Electronics', amount: 2499.00, date: '2023-10-20', status: 'Cleared', tags: ['Wants', 'Tax Deductible'] }
-  ] as Expense[],
+  expenses: generateExpenses(1000, 'growth'),
   missions: [
     {
       id: 'm1',
@@ -51,11 +61,7 @@ export const STABILIZATION_PERSONA = {
     pendingBills: 2150.00,
     billsDueDays: 1
   } as DashboardMetrics,
-  expenses: [
-    { id: '1', merchant: 'Chase Credit Card', category: 'Debt', amount: 800.00, date: '2023-10-25', status: 'Cleared', tags: ['Needs', 'Debt'] },
-    { id: '2', merchant: 'Grocery Outlet', category: 'Groceries', amount: 45.50, date: '2023-10-24', status: 'Cleared', tags: ['Needs'] },
-    { id: '3', merchant: 'PG&E Utility', category: 'Bills', amount: 112.50, date: '2023-10-22', status: 'Pending', tags: ['Needs', 'Recurring'] }
-  ] as Expense[],
+  expenses: generateExpenses(500, 'stab'),
   missions: [
     {
       id: 'm2',
@@ -71,4 +77,9 @@ export const STABILIZATION_PERSONA = {
       ]
     }
   ] as Mission[]
+};
+
+export const PERSONAS = {
+  [GROWTH_PERSONA.id]: GROWTH_PERSONA,
+  [STABILIZATION_PERSONA.id]: STABILIZATION_PERSONA
 };

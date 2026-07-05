@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { TrendingUp, DollarSign, Target, Calendar, ArrowRight, Zap, Loader2 } from 'lucide-react';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { cn } from '../utils/cn';
 import { useDashboardMetrics } from '../hooks/useData';
 
@@ -7,6 +8,16 @@ const FADE_UP = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
 };
+
+const MOCK_CHART_DATA = [
+  { name: 'Jan', value: 4000 },
+  { name: 'Feb', value: 3000 },
+  { name: 'Mar', value: 5000 },
+  { name: 'Apr', value: 4500 },
+  { name: 'May', value: 6000 },
+  { name: 'Jun', value: 5500 },
+  { name: 'Jul', value: 7000 },
+];
 
 export function Home() {
   const { data: metrics, isLoading } = useDashboardMetrics();
@@ -55,22 +66,32 @@ export function Home() {
             variants={FADE_UP}
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Today's Mission</h2>
-              <button className="text-sm text-blue-400 hover:text-blue-300 flex items-center gap-1 transition-colors">
-                View Plan <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="p-4 rounded-lg bg-secondary/50 border border-border/50 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-              <div>
-                <h3 className="font-medium text-foreground flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-amber-500" />
-                  Optimize Subscriptions
-                </h3>
-                <p className="text-sm text-muted-foreground mt-1">AI Copilot found $45/mo in unused subscriptions. Review and cancel to achieve your savings goal faster.</p>
+              <h2 className="text-lg font-semibold">Cash Flow Trends</h2>
+              <div className="flex gap-2">
+                <button className="px-3 py-1 text-xs font-medium bg-secondary rounded">1M</button>
+                <button className="px-3 py-1 text-xs font-medium hover:bg-secondary rounded text-muted-foreground">3M</button>
+                <button className="px-3 py-1 text-xs font-medium hover:bg-secondary rounded text-muted-foreground">YTD</button>
               </div>
-              <button className="shrink-0 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition-colors">
-                Review Now
-              </button>
+            </div>
+            <div className="h-[250px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={MOCK_CHART_DATA} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} dy={10} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} tickFormatter={(v) => `$${v/1000}k`} />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px', color: '#fff' }}
+                    itemStyle={{ color: '#fff' }}
+                    formatter={(value: any) => [`$${value}`, 'Cash Flow']}
+                  />
+                  <Area type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorValue)" />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </motion.section>
 
@@ -109,24 +130,42 @@ export function Home() {
         </div>
 
         <div className="space-y-6">
-          <motion.section 
-            className="rounded-xl border border-border bg-card p-5 relative overflow-hidden"
+           <motion.section 
+            className="rounded-xl border border-border bg-card p-5 border-blue-500/30 relative overflow-hidden shadow-[0_0_20px_rgba(59,130,246,0.1)]"
             variants={FADE_UP}
           >
             <div className="absolute top-0 right-0 p-32 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-              AI Recommendations
-            </h2>
-            <div className="space-y-3 relative">
-              <div className="p-3 rounded-md bg-secondary/30 border border-border/50 text-sm">
-                <span className="font-medium block mb-1">Increase Emergency Fund</span>
-                Based on your recent spending volatility, consider increasing your target by $1k.
+            <div className="flex items-center justify-between mb-4 relative">
+              <h2 className="text-lg font-semibold flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                Active Mission
+              </h2>
+            </div>
+            <div className="relative">
+              <h3 className="font-medium text-foreground text-lg">Tax Loss Harvesting</h3>
+              <p className="text-sm text-muted-foreground mt-1 mb-4">Execute trades to harvest $4,500 in unrealized losses before EOY.</p>
+              
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0">✓</div>
+                  <span className="text-muted-foreground line-through">Identify losing positions</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                   <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0">✓</div>
+                  <span className="text-muted-foreground line-through">Analyze wash sale rules</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm font-medium">
+                  <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
+                    <span className="absolute w-full h-full bg-blue-500/20 rounded-full animate-ping"></span>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full relative z-10"></div>
+                  </div>
+                  <span className="text-blue-400">Execute sell orders</span>
+                </div>
               </div>
-              <div className="p-3 rounded-md bg-secondary/30 border border-border/50 text-sm">
-                <span className="font-medium block mb-1">Tax Loss Harvesting</span>
-                You have $450 in unrealized losses. Execute trades before EOY.
-              </div>
+
+              <button className="w-full mt-6 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition-colors flex items-center justify-center gap-2">
+                Authorize Execution <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
           </motion.section>
 
@@ -134,25 +173,18 @@ export function Home() {
             className="rounded-xl border border-border bg-card p-5"
             variants={FADE_UP}
           >
-            <h2 className="text-lg font-semibold mb-4">Upcoming Goals</h2>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="font-medium">Italy Trip (Summer)</span>
-                  <span className="text-muted-foreground">75%</span>
-                </div>
-                <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-500 rounded-full" style={{ width: '75%' }}></div>
-                </div>
+            <h2 className="text-lg font-semibold mb-4">AI Recommendations</h2>
+            <div className="space-y-3 relative">
+              <div className="p-3 rounded-md bg-secondary/30 border border-border/50 text-sm hover:border-border transition-colors cursor-pointer group">
+                <span className="font-medium flex items-center gap-2 mb-1 group-hover:text-blue-400 transition-colors">
+                  <Zap className="w-4 h-4 text-amber-500" />
+                  Optimize Subscriptions
+                </span>
+                Found $45/mo in unused subscriptions. Review and cancel.
               </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="font-medium">House Downpayment</span>
-                  <span className="text-muted-foreground">42%</span>
-                </div>
-                <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
-                  <div className="h-full bg-purple-500 rounded-full" style={{ width: '42%' }}></div>
-                </div>
+              <div className="p-3 rounded-md bg-secondary/30 border border-border/50 text-sm hover:border-border transition-colors cursor-pointer group">
+                <span className="font-medium block mb-1 group-hover:text-blue-400 transition-colors">Increase Emergency Fund</span>
+                Based on your recent spending volatility, consider increasing your target by $1k.
               </div>
             </div>
           </motion.section>
@@ -167,11 +199,11 @@ function MetricCard({ title, value, trend, isPositive, icon: Icon, delay }: any)
     <motion.div 
       variants={FADE_UP}
       transition={{ delay }}
-      className="p-5 rounded-xl border border-border bg-card shadow-sm hover:border-border/80 transition-colors"
+      className="p-5 rounded-xl border border-border bg-card shadow-sm hover:border-border/80 transition-colors group cursor-default"
     >
       <div className="flex items-center justify-between text-muted-foreground mb-3">
         <span className="text-sm font-medium">{title}</span>
-        <Icon className="w-4 h-4" />
+        <Icon className="w-4 h-4 group-hover:text-foreground transition-colors" />
       </div>
       <div className="text-2xl font-bold tracking-tight">{value}</div>
       <div className="mt-1 flex items-center text-xs">

@@ -1,7 +1,7 @@
-import { Menu, Search, Bell } from 'lucide-react';
+import { Menu, Search, Bell, Bot } from 'lucide-react';
 import { useAppStore } from '../store/useAppStore';
 
-export function Header() {
+export function Header({ toggleCopilot }: { toggleCopilot?: () => void }) {
   const { toggleSidebar, setCommandPaletteOpen } = useAppStore();
 
   return (
@@ -26,6 +26,12 @@ export function Header() {
       </div>
       
       <div className="flex items-center gap-4">
+        <button 
+          onClick={toggleCopilot}
+          className="p-2 text-muted-foreground hover:text-blue-500 rounded-full hover:bg-blue-500/10 transition-colors border border-transparent hover:border-blue-500/20"
+        >
+          <Bot className="w-5 h-5" />
+        </button>
         <button className="p-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-secondary/50 transition-colors relative">
           <Bell className="w-5 h-5" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-500 rounded-full"></span>
