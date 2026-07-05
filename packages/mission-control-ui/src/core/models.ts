@@ -77,6 +77,32 @@ export interface FinancialContext {
   cards: ContextCard[];
 }
 
+export interface AICapability {
+  id: string;
+  name: string;
+  description: string;
+  version: string;
+  category: string;
+  supported_input_types: string[];
+  supported_output_types: string[];
+  streaming_support: boolean;
+  multimodal_support: boolean;
+  requires_approval: boolean;
+  expected_latency: string;
+  offline_availability: boolean;
+  feature_flag?: string;
+  permissions: string[];
+}
+
+export interface IDataProvider {
+  getAdaptiveDashboard: () => Promise<any>;
+  getQuickActions: () => Promise<any>;
+  getWorkspaces: () => Promise<any>;
+  getAITools?: () => Promise<any>;
+  getAICapabilities?: () => Promise<AICapability[]>;
+  sendAIChat?: (payload: any, onChunk: (text: string) => void, onTool: (tool: any) => void) => Promise<void>;
+}
+
 export interface AdaptiveDashboardLayout {
   top_section: 'active_mission' | 'metrics';
   widgets: string[];

@@ -7,4 +7,5 @@ export interface IDataProvider {
   getActiveContexts(): Promise<any[]>;
   getAdaptiveDashboardLayout(): Promise<any>;
   getQuickActions(): Promise<any[]>;
+  getWorkspaces?(): Promise<any[]>;
 }

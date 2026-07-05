@@ -15,9 +15,13 @@ interface AppState {
   setActivePersona: (persona: string) => void
   isOfflineMode: boolean
   setOfflineMode: (offline: boolean) => void
+  getProvider: () => any
 }
 
-export const useAppStore = create<AppState>((set) => ({
+import { BackendProvider } from '../core/providers/BackendProvider'
+import { DeveloperProvider } from '../core/providers/DeveloperProvider'
+
+export const useAppStore = create<AppState>((set, get) => ({
   sidebarOpen: true,
   toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
   commandPaletteOpen: false,
@@ -30,4 +34,11 @@ export const useAppStore = create<AppState>((set) => ({
   setActivePersona: (persona) => set({ activePersona: persona }),
   isOfflineMode: false,
   setOfflineMode: (offline) => set({ isOfflineMode: offline }),
+  getProvider: () => {
+    const isDev = get().currentProvider === 'developer';
+    if (isDev) {
+      return new DeveloperProvider();
+    }
+    return new BackendProvider();
+  }
 }))

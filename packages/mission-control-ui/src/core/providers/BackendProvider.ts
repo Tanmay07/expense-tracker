@@ -46,4 +46,39 @@ export class BackendProvider implements IDataProvider {
     const data = await res.json();
     return data.actions;
   }
+
+  async getWorkspaces(): Promise<any[]> {
+    const response = await fetch(`${this.baseUrl}/bff/workspaces`, {
+      headers: { 'mock_user_123': 'true' }
+    });
+    if (!response.ok) throw new Error('Failed to fetch workspaces');
+    const data = await response.json();
+    return data.workspaces;
+  }
+
+  async getAICapabilities(): Promise<any[]> {
+    const response = await fetch(`${this.baseUrl}/ai/capabilities`, {
+      headers: { 'mock_user_123': 'true' }
+    });
+    if (!response.ok) throw new Error('Failed to fetch capabilities');
+    const data = await response.json();
+    return data.capabilities;
+  }
+
+  async sendAIChat(payload: any, onChunk: (text: string) => void, onTool: (tool: any) => void): Promise<void> {
+    const response = await fetch(`${this.baseUrl}/ai/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'mock_user_123': 'true' },
+      body: JSON.stringify(payload)
+    });
+    
+    if (!response.ok) throw new Error('Failed to send AI chat');
+    
+    const data = await response.json();
+    onChunk(data.reply);
+    
+    if (data.tool_invocations) {
+      data.tool_invocations.forEach((t: any) => onTool(t));
+    }
+  }
 }

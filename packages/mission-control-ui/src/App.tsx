@@ -5,6 +5,7 @@ import { Expenses } from './pages/Expenses';
 import { Missions } from './pages/Missions';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { DeveloperWorkspace } from './pages/DeveloperWorkspace';
+import { WorkspaceView } from './pages/WorkspaceView';
 import { useContextInit } from './hooks/useContextInit';
 
 function App() {
@@ -17,10 +18,11 @@ function App() {
           <Route index element={<Home />} />
           <Route path="expenses" element={<Expenses />} />
           <Route path="missions" element={<Missions />} />
+          <Route path="decisions" element={<PlaceholderPage flag="analytics" title="Decision Center" />} />
+          <Route path="timeline" element={<PlaceholderPage flag="analytics" title="Timeline Engine" />} />
+          <Route path="graph" element={<PlaceholderPage flag="analytics" title="Knowledge Graph Explorer" />} />
           <Route path="settings" element={<DeveloperWorkspace />} />
-          
-          {/* Feature Flagged routes */}
-          <Route path="investments" element={<PlaceholderPage flag="investments" title="Investment Portfolio" />} />
+          <Route path="workspaces/:id" element={<WorkspaceView />} />
           <Route path="analytics" element={<PlaceholderPage flag="analytics" title="Analytics Platform" />} />
           <Route path="budgets" element={<PlaceholderPage flag="budgets" title="Budget Planner" />} />
           <Route path="governance" element={<PlaceholderPage flag="governance" title="Governance Platform" />} />
