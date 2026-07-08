@@ -10,3 +10,6 @@ export 'src/services/dependency_resolver_service.dart';
 export 'src/services/extension_registry_service.dart';
 export 'src/services/lifecycle_manager_service.dart';
 export 'src/services/security_sandbox_service.dart';
+
+// Export Framework Core
+export 'src/framework/extension_framework.dart';
