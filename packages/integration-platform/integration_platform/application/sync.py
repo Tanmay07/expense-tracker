@@ -1,22 +1,33 @@
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from ..application.registry import ConnectorRegistryService
 from ..application.auth import AuthenticationService
 from ..sdk.connector_base import SyncContext
+from ..infrastructure.pfos_integration import ObservabilityClient, GovernanceClient
+import time
 
 class SynchronizationService:
     """
     Stateful engine responsible for executing the synchronization lifecycle 
     for connected external providers.
     """
-    def __init__(self, registry: ConnectorRegistryService, auth_service: AuthenticationService):
+    def __init__(self, registry: ConnectorRegistryService, auth_service: AuthenticationService, 
+                 obs_client: ObservabilityClient = None, gov_client: GovernanceClient = None):
         self.registry = registry
         self.auth_service = auth_service
+        self.obs_client = obs_client or ObservabilityClient()
+        self.gov_client = gov_client or GovernanceClient()
         # In production, uses a durable store for last_sync_tokens and sync history
 
     async def trigger_sync(self, connection_id: str, connector_id: str, user_id: str, sync_type: str = "incremental") -> Dict[str, Any]:
         """
         Executes a sync task. Resolves credentials, loads the connector, and triggers the sync.
         """
+        start_time = time.time()
+        
+        # PFOS Governance Check
+        if not self.gov_client.check_sync_compliance(connection_id, user_id):
+            raise PermissionError("Governance policy blocked sync for this connection.")
+            
         connector = self.registry.get_connector(connector_id)
         if not connector:
             raise ValueError(f"Connector {connector_id} not found in registry.")
@@ -52,10 +63,16 @@ class SynchronizationService:
             # 5. Checkpoint the new sync token securely
             # In production, save sync_result.get("next_sync_token") to PostgreSQL
             
+            records_fetched = len(sync_result.get("raw_data", []))
+            
+            # PFOS Observability Metric
+            duration_ms = (time.time() - start_time) * 1000
+            self.obs_client.record_sync_metric(connector_id, duration_ms, records_fetched)
+            
             return {
                 "status": "success",
                 "sync_type": sync_type,
-                "records_fetched": len(sync_result.get("raw_data", [])),
+                "records_fetched": records_fetched,
                 "next_sync_token": sync_result.get("next_sync_token")
             }
         except Exception as e:
