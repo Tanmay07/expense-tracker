@@ -1,4 +1,12 @@
-from sqlalchemy import Column, String, DateTime, Boolean, JSON, ForeignKey, Enum as SQLEnum
+from sqlalchemy import (
+    Column,
+    String,
+    DateTime,
+    Boolean,
+    JSON,
+    ForeignKey,
+    Enum as SQLEnum,
+)
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from datetime import datetime
@@ -7,12 +15,14 @@ import os
 
 Base = declarative_base()
 
+
 class MemberRole(str, enum.Enum):
     OWNER = "OWNER"
     CO_OWNER = "CO_OWNER"
     DEPENDENT = "DEPENDENT"
     ADVISOR = "ADVISOR"
     VIEWER = "VIEWER"
+
 
 class DelegationScope(str, enum.Enum):
     VIEW_ONLY = "VIEW_ONLY"
@@ -22,6 +32,7 @@ class DelegationScope(str, enum.Enum):
     EXECUTE_ACTIONS = "EXECUTE_ACTIONS"
     FULL_ADMIN = "FULL_ADMIN"
 
+
 class MissionStatus(str, enum.Enum):
     PROPOSED = "PROPOSED"
     ACTIVE = "ACTIVE"
@@ -29,12 +40,14 @@ class MissionStatus(str, enum.Enum):
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
 
+
 class HouseholdModel(Base):
     __tablename__ = "households"
     id = Column(String, primary_key=True)
     name = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     settings = Column(JSON, default=dict)
+
 
 class HouseholdMemberModel(Base):
     __tablename__ = "household_members"
@@ -45,6 +58,7 @@ class HouseholdMemberModel(Base):
     joined_at = Column(DateTime, default=datetime.utcnow)
     is_active = Column(Boolean, default=True)
 
+
 class AdvisorModel(Base):
     __tablename__ = "advisors"
     id = Column(String, primary_key=True)
@@ -52,6 +66,7 @@ class AdvisorModel(Base):
     firm_name = Column(String, nullable=True)
     specialty = Column(String, nullable=False)
     certification_details = Column(JSON, default=dict)
+
 
 class DelegationModel(Base):
     __tablename__ = "delegations"
@@ -64,6 +79,7 @@ class DelegationModel(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     is_active = Column(Boolean, default=True)
 
+
 class SharedWorkspaceModel(Base):
     __tablename__ = "shared_workspaces"
     id = Column(String, primary_key=True)
@@ -72,6 +88,7 @@ class SharedWorkspaceModel(Base):
     household_id = Column(String, ForeignKey("households.id"), nullable=True)
     owner_id = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+
 
 class SharedMissionModel(Base):
     __tablename__ = "shared_missions"
@@ -83,6 +100,7 @@ class SharedMissionModel(Base):
     owners = Column(JSON, default=list)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class MessageModel(Base):
     __tablename__ = "messages"
     id = Column(String, primary_key=True)
@@ -92,6 +110,7 @@ class MessageModel(Base):
     sent_at = Column(DateTime, default=datetime.utcnow)
     read_by = Column(JSON, default=list)
 
+
 class HouseholdPolicyModel(Base):
     __tablename__ = "household_policies"
     id = Column(String, primary_key=True)
@@ -100,15 +119,15 @@ class HouseholdPolicyModel(Base):
     rules = Column(JSON, default=dict)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 DATABASE_URL = os.getenv(
     "COLLABORATION_DB_URL",
-    "postgresql+asyncpg://postgres:postgres@localhost:5432/finance_os_collaboration"
+    "postgresql+asyncpg://postgres:postgres@localhost:5432/finance_os_collaboration",
 )
 
 engine = create_async_engine(DATABASE_URL, echo=False)
-async_session_maker = sessionmaker(
-    engine, class_=AsyncSession, expire_on_commit=False
-)
+async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+
 
 async def get_db_session():
     async with async_session_maker() as session:

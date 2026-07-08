@@ -6,11 +6,12 @@ from collaboration_platform.api.routers import router
 
 logger = logging.getLogger(__name__)
 
+
 def create_app() -> FastAPI:
     app = FastAPI(
         title="Collaboration Platform API",
         description="Enterprise Collaboration, Household & Advisor Platform for PFOS",
-        version="0.1.0"
+        version="0.1.0",
     )
 
     app.include_router(router)
@@ -23,5 +24,6 @@ def create_app() -> FastAPI:
         return {"status": "ok", "service": "collaboration-platform"}
 
     return app
+
 
 app = create_app()

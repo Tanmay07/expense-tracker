@@ -6,12 +6,14 @@ import uuid
 
 # --- Enums ---
 
+
 class MemberRole(str, Enum):
     OWNER = "OWNER"
     CO_OWNER = "CO_OWNER"
     DEPENDENT = "DEPENDENT"
     ADVISOR = "ADVISOR"
     VIEWER = "VIEWER"
+
 
 class DelegationScope(str, Enum):
     VIEW_ONLY = "VIEW_ONLY"
@@ -21,6 +23,7 @@ class DelegationScope(str, Enum):
     EXECUTE_ACTIONS = "EXECUTE_ACTIONS"
     FULL_ADMIN = "FULL_ADMIN"
 
+
 class MissionStatus(str, Enum):
     PROPOSED = "PROPOSED"
     ACTIVE = "ACTIVE"
@@ -28,13 +31,16 @@ class MissionStatus(str, Enum):
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
 
+
 # --- Models ---
+
 
 class Household(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
     settings: Dict[str, Any] = Field(default_factory=dict)
+
 
 class HouseholdMember(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -44,12 +50,14 @@ class HouseholdMember(BaseModel):
     joined_at: datetime = Field(default_factory=datetime.utcnow)
     is_active: bool = True
 
+
 class Advisor(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str
     firm_name: Optional[str] = None
     specialty: str
     certification_details: Dict[str, Any] = Field(default_factory=dict)
+
 
 class Delegation(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -61,6 +69,7 @@ class Delegation(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     is_active: bool = True
 
+
 class SharedWorkspace(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
@@ -68,6 +77,7 @@ class SharedWorkspace(BaseModel):
     household_id: Optional[str] = None
     owner_id: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
+
 
 class SharedMission(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -78,6 +88,7 @@ class SharedMission(BaseModel):
     owners: List[str] = Field(default_factory=list)
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+
 class Message(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     thread_id: str
@@ -85,6 +96,7 @@ class Message(BaseModel):
     content: str
     sent_at: datetime = Field(default_factory=datetime.utcnow)
     read_by: List[str] = Field(default_factory=list)
+
 
 class HouseholdPolicy(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
