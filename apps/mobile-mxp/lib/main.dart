@@ -2,8 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/router/app_router.dart';
 
-void main() {
-  runApp(const ProviderScope(child: MobileMXPApp()));
+import 'package:client_extension_framework/client_extension_framework.dart';
+import 'extensions/mock_auth_extension.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Create a global Riverpod container
+  final container = ProviderContainer();
+
+  // Fetch the Extension Framework
+  final framework = container.read(extensionFrameworkProvider);
+
+  // Register plugins statically
+  framework.registerExtension(MockAuthExtension());
+
+  // Boot the framework (Topological sorting, sandbox initialization)
+  await framework.boot();
+
+  runApp(UncontrolledProviderScope(
+    container: container,
+    child: const MobileMXPApp(),
+  ));
 }
 
 class MobileMXPApp extends ConsumerWidget {

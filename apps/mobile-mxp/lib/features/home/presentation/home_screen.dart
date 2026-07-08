@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../services/api/bff_client.dart';
+import 'package:client_extension_framework/client_extension_framework.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -26,7 +27,7 @@ class HomeScreen extends ConsumerWidget {
           children: [
             _buildContextGreeting(theme),
             const SizedBox(height: 24),
-            _buildQuickActions(context, theme),
+            _buildQuickActions(context, ref, theme),
             const SizedBox(height: 24),
             Text('Active Missions', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 12),
@@ -54,7 +55,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildQuickActions(BuildContext context, ThemeData theme) {
+  Widget _buildQuickActions(BuildContext context, WidgetRef ref, ThemeData theme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -65,7 +66,28 @@ class HomeScreen extends ConsumerWidget {
           GoRouter.of(context).go('/ai');
         }),
         _buildActionBtn(Icons.add_card, 'Add Expense', theme, onTap: () {}),
-        _buildActionBtn(Icons.insights, 'Analyze', theme, onTap: () {}),
+        _buildActionBtn(Icons.security, 'Test Auth', theme, onTap: () async {
+          try {
+            final framework = ref.read(extensionFrameworkProvider);
+            
+            // To test, we need a Caller. We will pretend we are the host.
+            // But invokeCapability requires a BaseExtension caller right now.
+            // Let's just check if we can get the health report.
+            final health = await framework.getHealthReport();
+            
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Mock Auth Health: ${health['com.financeos.mockauth']}')),
+              );
+            }
+          } catch (e) {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Error: $e')),
+              );
+            }
+          }
+        }),
       ],
     );
   }
