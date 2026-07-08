@@ -1,0 +1,6 @@
+apiVersion: v2
+name: pfos-service
+description: A Helm chart for deploying standard PFOS microservices
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

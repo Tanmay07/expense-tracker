@@ -1,0 +1,30 @@
+project: pfos-dev
+repoURL: https://github.com/Tanmay07/expense-tracker.git
+targetRevision: main
+
+apps:
+  - name: mission-control-api
+    namespace: pfos-dev
+    path: infrastructure/k8s/charts/pfos-service
+    values:
+      image:
+        repository: pfos/mission-control-api
+        tag: latest
+      autoscaling:
+        enabled: true
+        minReplicas: 1
+        maxReplicas: 3
+  
+  - name: autonomous-intelligence-api
+    namespace: pfos-dev
+    path: infrastructure/k8s/charts/pfos-service
+    values:
+      image:
+        repository: pfos/autonomous-intelligence-api
+        tag: latest
+      autoscaling:
+        enabled: true
+        minReplicas: 1
+        maxReplicas: 3
+
+  # Add other services as needed...

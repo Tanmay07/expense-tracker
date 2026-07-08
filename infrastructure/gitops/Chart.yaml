@@ -1,0 +1,6 @@
+apiVersion: v2
+name: pfos-gitops
+description: Argo CD App of Apps for PFOS Platform
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
