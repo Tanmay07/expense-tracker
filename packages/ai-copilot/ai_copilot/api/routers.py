@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 from .dependencies import get_copilot_service, get_action_plan_service, get_simulation_service
 from ..application.services import CopilotService, ActionPlanService, SimulationRequestService

@@ -1,7 +1,6 @@
 from typing import Dict, Any, List
 import uuid
 import time
-from copy import deepcopy
 
 class TimelineService:
     def __init__(self):

@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, String, Float, Integer, Boolean, JSON, DateTime, Enum as SQLEnum
+from sqlalchemy import create_engine, Column, String, Float, Integer, JSON, DateTime, Enum as SQLEnum
 from sqlalchemy.orm import sessionmaker, declarative_base
 from pgvector.sqlalchemy import Vector
 from datetime import datetime

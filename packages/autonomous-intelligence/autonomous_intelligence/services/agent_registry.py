@@ -4,7 +4,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from autonomous_intelligence.domain.models import Agent, RiskClassification
-from autonomous_intelligence.domain.events import AgentRegistered
 
 class AgentRegistryService:
     def __init__(self, session: AsyncSession):

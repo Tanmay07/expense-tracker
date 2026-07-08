@@ -1,4 +1,3 @@
-import pytest
 
 def test_architecture_audit():
     """Tests the architecture fitness logic."""

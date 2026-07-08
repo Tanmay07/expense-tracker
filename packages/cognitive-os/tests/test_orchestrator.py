@@ -1,5 +1,4 @@
 import pytest
-import asyncio
 from cognitive_os.application.orchestrator import CognitiveOrchestrator, ReasoningTask
 from cognitive_os.application.agent_registry import AgentRegistryService
 from cognitive_os.domain.models import AgentRole

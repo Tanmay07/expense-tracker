@@ -1,7 +1,7 @@
-from typing import Dict, Any, List
+from typing import Dict, Any
 from litellm import completion
 
-from ..domain.models import CopilotMode, ActionPlan, ActionStep
+from ..domain.models import CopilotMode, ActionPlan
 
 class AgentCoordinatorService:
     def __init__(self):
@@ -26,7 +26,7 @@ class AgentCoordinatorService:
                 ]
             )
             return response.choices[0].message.content
-        except Exception as e:
+        except Exception:
             return f"[Mock Agent Response for {mode.value}] Analyzed your query."
 
 class DecisionIntelligenceService:

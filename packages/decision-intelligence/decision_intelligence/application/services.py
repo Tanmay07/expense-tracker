@@ -1,6 +1,4 @@
 from typing import List, Optional, Dict, Any
-import numpy as np
-from scipy.optimize import minimize
 
 from ..domain.models import DecisionCandidate, OpportunityCost, SubScores
 from ..infrastructure.repositories import CandidateRepository

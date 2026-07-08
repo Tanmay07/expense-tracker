@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, String, Float, Boolean, JSON, DateTime, Integer, Text, ForeignKey, ARRAY
+from sqlalchemy import create_engine, Column, String, Float, Boolean, JSON, DateTime, Integer, Text, ARRAY
 from sqlalchemy.orm import sessionmaker, declarative_base
 from datetime import datetime
 import os

@@ -1,10 +1,9 @@
-from typing import List, Dict, Any, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from analytics_platform.domain.models import (
     ExperimentRegistry, ExperimentRegistryCreate,
-    StatisticalGuardrail, KPICatalog, Insight, ExecutiveReport
+    KPICatalog, Insight, ExecutiveReport
 )
 from analytics_platform.application.services import (
     ExperimentRegistryService, StatisticalGuardrailService,

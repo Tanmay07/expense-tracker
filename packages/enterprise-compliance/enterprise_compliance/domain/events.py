@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
-from typing import Any, Dict, Optional, List
+from typing import Any, Dict, Optional
 import uuid
 
 class DomainEvent(BaseModel):

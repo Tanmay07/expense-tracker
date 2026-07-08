@@ -35,7 +35,7 @@ class ReflectionEngine:
             lessons.append(f"Mission failed to achieve predicted impact. Expected: {predicted}, Actual: {actual}")
             improvements.append("Adjust risk tolerance models or verify external API latency.")
         else:
-            lessons.append(f"Mission executed successfully within expected parameters.")
+            lessons.append("Mission executed successfully within expected parameters.")
             
         return ReflectionResult(
             mission_id=mission_id,

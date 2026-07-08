@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from typing import Optional, List, Dict, Any
+from typing import List, Dict, Any
 
 from observability_platform.domain.models import (
     TelemetryEvent, TelemetryEventCreate, MetricRecord, MetricRecordCreate,

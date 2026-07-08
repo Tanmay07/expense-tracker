@@ -1,4 +1,3 @@
-import pytest
 from unittest.mock import MagicMock
 from execution_capability.application.services import ExecutionCapabilityService, RoutingService
 from execution_capability.domain.models import ExecutionCapability, AutomationLevel, RiskLevel

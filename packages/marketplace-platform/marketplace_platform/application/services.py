@@ -1,5 +1,5 @@
 import uuid
-from typing import Dict, Any, List, Optional
+from typing import Optional
 from datetime import datetime
 from marketplace_platform.domain.models import (
     MarketplaceAsset, KnowledgeCapabilityMatrix, Certification, AssetRanking,
@@ -8,9 +8,6 @@ from marketplace_platform.domain.models import (
 from marketplace_platform.infrastructure.repositories import (
     MarketplaceAssetRepository, KnowledgeCapabilityMatrixRepository,
     CertificationRepository, AssetRankingRepository
-)
-from marketplace_platform.domain.events import (
-    StrategyPublished, KnowledgeCapabilityAssigned, CertificationGranted
 )
 
 class KnowledgeCapabilityMatrixService:

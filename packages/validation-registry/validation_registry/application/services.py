@@ -1,7 +1,7 @@
 import uuid
 import hashlib
 from datetime import datetime, timedelta
-from typing import Optional, List, Dict, Any
+from typing import List
 
 from validation_registry.domain.models import (
     ArtifactRecord, ArtifactRecordCreate, ArtifactLineage, EvidencePackage, ReuseEvaluation

@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from typing import Optional, List, Dict, Any
+from typing import Optional
 
 from platform_readiness.domain.models import (
     ArchitectureFitness, SecurityCertification,

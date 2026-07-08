@@ -1,8 +1,7 @@
 import uuid
 import logging
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
-from autonomous_intelligence.domain.models import Agent, Mission
 from autonomous_intelligence.services.agent_registry import AgentRegistryService
 
 logger = logging.getLogger(__name__)

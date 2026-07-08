@@ -1,6 +1,6 @@
-from typing import List, Optional, Type, TypeVar
+from typing import List, Optional, TypeVar
 from sqlalchemy.orm import Session
-from sqlalchemy import select, and_, or_
+from sqlalchemy import select, and_
 
 from hierarchical_learning.infrastructure.database import (
     GlobalLearningModel,

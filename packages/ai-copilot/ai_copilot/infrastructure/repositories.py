@@ -1,13 +1,13 @@
 from sqlalchemy.orm import Session
-from typing import List, Optional, Any
+from typing import List, Optional
 
 from .database import (
     GoalConversationModel, BehavioralProfileModel, ActionPlanModel, 
-    SimulationRequestModel, ProactiveAlertModel, get_db
+    SimulationRequestModel
 )
 from ..domain.models import (
     GoalConversation, BehavioralProfile, ActionPlan, ActionStep, 
-    SimulationRequest, ProactiveAlert
+    SimulationRequest
 )
 
 class BaseRepository:

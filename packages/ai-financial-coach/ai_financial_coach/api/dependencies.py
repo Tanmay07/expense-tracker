@@ -1,7 +1,7 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from ..infrastructure.database import get_db
-from ..infrastructure.repositories import ConversationRepository, MemoryRepository, PromptRepository
+from ..infrastructure.repositories import ConversationRepository
 from ..application.orchestration import AgentCoordinatorService, ContextService, ExplainabilityService
 from ..application.services import CoachService
 

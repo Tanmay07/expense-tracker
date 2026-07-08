@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, BackgroundTasks
+from fastapi import APIRouter, Depends
 from typing import Dict, Any
 
 from .dependencies import get_optimization_svc

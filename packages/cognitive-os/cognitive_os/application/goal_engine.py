@@ -1,6 +1,5 @@
-from typing import List, Dict, Optional
-from ..domain.planning_models import GoalDefinition, TimeHorizon, MissionDefinition, MissionPriority
-import uuid
+from typing import List, Dict
+from ..domain.planning_models import GoalDefinition, TimeHorizon
 
 class GoalEngine:
     """

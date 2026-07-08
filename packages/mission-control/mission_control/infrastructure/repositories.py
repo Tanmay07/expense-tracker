@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-from typing import List, Optional, Any
+from typing import List, Optional
 
-from .database import MissionModel, OpportunityModel, RiskModel, MissionStatusEnum, MissionTypeEnum
+from .database import MissionModel, OpportunityModel, RiskModel, MissionStatusEnum
 from ..domain.models import Mission, Opportunity, Risk, MissionPriority, MissionExplanation, ActionTask
 
 class BaseRepository:

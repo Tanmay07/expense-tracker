@@ -1,4 +1,3 @@
-import pytest
 from cognitive_os.application.consensus_engine import ConsensusEngine
 from cognitive_os.domain.cognitive_models import AgentVote, AgentRole
 from cognitive_os.infrastructure.redis_store import TransientStateStore

@@ -1,4 +1,3 @@
-import uuid
 from typing import Dict, Any, List, Optional
 import httpx
 
@@ -25,7 +24,7 @@ class AutonomousAgentSDK:
         return response.json()
 
     async def plan(self, agent_id: str, horizon: str, context: Dict[str, Any]) -> Dict[str, Any]:
-        response = await self.client.post(f"/plans", json={
+        response = await self.client.post("/plans", json={
             "agent_id": agent_id,
             "horizon": horizon,
             "context": context

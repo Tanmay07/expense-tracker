@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, String, Float, Boolean, JSON, DateTime, Enum as SQLEnum
+from sqlalchemy import create_engine, Column, String, Float, JSON, DateTime, Enum as SQLEnum
 from sqlalchemy.orm import sessionmaker, declarative_base
 from datetime import datetime
 import os

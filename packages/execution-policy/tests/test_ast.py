@@ -1,4 +1,3 @@
-import pytest
 from execution_policy.application.services import ASTEvaluator
 from execution_policy.domain.models import PolicyContext, RuleAST, RuleOperator
 

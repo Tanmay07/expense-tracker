@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import List
 from abc import ABC, abstractmethod
 from data_intelligence.domain.events import FinancialEvent
 import uuid

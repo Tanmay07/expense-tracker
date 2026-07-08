@@ -1,11 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List, Dict, Any
-from pydantic import BaseModel
 
 from ..application.agent_registry import AgentRegistryService
 from ..application.mission_planning import MissionPlanningService
 from ..domain.models import AgentDefinition, AgentRole
-from ..domain.planning_models import MissionDefinition, GoalDefinition, TimeHorizon
+from ..domain.planning_models import MissionDefinition, GoalDefinition
 from ..infrastructure.db import DurablePostgresRepository
 
 router = APIRouter(prefix="/cognition", tags=["Cognitive OS"])

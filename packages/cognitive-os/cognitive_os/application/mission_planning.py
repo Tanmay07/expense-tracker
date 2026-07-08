@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 from ..domain.planning_models import MissionDefinition, MissionPriority, GoalDefinition
 from ..infrastructure.db import DurablePostgresRepository
 import uuid

@@ -1,19 +1,19 @@
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, Optional
 from fastapi import APIRouter, Depends, HTTPException
 
 from hierarchical_learning.domain.models import (
-    GlobalLearning, RegionalLearning, HouseholdLearning, PersonalLearning,
+    GlobalLearning, PersonalLearning,
     KnowledgePromotion, ConsentProfile, HouseholdConsensus,
     KnowledgePromotionCreate, PersonalLearningCreate, HouseholdConsensusCreate,
     ConsentProfileUpdate
 )
 from hierarchical_learning.application.services import (
     LearningHierarchyService, PersonalLearningService, KnowledgePromotionService,
-    PrivacyBoundaryService, ConsensusService
+    ConsensusService
 )
 from hierarchical_learning.api.dependencies import (
     get_hierarchy_service, get_personal_service, get_promotion_service,
-    get_privacy_service, get_consensus_service, get_consent_repo, get_global_repo
+    get_consensus_service, get_consent_repo, get_global_repo
 )
 from hierarchical_learning.infrastructure.repositories import ConsentRepository, GlobalLearningRepository
 

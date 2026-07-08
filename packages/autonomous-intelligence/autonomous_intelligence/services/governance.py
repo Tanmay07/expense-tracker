@@ -1,6 +1,5 @@
 import logging
-from typing import Dict, Any, List
-import uuid
+from typing import Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 from autonomous_intelligence.domain.models import Agent
 

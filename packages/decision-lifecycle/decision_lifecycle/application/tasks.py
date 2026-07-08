@@ -1,9 +1,6 @@
 import os
 from celery import Celery
 from ..infrastructure.database import SessionLocal
-from ..infrastructure.repositories import LifecycleRepository
-from .services import DecisionLifecycleService
-from ..domain.models import LifecycleState
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
 

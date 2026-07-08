@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from sqlalchemy import (
     create_engine, Column, String, Float, DateTime,
-    ForeignKey, ARRAY, Boolean, UniqueConstraint
+    ForeignKey, Boolean, UniqueConstraint
 )
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from sqlalchemy.dialects.postgresql import JSONB

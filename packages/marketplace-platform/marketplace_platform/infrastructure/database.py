@@ -1,8 +1,8 @@
 import os
 from datetime import datetime
 from sqlalchemy import (
-    create_engine, Column, String, Float, Integer, Boolean, DateTime,
-    ForeignKey, ARRAY, JSON, Text
+    create_engine, Column, String, Float, Integer, DateTime,
+    ForeignKey, ARRAY, Text
 )
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from sqlalchemy.dialects.postgresql import JSONB

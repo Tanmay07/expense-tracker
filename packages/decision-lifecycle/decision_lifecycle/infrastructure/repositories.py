@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import Optional
 
 from .database import DecisionLifecycleModel, ExecutionPlanModel, ObjectiveModel
 from ..domain.models import DecisionLifecycle, ExecutionPlan, FinancialObjective, ExecutionStep, Milestone, RollbackPlan

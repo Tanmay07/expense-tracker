@@ -1,5 +1,5 @@
-from typing import List, Dict, Any, Tuple
-from ..domain.models import ContextFrame, Message, Role, Conversation
+from typing import Dict, Any
+from ..domain.models import ContextFrame
 from .agents import BaseAgent, ExpenseAnalysisAgent, GoalPlanningAgent
 
 class ContextService:

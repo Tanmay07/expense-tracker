@@ -1,7 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
 from decision_learning.api.main import app
-from decision_learning.infrastructure.database import Base, engine, SessionLocal
 from decision_learning.api.dependencies import get_db
 
 from unittest.mock import MagicMock

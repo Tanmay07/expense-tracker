@@ -1,12 +1,11 @@
 import os
 import uuid
 from datetime import datetime
-from typing import List, Optional
 from sqlalchemy import (
     create_engine, Column, String, DateTime, Float, 
-    Boolean, JSON, Integer, Text, ForeignKey, ARRAY
+    Boolean, JSON, Integer, Text, ARRAY
 )
-from sqlalchemy.orm import declarative_base, sessionmaker, Mapped, mapped_column
+from sqlalchemy.orm import declarative_base, sessionmaker
 from pgvector.sqlalchemy import Vector
 
 DATABASE_URL = os.getenv(

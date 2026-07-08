@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import List, Dict
 from datetime import datetime
 from ...domain.models.workspace import WorkspaceModel, WorkspaceSnapshot, WidgetConfig
 

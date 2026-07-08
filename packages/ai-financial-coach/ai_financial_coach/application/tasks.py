@@ -27,5 +27,5 @@ def summarize_conversation(conversation_id: str):
 @celery_app.task
 def generate_embeddings(text: str):
     time.sleep(1)
-    print(f"Generated embeddings for text")
+    print("Generated embeddings for text")
     return {"status": "success"}

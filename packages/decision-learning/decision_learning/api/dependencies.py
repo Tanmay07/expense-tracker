@@ -1,4 +1,3 @@
-from sqlalchemy.orm import Session
 from ..infrastructure.database import SessionLocal
 
 def get_db():

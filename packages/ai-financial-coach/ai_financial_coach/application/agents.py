@@ -1,7 +1,7 @@
-from typing import Dict, Any, List
+from typing import List
 from litellm import completion
 
-from ..domain.models import ContextFrame, Message, Role
+from ..domain.models import ContextFrame, Message
 import json
 
 class BaseAgent:

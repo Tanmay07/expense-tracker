@@ -1,5 +1,4 @@
 from typing import List, Optional
-import uuid
 
 from ..domain.models import Decision, DecisionRelationship, DecisionStatus
 from ..infrastructure.repositories import DecisionRepository, DecisionRelationshipRepository

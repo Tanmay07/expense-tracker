@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
@@ -10,11 +10,6 @@ from platform_readiness.api.dependencies import (
     get_chaos_engineering_service,
     get_cost_engineering_service,
     get_production_readiness_service
-)
-from platform_readiness.application.services import (
-    ArchitectureFitnessService, SecurityCertificationService,
-    PerformanceCertificationService, ChaosEngineeringService,
-    CostEngineeringService, ProductionReadinessService
 )
 
 router = APIRouter(prefix="/api/v1/readiness", tags=["Readiness"])

@@ -1,5 +1,4 @@
-from typing import List, Dict, Optional
-import uuid
+from typing import List, Dict
 from wealth_management.domain.models import WealthProfile, Portfolio, Holding, InvestmentTransaction
 
 class PortfolioService:

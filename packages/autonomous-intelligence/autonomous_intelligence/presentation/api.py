@@ -1,11 +1,11 @@
 import uuid
-from fastapi import FastAPI, Depends, HTTPException, status
-from typing import List, Dict, Any
+from fastapi import FastAPI, Depends, status
+from typing import Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
 from autonomous_intelligence.infrastructure.database import get_db_session
-from autonomous_intelligence.domain.models import Agent, GoalType, HITLClassification
+from autonomous_intelligence.domain.models import GoalType, HITLClassification
 from autonomous_intelligence.services.agent_registry import AgentRegistryService
 from autonomous_intelligence.services.orchestrator import AgentOrchestratorService
 from autonomous_intelligence.services.goal_engine import GoalEngineService

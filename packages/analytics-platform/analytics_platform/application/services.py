@@ -7,7 +7,7 @@ from typing import Optional, List, Dict, Any
 
 from analytics_platform.domain.models import (
     ExperimentRegistry, ExperimentRegistryCreate,
-    StatisticalGuardrail, KPICatalog, Insight, ExecutiveReport
+    KPICatalog, Insight, ExecutiveReport
 )
 from analytics_platform.infrastructure.repositories import (
     ExperimentRegistryRepository, StatisticalGuardrailRepository,

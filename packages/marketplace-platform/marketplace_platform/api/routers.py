@@ -6,11 +6,11 @@ from marketplace_platform.domain.models import (
 )
 from marketplace_platform.application.services import (
     MarketplaceService, KnowledgeCapabilityMatrixService, GovernanceService,
-    RankingService, CertificationService
+    CertificationService
 )
 from marketplace_platform.api.dependencies import (
     get_marketplace_service, get_capability_service, get_governance_service,
-    get_ranking_service, get_certification_service, get_asset_repo
+    get_certification_service, get_asset_repo
 )
 from marketplace_platform.infrastructure.repositories import MarketplaceAssetRepository
 

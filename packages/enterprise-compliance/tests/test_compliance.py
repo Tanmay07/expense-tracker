@@ -1,6 +1,5 @@
 from enterprise_compliance.application.services import ComplianceService
 from enterprise_compliance.domain.models import CompliancePolicy, PolicyType, PolicySeverity
-from enterprise_compliance.domain.models import DecisionStatus
 
 def test_evaluate_transaction_compliant(mock_policy_repo, mock_decision_repo):
     policy = CompliancePolicy(

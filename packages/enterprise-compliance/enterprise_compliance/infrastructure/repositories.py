@@ -1,10 +1,9 @@
 from sqlalchemy.orm import Session
-from typing import List, Optional, Type, TypeVar
-from pydantic import BaseModel
+from typing import List, Optional
 
 from .database import (
     RiskProfileModel, CompliancePolicyModel, SuitabilityProfileModel, 
-    InvestmentConstraintModel, DecisionRecordModel, get_db
+    InvestmentConstraintModel, DecisionRecordModel
 )
 from ..domain.models import (
     RiskProfile, CompliancePolicy, SuitabilityProfile, 

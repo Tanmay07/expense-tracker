@@ -1,6 +1,5 @@
 import requests
 from typing import Dict, Any, List, Optional
-from ..domain.models import ExecutionCapability, ExecutionRoute, ApprovalRequest
 
 class ExecutionCapabilitySDK:
     def __init__(self, base_url: str = "http://localhost:8009/api/v1/execution-capability"):

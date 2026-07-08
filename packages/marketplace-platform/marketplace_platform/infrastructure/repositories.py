@@ -1,6 +1,6 @@
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 from sqlalchemy.orm import Session
-from sqlalchemy import select, and_, or_
+from sqlalchemy import select
 
 from marketplace_platform.infrastructure.database import (
     MarketplaceAssetModel, KnowledgeCapabilityMatrixModel,

@@ -1,7 +1,6 @@
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
-import uuid
 
 class ValidationProfile(BaseModel):
     id: str

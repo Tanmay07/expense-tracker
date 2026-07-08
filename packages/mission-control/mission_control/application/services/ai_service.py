@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Optional
 from mission_control.domain.models.ai import ToolConfig, ToolInvocation, ApprovalStatus, AICapability
 
 class CapabilityRegistryService:

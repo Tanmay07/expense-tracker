@@ -1,10 +1,10 @@
 import uuid
 import mmh3
 from datetime import datetime
-from typing import Optional, List, Dict, Any
+from typing import Optional, Dict, Any
 
 from experimentation_platform.domain.models import (
-    Feature, FeatureCreate, FeatureFlag, Rollout,
+    Feature, FeatureCreate, Rollout,
     Experiment, ExperimentCreate, ExperimentResult
 )
 from experimentation_platform.infrastructure.repositories import (

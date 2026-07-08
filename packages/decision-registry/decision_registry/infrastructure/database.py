@@ -1,8 +1,7 @@
-from sqlalchemy import create_engine, Column, String, Float, Integer, JSON, DateTime, Enum as SQLEnum
+from sqlalchemy import create_engine, Column, String, Float, Integer, JSON, DateTime
 from sqlalchemy.orm import sessionmaker, declarative_base
 from datetime import datetime
 import os
-import enum
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://ledger_user:ledger_password@localhost:5432/finance_ledger")
 

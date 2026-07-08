@@ -78,7 +78,7 @@ async def get_workspace(workspace_id: str, user_id: str = Header("mock_user_123"
     workspace = service.get_workspace(workspace_id, user_id)
     return workspace.model_dump()
 
-from mission_control.application.services.ai_service import ToolRegistryService, ApprovalUIService, CapabilityRegistryService
+from mission_control.application.services.ai_service import ToolRegistryService, CapabilityRegistryService
 
 @router.get("/ai/capabilities")
 async def get_ai_capabilities():

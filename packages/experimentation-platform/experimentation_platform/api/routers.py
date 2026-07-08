@@ -1,19 +1,17 @@
-from typing import List, Dict, Any, Optional
+from typing import Dict, Any
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from experimentation_platform.domain.models import (
-    Feature, FeatureCreate, FeatureFlag, Rollout,
-    Experiment, ExperimentCreate, ExperimentResult
+    Feature, FeatureCreate
 )
 from experimentation_platform.application.services import (
     FeatureRegistryService, FeatureFlagService,
-    ProgressiveDeliveryService, ExperimentService,
-    RollbackService, ExperimentAnalyticsService
+    ExperimentService,
+    RollbackService
 )
 from experimentation_platform.api.dependencies import (
-    get_feature_service, get_flag_service, get_delivery_service,
-    get_experiment_service, get_rollback_service, get_analytics_service
+    get_feature_service, get_flag_service, get_experiment_service, get_rollback_service
 )
 
 router = APIRouter()

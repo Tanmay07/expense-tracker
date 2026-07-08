@@ -1,5 +1,5 @@
 import httpx
-from typing import Dict, Any, Optional
+from typing import Optional
 
 class DecisionLearningClient:
     def __init__(self, base_url: str = "http://decision-learning:8000"):

@@ -11,7 +11,7 @@ from ..domain.models import (
     FinancialDNACreate, FinancialDNAResponse,
     BehaviorCreate, BehaviorResponse,
     LearningCreate, LearningResponse,
-    ReplayCreate, ReplayResponse
+    ReplayResponse
 )
 from ..infrastructure.repositories import (
     DecisionMemoryRepository, PatternRepository, PersonalizationRepository,

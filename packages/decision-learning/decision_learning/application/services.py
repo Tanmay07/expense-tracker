@@ -1,4 +1,4 @@
-from typing import List, Optional, Dict, Any
+from typing import Dict, Any
 from ..infrastructure.repositories import (
     DecisionMemoryRepository, PatternRepository, PersonalizationRepository,
     PolicyDecisionCacheRepository, PredictionRepository, FinancialDNARepository,
@@ -8,7 +8,7 @@ from ..domain.models import (
     DecisionMemoryCreate, PatternCreate, PersonalizationCreate, PolicyCacheCreate,
     PredictionCreate, FinancialDNACreate, BehaviorCreate, LearningCreate, ReplayCreate
 )
-from .tasks import detect_patterns_task, generate_prediction_task, update_dna_task, update_behavior_task, build_replay_task
+from .tasks import detect_patterns_task, generate_prediction_task, update_behavior_task, build_replay_task
 
 class DecisionMemoryService:
     def __init__(self, repo: DecisionMemoryRepository):

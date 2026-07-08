@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
-from typing import List, Optional, Any
+from typing import List, Optional
 
 from .database import (
     ConversationModel, MessageModel, MemoryItemModel, 
-    PromptTemplateModel, AgentDefinitionModel, get_db
+    PromptTemplateModel, AgentDefinitionModel
 )
 from ..domain.models import (
     Conversation, Message, MemoryItem, PromptTemplate, AgentDefinition

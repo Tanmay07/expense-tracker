@@ -1,15 +1,13 @@
-from typing import List, Dict, Any, Optional
-from datetime import datetime
+from typing import List, Dict, Any
 from pydantic import BaseModel
-import uuid
 
 from ..domain.models import (
-    RiskProfile, CompliancePolicy, SuitabilityProfile, 
-    InvestmentConstraint, DecisionRecord, DecisionStatus, PolicySeverity
+    CompliancePolicy, SuitabilityProfile, 
+    DecisionRecord, DecisionStatus
 )
 from ..infrastructure.repositories import (
     RiskProfileRepository, PolicyRepository, SuitabilityRepository,
-    ConstraintRepository, DecisionRepository
+    DecisionRepository
 )
 
 class EvaluationResult(BaseModel):

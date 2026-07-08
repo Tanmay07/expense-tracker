@@ -1,5 +1,4 @@
 from typing import List, Dict, Optional
-import uuid
 from datetime import datetime
 from wealth_foundation.domain.models import Household, FamilyMember, FXRate
 
@@ -251,7 +250,6 @@ class PermissionService:
     def get_permissions(self, household_id: str) -> List[HouseholdPermission]:
         return [p for p in self.permissions.values() if p.household_id == household_id and p.is_active]
 
-from datetime import datetime
 
 class SnapshotService:
     def __init__(self):

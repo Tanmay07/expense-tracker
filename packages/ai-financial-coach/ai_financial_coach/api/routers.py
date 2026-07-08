@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from typing import Dict, Any
 
 from .dependencies import get_coach_service
 from ..application.services import CoachService

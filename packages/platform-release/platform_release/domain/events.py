@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from typing import Dict, Any, List
 from datetime import datetime
 
 class DomainEvent(BaseModel):

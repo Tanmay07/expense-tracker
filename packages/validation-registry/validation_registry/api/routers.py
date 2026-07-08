@@ -16,7 +16,6 @@ from validation_registry.api.dependencies import (
 from validation_registry.infrastructure.repositories import (
     ArtifactRepository, ArtifactLineageRepository
 )
-import json
 
 router = APIRouter()
 

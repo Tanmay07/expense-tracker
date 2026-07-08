@@ -1,9 +1,7 @@
-from typing import List, Dict, Any
-import uuid
+from typing import Dict, Any
 
 from ..domain.models import (
-    GoalConversation, ActionPlan, ActionStep, BehavioralProfile, 
-    SimulationRequest, CopilotMode
+    GoalConversation, ActionPlan, ActionStep, SimulationRequest, CopilotMode
 )
 from ..infrastructure.repositories import (
     GoalConversationRepository, ActionPlanRepository, 

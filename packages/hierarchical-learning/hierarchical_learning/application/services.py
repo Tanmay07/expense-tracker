@@ -1,18 +1,15 @@
 import uuid
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, Optional
 from datetime import datetime
 from hierarchical_learning.domain.models import (
-    GlobalLearning, RegionalLearning, HouseholdLearning, PersonalLearning,
-    KnowledgePromotion, ConsentProfile, HouseholdConsensus,
+    PersonalLearning,
+    KnowledgePromotion, HouseholdConsensus,
     KnowledgePromotionCreate, PersonalLearningCreate, HouseholdConsensusCreate
 )
 from hierarchical_learning.infrastructure.repositories import (
     GlobalLearningRepository, RegionalLearningRepository, HouseholdLearningRepository,
     PersonalLearningRepository, KnowledgePromotionRepository, ConsentRepository,
     HouseholdConsensusRepository
-)
-from hierarchical_learning.domain.events import (
-    KnowledgePromoted, ConsensusReached, LearningObserved, BehaviorUpdated
 )
 
 class PrivacyBoundaryService:
