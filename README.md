@@ -16,7 +16,9 @@ The OS is divided into several specialized packages inside the `packages/` direc
 6. **`decision-lifecycle`**: Manages the state machine and progression of decisions (from draft, to queued, to execution).
 7. **`execution-capability`**: Determines *how* an action is performed, managing routing to plugins, human operators, or external APIs based on capabilities and risk levels.
 8. **`execution-policy`**: The definitive authorization layer. It evaluates context snapshots against an AST-based rule engine to explicitly `ALLOW`, `DENY`, or `REQUIRE_APPROVAL` before execution.
-
+9. **`integration-platform`**: The centralized nervous system (EFCIP) managing third-party connectors, normalization, rate-limiting, and webhook ingestion.
+10. **`mission-control` & `mission-control-bff`**: The unified enterprise UI backend and command center providing an orchestrator view over finances.
+11. **`collaboration-platform`**: The Enterprise Collaboration, Household & Advisor Platform (ECHAP). Handles multi-user governance, advisor roles, delegations, shared workspaces, and secure messaging.
 ## Technology Stack
 
 - **Language:** Python 3.10+
