@@ -1,5 +1,7 @@
 from typing import List, Dict, Any
 from ..domain.cognitive_models import AgentVote, ConsensusResult
+from ..infrastructure.db import DurablePostgresRepository
+from ..infrastructure.redis_store import TransientStateStore
 import collections
 
 class ConsensusEngine:
@@ -7,6 +9,9 @@ class ConsensusEngine:
     Evaluates recommendations from multiple agents, weighting their confidence
     and detecting conflicts before execution.
     """
+    def __init__(self, db: DurablePostgresRepository, transient_store: TransientStateStore):
+        self.db = db
+        self.transient_store = transient_store
     
     def evaluate_votes(self, mission_id: str, votes: List[AgentVote]) -> ConsensusResult:
         if not votes:

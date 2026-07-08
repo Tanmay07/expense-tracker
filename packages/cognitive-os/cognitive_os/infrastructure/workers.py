@@ -3,11 +3,18 @@ from .celery_app import celery_app
 from ..application.orchestrator import CognitiveOrchestrator
 from ..application.agent_registry import AgentRegistryService
 from ..application.reflection_engine import ReflectionEngine
+from ..infrastructure.ai_router import ModelRoutingClient
+from ..infrastructure.redis_store import TransientStateStore
+from ..infrastructure.db import DurablePostgresRepository
 
 # Instantiating services (in a real app, use proper dependency injection)
 registry = AgentRegistryService()
-orchestrator = CognitiveOrchestrator(registry)
-reflection_engine = ReflectionEngine()
+router = ModelRoutingClient()
+transient_store = TransientStateStore()
+db = DurablePostgresRepository()
+
+orchestrator = CognitiveOrchestrator(registry, router, transient_store)
+reflection_engine = ReflectionEngine(db)
 
 @celery_app.task(bind=True, max_retries=3)
 def execute_mission(self, mission_id: str, context: dict):

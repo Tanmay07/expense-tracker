@@ -6,6 +6,7 @@ from ..application.agent_registry import AgentRegistryService
 from ..application.mission_planning import MissionPlanningService
 from ..domain.models import AgentDefinition, AgentRole
 from ..domain.planning_models import MissionDefinition, GoalDefinition, TimeHorizon
+from ..infrastructure.db import DurablePostgresRepository
 
 router = APIRouter(prefix="/cognition", tags=["Cognitive OS"])
 
@@ -14,7 +15,8 @@ def get_registry() -> AgentRegistryService:
     return AgentRegistryService()
 
 def get_mission_planner() -> MissionPlanningService:
-    return MissionPlanningService()
+    db = DurablePostgresRepository()
+    return MissionPlanningService(db)
 
 @router.get("/agents", response_model=List[AgentDefinition])
 async def list_agents(registry: AgentRegistryService = Depends(get_registry)):

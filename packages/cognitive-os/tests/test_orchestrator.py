@@ -3,11 +3,15 @@ import asyncio
 from cognitive_os.application.orchestrator import CognitiveOrchestrator, ReasoningTask
 from cognitive_os.application.agent_registry import AgentRegistryService
 from cognitive_os.domain.models import AgentRole
+from cognitive_os.infrastructure.ai_router import ModelRoutingClient
+from cognitive_os.infrastructure.redis_store import TransientStateStore
 
 @pytest.fixture
 def orchestrator():
     registry = AgentRegistryService()
-    return CognitiveOrchestrator(registry)
+    router = ModelRoutingClient()
+    transient_store = TransientStateStore()
+    return CognitiveOrchestrator(registry, router, transient_store)
 
 @pytest.mark.asyncio
 async def test_orchestrator_parallel_execution(orchestrator):

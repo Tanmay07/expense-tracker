@@ -1,12 +1,15 @@
 from typing import Dict, Any
 from datetime import datetime
 from ..domain.cognitive_models import ReflectionResult
+from ..infrastructure.db import DurablePostgresRepository
 
 class ReflectionEngine:
     """
     Evaluates the outcome of completed missions to feed the Learning Platform.
     Compares predicted financial impact vs actual impact.
     """
+    def __init__(self, db: DurablePostgresRepository):
+        self.db = db
     
     def evaluate_mission_outcome(self, mission_id: str, execution_data: Dict[str, Any]) -> ReflectionResult:
         """

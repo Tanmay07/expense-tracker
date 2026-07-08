@@ -1,10 +1,12 @@
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel
-import litellm
 import asyncio
 
 from .agent_registry import AgentRegistryService
 from ..domain.models import AgentRole
+from ..infrastructure.ai_router import ModelRoutingClient
+from ..infrastructure.redis_store import TransientStateStore
+from ..infrastructure.telemetry import trace_ai_reasoning
 
 class ReasoningTask(BaseModel):
     task_id: str
@@ -17,14 +19,16 @@ class CognitiveOrchestrator:
     Orchestrates the cognitive loop:
     Observe -> Understand -> Reason -> Plan -> Evaluate -> Approval -> Execute -> Reflect -> Learn
     """
-    def __init__(self, registry: AgentRegistryService):
+    def __init__(self, registry: AgentRegistryService, router: ModelRoutingClient, transient_store: TransientStateStore):
         self.registry = registry
-        # Defaulting to standard model, could be injected via config
-        self.default_model = "gpt-4o" 
+        self.router = router
+        self.transient_store = transient_store
 
+    @trace_ai_reasoning(agent_role="dynamic", model="routed")
     async def _execute_agent_reasoning(self, task: ReasoningTask) -> Dict[str, Any]:
         """
-        Simulates calling LiteLLM for a specific agent's reasoning process.
+        Executes reasoning using the abstract Model Routing Platform.
+        Maintains transient in-flight state in Redis.
         """
         agent_def = self.registry.get_agent(task.assigned_role)
         if not agent_def:
@@ -32,28 +36,31 @@ class CognitiveOrchestrator:
 
         # Construct system prompt based on agent definition (Role, capabilities, policies)
         system_prompt = f"You are the {agent_def.role.value}. {agent_def.description}\n"
-        system_prompt += f"Capabilities: {', '.join(agent_def.capabilities)}\n"
-        system_prompt += f"Adhere strictly to policies: {', '.join(agent_def.policies)}"
-
-        # In production, we'd use litellm.acompletion
-        # response = await litellm.acompletion(
-        #     model=self.default_model,
-        #     messages=[
-        #         {"role": "system", "content": system_prompt},
-        #         {"role": "user", "content": task.description}
-        #     ]
-        # )
         
-        # Mock response for now
-        await asyncio.sleep(0.5)
-        return {
+        # Save transient state (e.g., indicating agent has started reasoning)
+        state_key = f"inflight:reasoning:{task.task_id}"
+        self.transient_store.save_in_flight_state(state_key, {"status": "STARTED", "agent": agent_def.role.value})
+
+        # Request capability from Model Routing Platform (Agnostic of underlying LLM)
+        ai_response = await self.router.execute_cognitive_task(
+            capabilities=agent_def.capabilities,
+            policies=agent_def.policies,
+            prompt=task.description,
+            context=task.context
+        )
+        
+        result = {
             "task_id": task.task_id,
             "agent": agent_def.role.value,
             "status": "COMPLETED",
-            "reasoning": f"Simulated reasoning for {task.description}",
+            "reasoning": ai_response,
             "plan": [],
             "requires_approval": False
         }
+        
+        # Update transient state
+        self.transient_store.save_in_flight_state(state_key, result)
+        return result
 
     async def run_sequential(self, tasks: List[ReasoningTask]) -> List[Dict[str, Any]]:
         """Run tasks one after another, passing context."""
@@ -81,6 +88,7 @@ class CognitiveOrchestrator:
         
         supervision_result = await self._execute_agent_reasoning(supervisor_task)
         
-        # Simulated routing logic based on supervision
-        # ...
+        # Clear transient state for the supervisor task after routing
+        self.transient_store.delete_state(f"inflight:reasoning:{supervisor_task.task_id}")
+        
         return supervision_result

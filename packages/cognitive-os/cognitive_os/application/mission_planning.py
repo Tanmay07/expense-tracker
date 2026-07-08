@@ -1,5 +1,6 @@
 from typing import List, Dict, Any, Optional
 from ..domain.planning_models import MissionDefinition, MissionPriority, GoalDefinition
+from ..infrastructure.db import DurablePostgresRepository
 import uuid
 
 class MissionPlanningService:
@@ -7,8 +8,9 @@ class MissionPlanningService:
     Generates autonomous missions. Prioritizes based on financial impact, urgency,
     risk, and dependencies.
     """
-    def __init__(self):
+    def __init__(self, db: DurablePostgresRepository):
         self._missions: Dict[str, MissionDefinition] = {}
+        self.db = db
 
     def generate_mission_for_goal(self, goal: GoalDefinition, context: Dict[str, Any]) -> MissionDefinition:
         """
