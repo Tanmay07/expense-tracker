@@ -4,7 +4,9 @@ part 'extension_metadata.freezed.dart';
 part 'extension_metadata.g.dart';
 
 @freezed
-class ExtensionMetadata with _$ExtensionMetadata {
+abstract class ExtensionMetadata with _$ExtensionMetadata {
+  const ExtensionMetadata._();
+
   const factory ExtensionMetadata({
     required String id,
     required String name,

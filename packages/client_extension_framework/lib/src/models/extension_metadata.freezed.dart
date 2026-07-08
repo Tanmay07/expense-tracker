@@ -219,8 +219,8 @@ return $default(_that.id,_that.name,_that.description,_that.version,_that.author
 /// @nodoc
 @JsonSerializable()
 
-class _ExtensionMetadata implements ExtensionMetadata {
-  const _ExtensionMetadata({required this.id, required this.name, required this.description, required this.version, required this.author, required this.category, final  List<String> dependencies = const [], final  List<String> permissions = const [], final  Map<String, bool> featureFlags = const {}, final  Map<String, dynamic> configurationSchema = const {}, required this.minSdkVersion, required this.minPlatformVersion}): _dependencies = dependencies,_permissions = permissions,_featureFlags = featureFlags,_configurationSchema = configurationSchema;
+class _ExtensionMetadata extends ExtensionMetadata {
+  const _ExtensionMetadata({required this.id, required this.name, required this.description, required this.version, required this.author, required this.category, final  List<String> dependencies = const [], final  List<String> permissions = const [], final  Map<String, bool> featureFlags = const {}, final  Map<String, dynamic> configurationSchema = const {}, required this.minSdkVersion, required this.minPlatformVersion}): _dependencies = dependencies,_permissions = permissions,_featureFlags = featureFlags,_configurationSchema = configurationSchema,super._();
   factory _ExtensionMetadata.fromJson(Map<String, dynamic> json) => _$ExtensionMetadataFromJson(json);
 
 @override final  String id;
