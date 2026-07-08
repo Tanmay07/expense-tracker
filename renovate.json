@@ -1,0 +1,33 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":preserveSemverRanges",
+    ":automergeMinor",
+    ":automergePatch"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["@types/*"],
+      "automerge": true
+    },
+    {
+      "matchManagers": ["helmv3"],
+      "groupName": "helm dependencies"
+    },
+    {
+      "matchManagers": ["terraform"],
+      "groupName": "terraform dependencies"
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^Makefile$"],
+      "matchStrings": ["VERSION \\?== (?<currentValue>.*)"],
+      "depNameTemplate": "project-version"
+    }
+  ],
+  "semanticCommits": "enabled",
+  "labels": ["dependencies"]
+}

@@ -1,0 +1,33 @@
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+
+  # Maintain dependencies for pip (Python)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps-py)"
+
+  # Maintain dependencies for npm (Node)
+  - package-ecosystem: "npm"
+    directory: "/packages/mission-control-ui"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps-js)"
+
+  # Maintain Docker dependencies
+  - package-ecosystem: "docker"
+    directory: "/infrastructure/docker"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps-docker)"

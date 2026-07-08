@@ -1,0 +1,39 @@
+name: GitOps Sync
+
+on:
+  workflow_run:
+    workflows: ["Docker Build & Publish"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  update-gitops:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITOPS_PAT }}
+          
+      - name: Update Image Tag in GitOps Repository
+        run: |
+          # Example of updating staging environment with latest short SHA
+          SHORT_SHA=$(echo "${{ github.event.workflow_run.head_sha }}" | cut -c1-7)
+          
+          # Using yq to update the tag in the staging values file
+          wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O yq
+          chmod +x yq
+          
+          # Update the tag for mission-control-api (example)
+          ./yq -i '(.apps[] | select(.name == "mission-control-api").values.image.tag) = "'$SHORT_SHA'"' infrastructure/gitops/values-staging.yaml
+          
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "GitOps Bot"
+          git config --global user.email "bot@financeos.local"
+          git add infrastructure/gitops/values-staging.yaml
+          git commit -m "chore(gitops): update image tags to ${{ github.event.workflow_run.head_sha }}" || echo "No changes to commit"
+          git push

@@ -1,0 +1,44 @@
+name: Python CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'packages/**'
+      - '!packages/mission-control-ui/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'packages/**'
+      - '!packages/mission-control-ui/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install Dependencies and Tools
+      run: |
+        uv pip install --system ruff mypy pytest
+        # In a real scenario, we'd install specific package dependencies here or run `make setup`
+        
+    - name: Lint with Ruff
+      run: uv run ruff check packages/
+      
+    - name: Format Check with Ruff
+      run: uv run ruff format --check packages/
+      
+    - name: Type Check with Mypy
+      run: uv run mypy packages/
+      
+    - name: Run Tests
+      run: uv run pytest tests/
