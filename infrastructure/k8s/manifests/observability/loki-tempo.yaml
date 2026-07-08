@@ -1,0 +1,34 @@
+# values.yaml overrides for Loki and Tempo
+# Expected to be deployed via their respective Helm charts
+
+# --- loki-values.yaml ---
+loki:
+  auth_enabled: false
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: s3
+    s3:
+      endpoint: s3.us-east-1.amazonaws.com
+      bucketnames: pfos-logs-prod
+      region: us-east-1
+
+# --- tempo-values.yaml ---
+tempo:
+  repository: grafana/tempo
+  tag: latest
+  search:
+    enabled: true
+  traces:
+    otlp:
+      http:
+        enabled: true
+      grpc:
+        enabled: true
+  storage:
+    trace:
+      backend: s3
+      s3:
+        bucket: pfos-traces-prod
+        endpoint: s3.us-east-1.amazonaws.com
+        region: us-east-1

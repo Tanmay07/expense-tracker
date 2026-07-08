@@ -1,0 +1,42 @@
+# values.yaml overrides for kube-prometheus-stack Helm Chart
+# This file is intended to be used with:
+# helm install prometheus prometheus-community/kube-prometheus-stack -f kube-prometheus-stack.yaml -n observability
+grafana:
+  enabled: true
+  adminPassword: "admin" # Change in production using secrets
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      searchNamespace: ALL
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.financeos.local
+
+prometheus:
+  enabled: true
+  prometheusSpec:
+    enableRemoteWriteReceiver: true # Required for OTel Collector
+    retention: 15d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
+
+alertmanager:
+  enabled: true
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: ['job']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: 'null'
+    receivers:
+    - name: 'null'
