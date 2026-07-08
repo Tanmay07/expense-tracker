@@ -16,3 +16,11 @@ export 'src/offline/sync_service.dart';
 export 'src/telemetry/telemetry_service.dart';
 export 'src/flags/feature_flag_service.dart';
 export 'src/notifications/notification_service.dart';
+
+// Expose File Management
+export 'src/files/file_transfer_service.dart';
+
+// Expose Repositories
+export 'src/repositories/base_repository.dart';
+export 'src/repositories/accounts_repository.dart';
+export 'src/repositories/expenses_repository.dart';
