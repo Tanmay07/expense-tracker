@@ -15,10 +15,10 @@ def test_consensus_engine_unanimous():
     
     result = engine.evaluate_votes("msn_123", votes)
     
-    assert result.achieved == True
+    assert result.achieved
     assert result.final_recommendation == "APPROVE_TRANSFER"
-    assert result.conflict_detected == False
-    assert result.escalated_to_supervisor == False
+    assert not result.conflict_detected
+    assert not result.escalated_to_supervisor
 
 def test_consensus_engine_conflict():
     engine = get_engine()
@@ -29,9 +29,9 @@ def test_consensus_engine_conflict():
     
     result = engine.evaluate_votes("msn_123", votes)
     
-    assert result.achieved == False
-    assert result.conflict_detected == True
-    assert result.escalated_to_supervisor == True
+    assert not result.achieved
+    assert result.conflict_detected
+    assert result.escalated_to_supervisor
 
 def test_consensus_engine_low_confidence():
     engine = get_engine()
@@ -42,6 +42,6 @@ def test_consensus_engine_low_confidence():
     
     result = engine.evaluate_votes("msn_123", votes)
     
-    assert result.achieved == False
-    assert result.conflict_detected == False # They agree, but confidence is low
-    assert result.escalated_to_supervisor == True
+    assert not result.achieved
+    assert not result.conflict_detected # They agree, but confidence is low
+    assert result.escalated_to_supervisor

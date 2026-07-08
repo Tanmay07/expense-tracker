@@ -34,7 +34,7 @@ async def get_graph(
 ):
     return await agg.get_graph_data(user_id)
 
-from mission_control.application.services.context_service import (
+from mission_control.application.services.context_service import (  # noqa: E402
     ContextWorkspaceService,
     AdaptiveDashboardService,
     AdaptiveActionService
@@ -64,7 +64,7 @@ async def get_quick_actions(user_id: str = Header("mock_user_123")):
     actions = action_service.get_quick_actions(user_id, contexts)
     return {"actions": [a.model_dump() for a in actions]}
 
-from mission_control.application.services.workspace_service import WorkspaceService
+from mission_control.application.services.workspace_service import WorkspaceService  # noqa: E402
 
 @router.get("/workspaces")
 async def get_workspaces(user_id: str = Header("mock_user_123")):
@@ -78,7 +78,7 @@ async def get_workspace(workspace_id: str, user_id: str = Header("mock_user_123"
     workspace = service.get_workspace(workspace_id, user_id)
     return workspace.model_dump()
 
-from mission_control.application.services.ai_service import ToolRegistryService, CapabilityRegistryService
+from mission_control.application.services.ai_service import ToolRegistryService, CapabilityRegistryService  # noqa: E402
 
 @router.get("/ai/capabilities")
 async def get_ai_capabilities():

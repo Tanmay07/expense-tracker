@@ -64,7 +64,7 @@ class GoalService:
             
         return goal
 
-from financial_planning.domain.models import HealthScore, Recommendation, CashFlowForecast
+from financial_planning.domain.models import HealthScore, Recommendation, CashFlowForecast  # noqa: E402
 
 class CashFlowService:
     def get_historical_cashflow(self, user_id: str, days: int = 30) -> Dict[str, Any]:
@@ -121,7 +121,7 @@ class RecommendationService:
             ))
         return recs
 
-from financial_planning.domain.models import Subscription, Bill, RecurringTransaction, Reminder
+from financial_planning.domain.models import Subscription, Bill, RecurringTransaction, Reminder  # noqa: E402
 
 class SubscriptionService:
     def __init__(self):

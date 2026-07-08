@@ -1,4 +1,4 @@
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from ..application.registry import ConnectorRegistryService
 from ..application.auth import AuthenticationService
 from ..sdk.connector_base import SyncContext

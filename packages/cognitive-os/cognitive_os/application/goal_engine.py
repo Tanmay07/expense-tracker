@@ -28,7 +28,7 @@ class GoalEngine:
         self._goals[goal_id] = goal
         return goal
 
-    def generate_adaptive_roadmap(self, user_id: str) -> Dict[str, Any]:
+    def generate_adaptive_roadmap(self, user_id: str) -> Dict[str, Any]:  # noqa: F821
         """
         Analyzes all goals and generates a prioritized timeline.
         """

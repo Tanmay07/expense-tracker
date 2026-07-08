@@ -35,7 +35,6 @@ class CognitiveOrchestrator:
             raise ValueError(f"Unknown agent role: {task.assigned_role}")
 
         # Construct system prompt based on agent definition (Role, capabilities, policies)
-        system_prompt = f"You are the {agent_def.role.value}. {agent_def.description}\n"
         
         # Save transient state (e.g., indicating agent has started reasoning)
         state_key = f"inflight:reasoning:{task.task_id}"

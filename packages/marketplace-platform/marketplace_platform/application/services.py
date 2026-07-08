@@ -69,7 +69,7 @@ class MarketplaceService:
         saved_asset = self.asset_repo.save(asset)
         
         # Attach Governance Capability
-        matrix = self.capability_svc.assign_capability(saved_asset.id, dto.capability_matrix)
+        self.capability_svc.assign_capability(saved_asset.id, dto.capability_matrix)
         
         # Initialize Ranking
         ranking = AssetRanking(

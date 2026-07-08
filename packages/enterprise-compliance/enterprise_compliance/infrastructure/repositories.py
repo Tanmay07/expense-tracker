@@ -29,7 +29,7 @@ class RiskProfileRepository(BaseRepository):
 
 class PolicyRepository(BaseRepository):
     def get_active_policies(self) -> List[CompliancePolicy]:
-        records = self.db.query(CompliancePolicyModel).filter(CompliancePolicyModel.is_active == True).all()
+        records = self.db.query(CompliancePolicyModel).filter(CompliancePolicyModel.is_active).all()
         return [CompliancePolicy(**r.__dict__) for r in records]
 
     def save(self, policy: CompliancePolicy) -> CompliancePolicy:

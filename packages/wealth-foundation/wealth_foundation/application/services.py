@@ -63,7 +63,7 @@ class FXService:
         rate = self.fetch_live_rate(base_currency, target_currency)
         return amount * rate.rate
 
-from wealth_foundation.domain.models import CorporateAction, GoalFunding
+from wealth_foundation.domain.models import CorporateAction, GoalFunding  # noqa: E402
 
 class CorporateActionService:
     def __init__(self):
@@ -103,7 +103,7 @@ class GoalFundingService:
     def get_fundings_for_goal(self, goal_id: str) -> List[GoalFunding]:
         return [f for f in self.fundings.values() if f.goal_id == goal_id]
 
-from wealth_foundation.domain.models import ProviderPlugin, WealthExplanation
+from wealth_foundation.domain.models import ProviderPlugin, WealthExplanation  # noqa: E402
 
 class ProviderRegistryService:
     def __init__(self):
@@ -144,7 +144,7 @@ class ExplainabilityService:
                 return exp
         return None
 
-from wealth_foundation.domain.models import Custodian, Broker, AssetCustody
+from wealth_foundation.domain.models import Custodian, Broker, AssetCustody  # noqa: E402
 
 class CustodianService:
     def __init__(self):
@@ -184,7 +184,7 @@ class BrokerService:
         self.custody_records[ac.id] = ac
         return ac
 
-from wealth_foundation.domain.models import TaxLot, WealthPolicy, PortfolioPolicy
+from wealth_foundation.domain.models import TaxLot, WealthPolicy, PortfolioPolicy  # noqa: E402
 
 class TaxLotService:
     def __init__(self):
@@ -231,7 +231,7 @@ class PolicyService:
         self.portfolio_policies[p.id] = p
         return p
 
-from wealth_foundation.domain.models import HouseholdPermission, WealthSnapshot, ReplayState
+from wealth_foundation.domain.models import HouseholdPermission, WealthSnapshot, ReplayState  # noqa: E402
 
 class PermissionService:
     def __init__(self):

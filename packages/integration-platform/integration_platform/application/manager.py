@@ -1,7 +1,7 @@
-from typing import Dict, Any, List
+from typing import Dict, Any
 import logging
 from ..application.registry import ConnectorRegistryService
-from ..domain.models import ConnectorStatus, ConnectorMetadata
+from ..domain.models import ConnectorStatus
 from ..infrastructure.pfos_integration import FeatureFlagClient
 
 logger = logging.getLogger(__name__)

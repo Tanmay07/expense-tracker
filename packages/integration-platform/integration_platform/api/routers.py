@@ -1,12 +1,8 @@
 from typing import Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks
 from pydantic import BaseModel
 
 # Mock Dependencies (In a real app, these come from a dependency injection container)
-from ..application.registry import ConnectorRegistryService
-from ..application.manager import ConnectorManagerService
-from ..application.sync import SynchronizationService
-from ..application.webhooks import WebhookListenerService
 
 router = APIRouter(prefix="/api/v1/integration", tags=["Integration Platform"])
 

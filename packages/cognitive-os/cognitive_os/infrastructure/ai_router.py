@@ -15,14 +15,6 @@ class ModelRoutingClient:
         # In production, this would make an RPC/HTTP call to the Model Routing Platform
         
         # Mock payload that the Model Routing Platform would use for its decision engine
-        routing_request = {
-            "required_capabilities": capabilities,
-            "applied_policies": policies,
-            "latency_target": "low", # Can be dynamic based on urgency
-            "cost_budget": "balanced",
-            "prompt": prompt,
-            "context": context
-        }
         
         # Simulated routing & execution latency
         import asyncio

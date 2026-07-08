@@ -29,7 +29,7 @@ class PolicyRepository(BaseRepository):
         )
         
     def list_active(self) -> List[ExecutionPolicy]:
-        records = self.db.query(PolicyModel).filter(PolicyModel.is_active == True).order_by(PolicyModel.priority.desc()).all()
+        records = self.db.query(PolicyModel).filter(PolicyModel.is_active).order_by(PolicyModel.priority.desc()).all()
         result = []
         for r in records:
             result.append(ExecutionPolicy(

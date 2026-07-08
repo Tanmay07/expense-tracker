@@ -78,7 +78,7 @@ class PolicyDecisionCacheRepository(BaseRepository):
         record = self.db.query(PolicyCacheModel).filter(
             PolicyCacheModel.decision_id == decision_id,
             PolicyCacheModel.policy_version == policy_version,
-            PolicyCacheModel.is_valid == True
+            PolicyCacheModel.is_valid
         ).first()
         if record:
             return PolicyCacheResponse.model_validate(record)

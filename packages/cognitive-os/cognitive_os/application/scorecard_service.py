@@ -44,7 +44,7 @@ class CognitiveScorecardService:
         self._scorecards[user_id].append(current)
         return current
 
-    def get_latest_scorecard(self, user_id: str) -> Optional[ScorecardMetrics]:
+    def get_latest_scorecard(self, user_id: str) -> Optional[ScorecardMetrics]:  # noqa: F821
         history = self._scorecards.get(user_id, [])
         if not history:
             return None

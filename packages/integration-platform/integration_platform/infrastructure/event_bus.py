@@ -1,6 +1,5 @@
-import json
 import logging
-from typing import List, Dict, Any
+from typing import List
 from abc import ABC, abstractmethod
 from ..application.normalization import CanonicalTransaction
 

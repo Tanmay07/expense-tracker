@@ -15,8 +15,8 @@ def get_db():
     finally:
         db.close()
 
-from platform_release.infrastructure.repositories import ReleaseRepository
-from platform_release.application.services import (
+from platform_release.infrastructure.repositories import ReleaseRepository  # noqa: E402
+from platform_release.application.services import (  # noqa: E402
     PlatformBaselineService,
     ContractFreezeService,
     DocumentationFreezeService,

@@ -56,7 +56,7 @@ def test_generate_and_fetch_release(client):
     # Check readiness
     ready_res = client.get("/api/v1/platform/readiness/1.0.0")
     assert ready_res.status_code == 200
-    assert ready_res.json()["ready"] == True
+    assert ready_res.json()["ready"]
 
 def test_governance_lifecycle(client):
     response = client.get("/api/v1/platform/governance/lifecycle")
