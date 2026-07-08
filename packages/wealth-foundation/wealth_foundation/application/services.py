@@ -291,11 +291,11 @@ class PolicyService:
         return p
 
 
-from wealth_foundation.domain.models import (
+from wealth_foundation.domain.models import (  # noqa: E402
     HouseholdPermission,
     WealthSnapshot,
     ReplayState,
-)  # noqa: E402
+)
 
 
 class PermissionService:

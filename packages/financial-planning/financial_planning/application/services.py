@@ -74,11 +74,11 @@ class GoalService:
         return goal
 
 
-from financial_planning.domain.models import (
+from financial_planning.domain.models import (  # noqa: E402
     HealthScore,
     Recommendation,
     CashFlowForecast,
-)  # noqa: E402
+)
 
 
 class CashFlowService:
@@ -147,12 +147,12 @@ class RecommendationService:
         return recs
 
 
-from financial_planning.domain.models import (
+from financial_planning.domain.models import (  # noqa: E402
     Subscription,
     Bill,
     RecurringTransaction,
     Reminder,
-)  # noqa: E402
+)
 
 
 class SubscriptionService:
