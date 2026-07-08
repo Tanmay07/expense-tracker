@@ -3,7 +3,7 @@
 # PFOS Standard Development Dockerfile (Python)
 # ==============================================================================
 
-FROM python:3.11-slim
+FROM python:3.14-slim
 
 LABEL maintainer="PFOS Platform Engineering"
 LABEL environment="development"
