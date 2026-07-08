@@ -4,7 +4,7 @@
 # ==============================================================================
 
 # 1. Base Builder Stage
-FROM python:3.11-slim AS builder
+FROM python:3.14-slim AS builder
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -24,7 +24,7 @@ COPY requirements.txt pyproject.toml ./
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /build/wheels -r requirements.txt || pip wheel --no-cache-dir --no-deps --wheel-dir /build/wheels .
 
 # 2. Final Production Stage
-FROM python:3.11-slim AS production
+FROM python:3.14-slim AS production
 
 LABEL maintainer="PFOS Platform Engineering"
 LABEL com.financeos.platform.version="1.0.0"
