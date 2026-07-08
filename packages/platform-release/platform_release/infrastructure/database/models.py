@@ -4,6 +4,7 @@ from datetime import datetime
 
 Base = declarative_base()
 
+
 class DBPlatformBaseline(Base):
     __tablename__ = "release_platform_baselines"
     id = Column(String, primary_key=True, index=True)
@@ -13,6 +14,7 @@ class DBPlatformBaseline(Base):
     ai_metrics = Column(JSON)
     operational_metrics = Column(JSON)
     timestamp = Column(DateTime, default=datetime.utcnow)
+
 
 class DBCertificationReport(Base):
     __tablename__ = "release_certification_reports"
@@ -34,6 +36,7 @@ class DBCertificationReport(Base):
     recommendations = Column(JSON)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
+
 class DBContractVersionMatrix(Base):
     __tablename__ = "release_contract_matrices"
     id = Column(String, primary_key=True, index=True)
@@ -44,6 +47,7 @@ class DBContractVersionMatrix(Base):
     plugins = Column(JSON)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
+
 class DBDocumentationIndex(Base):
     __tablename__ = "release_documentation_indices"
     id = Column(String, primary_key=True, index=True)
@@ -51,6 +55,7 @@ class DBDocumentationIndex(Base):
     documents = Column(JSON)
     completeness_score = Column(Float)
     timestamp = Column(DateTime, default=datetime.utcnow)
+
 
 class DBReleaseManifest(Base):
     __tablename__ = "release_manifests"

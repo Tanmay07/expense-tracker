@@ -2,6 +2,7 @@ from typing import List, Dict
 from datetime import datetime
 from ...domain.models.workspace import WorkspaceModel, WorkspaceSnapshot, WidgetConfig
 
+
 class WorkspaceService:
     def __init__(self):
         # In a real app, this would use a repository to fetch from DB
@@ -23,20 +24,32 @@ class WorkspaceService:
                         name="Default View",
                         created_at=datetime.utcnow(),
                         widgets=[
-                            WidgetConfig(id="w1", widget_type="KPI", title="Total Expenses", data_source="expenses.total", layout={"w": 3, "h": 1, "x": 0, "y": 0}),
-                            WidgetConfig(id="w2", widget_type="CHART", title="Spending by Category", data_source="expenses.categories", layout={"w": 9, "h": 2, "x": 3, "y": 0})
+                            WidgetConfig(
+                                id="w1",
+                                widget_type="KPI",
+                                title="Total Expenses",
+                                data_source="expenses.total",
+                                layout={"w": 3, "h": 1, "x": 0, "y": 0},
+                            ),
+                            WidgetConfig(
+                                id="w2",
+                                widget_type="CHART",
+                                title="Spending by Category",
+                                data_source="expenses.categories",
+                                layout={"w": 9, "h": 2, "x": 3, "y": 0},
+                            ),
                         ],
-                        layout_config={"sidebar_width": 250, "inspector_width": 300}
+                        layout_config={"sidebar_width": 250, "inspector_width": 300},
                     )
-                ]
+                ],
             ),
             WorkspaceModel(
                 id="ws_investments",
                 name="Investments",
                 description="Portfolio tracking and market analysis",
                 icon="TrendingUp",
-                path="/workspaces/investments"
-            )
+                path="/workspaces/investments",
+            ),
         ]
         return {ws.id: ws for ws in workspaces}
 
@@ -49,10 +62,12 @@ class WorkspaceService:
             raise ValueError(f"Workspace {workspace_id} not found")
         return self._mock_workspaces[workspace_id]
 
-    def save_snapshot(self, workspace_id: str, snapshot: WorkspaceSnapshot, user_id: str) -> WorkspaceModel:
+    def save_snapshot(
+        self, workspace_id: str, snapshot: WorkspaceSnapshot, user_id: str
+    ) -> WorkspaceModel:
         if workspace_id not in self._mock_workspaces:
             raise ValueError(f"Workspace {workspace_id} not found")
-        
+
         ws = self._mock_workspaces[workspace_id]
         ws.snapshots.append(snapshot)
         ws.active_snapshot_id = snapshot.id

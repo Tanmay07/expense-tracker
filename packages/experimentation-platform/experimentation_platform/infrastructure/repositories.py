@@ -3,17 +3,25 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 
 from experimentation_platform.infrastructure.database import (
-    FeatureModel, FeatureFlagModel, RolloutModel,
-    ExperimentModel, ExperimentResultModel
+    FeatureModel,
+    FeatureFlagModel,
+    RolloutModel,
+    ExperimentModel,
+    ExperimentResultModel,
 )
 from experimentation_platform.domain.models import (
-    Feature, FeatureFlag, Rollout,
-    Experiment, ExperimentResult
+    Feature,
+    FeatureFlag,
+    Rollout,
+    Experiment,
+    ExperimentResult,
 )
+
 
 class BaseRepository:
     def __init__(self, session: Session):
         self.session = session
+
 
 class FeatureRepository(BaseRepository):
     def save(self, domain: Feature) -> Feature:
@@ -29,7 +37,7 @@ class FeatureRepository(BaseRepository):
         self.session.commit()
         self.session.refresh(model)
         return Feature.model_validate(model)
-        
+
     def get_by_name(self, name: str) -> Optional[Feature]:
         model = self.session.execute(
             select(FeatureModel).where(FeatureModel.name == name)
@@ -51,7 +59,7 @@ class FeatureFlagRepository(BaseRepository):
         self.session.commit()
         self.session.refresh(model)
         return FeatureFlag.model_validate(model)
-        
+
     def get_by_feature_id(self, feature_id: str) -> Optional[FeatureFlag]:
         model = self.session.execute(
             select(FeatureFlagModel).where(FeatureFlagModel.feature_id == feature_id)

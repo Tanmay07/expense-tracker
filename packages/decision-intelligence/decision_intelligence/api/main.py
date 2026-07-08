@@ -11,7 +11,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Enterprise Decision Intelligence Platform",
     description="Phase 10B.2 - Quantitative optimization brain",
-    version="0.1.0"
+    version="0.1.0",
 )
 
 app.add_middleware(
@@ -25,6 +25,7 @@ app.add_middleware(
 app.include_router(router, prefix="/api/v1/decision-intelligence")
 
 FastAPIInstrumentor.instrument_app(app)
+
 
 @app.get("/health")
 def health_check():

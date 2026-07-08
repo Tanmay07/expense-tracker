@@ -4,10 +4,12 @@ from datetime import datetime
 import uuid
 from enum import Enum
 
+
 class DecisionType(str, Enum):
     RECOMMENDATION = "RECOMMENDATION"
     AUTOMATION = "AUTOMATION"
     MANUAL_OVERRIDE = "MANUAL_OVERRIDE"
+
 
 class DecisionCategory(str, Enum):
     INVESTMENT = "INVESTMENT"
@@ -15,6 +17,7 @@ class DecisionCategory(str, Enum):
     DEBT = "DEBT"
     TAX = "TAX"
     INSURANCE = "INSURANCE"
+
 
 class DecisionStatus(str, Enum):
     DRAFT = "DRAFT"
@@ -24,15 +27,18 @@ class DecisionStatus(str, Enum):
     EXECUTED = "EXECUTED"
     ARCHIVED = "ARCHIVED"
 
+
 class DecisionScope(str, Enum):
     PORTFOLIO = "PORTFOLIO"
     ACCOUNT = "ACCOUNT"
     GOAL = "GOAL"
     GLOBAL = "GLOBAL"
 
+
 class DecisionPriority(BaseModel):
-    level: str = "MEDIUM" # HIGH, MEDIUM, LOW
+    level: str = "MEDIUM"  # HIGH, MEDIUM, LOW
     importance_score: float
+
 
 class DecisionMetadata(BaseModel):
     source: str
@@ -44,6 +50,7 @@ class DecisionMetadata(BaseModel):
     context: Dict[str, Any] = Field(default_factory=dict)
     attachments: List[str] = Field(default_factory=list)
     links: List[str] = Field(default_factory=list)
+
 
 class DecisionProvenance(BaseModel):
     metrics_used: List[str] = Field(default_factory=list)
@@ -61,6 +68,7 @@ class DecisionProvenance(BaseModel):
     simulation_references: List[str] = Field(default_factory=list)
     learning_hooks: Dict[str, Any] = Field(default_factory=dict)
 
+
 class DecisionRelationshipType(str, Enum):
     DEPENDS_ON = "DEPENDS_ON"
     SUPPORTS_GOAL = "SUPPORTS_GOAL"
@@ -70,19 +78,22 @@ class DecisionRelationshipType(str, Enum):
     USES_SIMULATION = "USES_SIMULATION"
     REFERENCES_TIMELINE = "REFERENCES_TIMELINE"
 
+
 class DecisionRelationship(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     source_decision_id: str
     target_id: str
-    target_type: str # 'DECISION', 'GOAL', 'PORTFOLIO', 'SIMULATION'
+    target_type: str  # 'DECISION', 'GOAL', 'PORTFOLIO', 'SIMULATION'
     relationship_type: DecisionRelationshipType
     metadata: Dict[str, Any] = Field(default_factory=dict)
+
 
 class DecisionVersion(BaseModel):
     version: int
     semantic_version: str
     created_at: datetime
     rollback_metadata: Optional[Dict[str, Any]] = None
+
 
 class Decision(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))

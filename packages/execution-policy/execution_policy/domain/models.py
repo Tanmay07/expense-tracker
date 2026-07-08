@@ -4,6 +4,7 @@ from datetime import datetime
 import uuid
 from enum import Enum
 
+
 class PolicyCategory(str, Enum):
     EXECUTION = "EXECUTION"
     AUTOMATION = "AUTOMATION"
@@ -11,12 +12,14 @@ class PolicyCategory(str, Enum):
     COMPLIANCE = "COMPLIANCE"
     APPROVAL = "APPROVAL"
 
+
 class EvaluationOutcome(str, Enum):
     ALLOW = "ALLOW"
     DENY = "DENY"
     REQUIRE_APPROVAL = "REQUIRE_APPROVAL"
     DEFER = "DEFER"
     ESCALATE = "ESCALATE"
+
 
 class RuleOperator(str, Enum):
     EQ = "EQ"
@@ -31,6 +34,7 @@ class RuleOperator(str, Enum):
     AND = "AND"
     OR = "OR"
 
+
 class RuleAST(BaseModel):
     operator: RuleOperator
     # Field to check in the context, e.g., "decision.amount"
@@ -38,7 +42,8 @@ class RuleAST(BaseModel):
     # Expected value to compare against
     value: Optional[Any] = None
     # For nested rules (AND/OR)
-    conditions: Optional[List['RuleAST']] = None
+    conditions: Optional[List["RuleAST"]] = None
+
 
 class ExecutionPolicy(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -53,11 +58,13 @@ class ExecutionPolicy(BaseModel):
     metadata: Dict[str, Any] = Field(default_factory=dict)
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+
 class PolicyExplanation(BaseModel):
     triggering_policy_id: Optional[str] = None
     triggering_policy_name: Optional[str] = None
     matched_conditions: List[str] = Field(default_factory=list)
     human_readable: str
+
 
 class EvaluationResult(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -65,6 +72,7 @@ class EvaluationResult(BaseModel):
     outcome: EvaluationOutcome
     explanation: PolicyExplanation
     evaluated_at: datetime = Field(default_factory=datetime.utcnow)
+
 
 class PolicyContext(BaseModel):
     request_id: str

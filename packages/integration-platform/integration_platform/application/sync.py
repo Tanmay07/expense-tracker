@@ -5,29 +5,42 @@ from ..sdk.connector_base import SyncContext
 from ..infrastructure.pfos_integration import ObservabilityClient, GovernanceClient
 import time
 
+
 class SynchronizationService:
     """
-    Stateful engine responsible for executing the synchronization lifecycle 
+    Stateful engine responsible for executing the synchronization lifecycle
     for connected external providers.
     """
-    def __init__(self, registry: ConnectorRegistryService, auth_service: AuthenticationService, 
-                 obs_client: ObservabilityClient = None, gov_client: GovernanceClient = None):
+
+    def __init__(
+        self,
+        registry: ConnectorRegistryService,
+        auth_service: AuthenticationService,
+        obs_client: ObservabilityClient = None,
+        gov_client: GovernanceClient = None,
+    ):
         self.registry = registry
         self.auth_service = auth_service
         self.obs_client = obs_client or ObservabilityClient()
         self.gov_client = gov_client or GovernanceClient()
         # In production, uses a durable store for last_sync_tokens and sync history
 
-    async def trigger_sync(self, connection_id: str, connector_id: str, user_id: str, sync_type: str = "incremental") -> Dict[str, Any]:
+    async def trigger_sync(
+        self,
+        connection_id: str,
+        connector_id: str,
+        user_id: str,
+        sync_type: str = "incremental",
+    ) -> Dict[str, Any]:
         """
         Executes a sync task. Resolves credentials, loads the connector, and triggers the sync.
         """
         start_time = time.time()
-        
+
         # PFOS Governance Check
         if not self.gov_client.check_sync_compliance(connection_id, user_id):
             raise PermissionError("Governance policy blocked sync for this connection.")
-            
+
         connector = self.registry.get_connector(connector_id)
         if not connector:
             raise ValueError(f"Connector {connector_id} not found in registry.")
@@ -35,22 +48,26 @@ class SynchronizationService:
         # 1. Retrieve credentials securely
         credentials = await self.auth_service.get_valid_credentials(connection_id)
         if not credentials:
-            raise PermissionError(f"No valid credentials found for connection {connection_id}")
+            raise PermissionError(
+                f"No valid credentials found for connection {connection_id}"
+            )
 
         # 2. Authenticate the connector instance (injecting credentials)
         auth_success = await connector.authenticate(credentials)
         if not auth_success:
-            raise PermissionError("Connector authentication failed with external provider.")
+            raise PermissionError(
+                "Connector authentication failed with external provider."
+            )
 
         # 3. Prepare sync context
         # In production, we'd look up the last_sync_token from PostgreSQL for this connection
         last_sync_token = "mock_cursor_001" if sync_type == "incremental" else None
-        
+
         context = SyncContext(
             connection_id=connection_id,
             user_id=user_id,
             last_sync_token=last_sync_token,
-            parameters={}
+            parameters={},
         )
 
         # 4. Execute Sync
@@ -59,25 +76,24 @@ class SynchronizationService:
                 sync_result = await connector.initial_sync(context)
             else:
                 sync_result = await connector.incremental_sync(context)
-                
+
             # 5. Checkpoint the new sync token securely
             # In production, save sync_result.get("next_sync_token") to PostgreSQL
-            
+
             records_fetched = len(sync_result.get("raw_data", []))
-            
+
             # PFOS Observability Metric
             duration_ms = (time.time() - start_time) * 1000
-            self.obs_client.record_sync_metric(connector_id, duration_ms, records_fetched)
-            
+            self.obs_client.record_sync_metric(
+                connector_id, duration_ms, records_fetched
+            )
+
             return {
                 "status": "success",
                 "sync_type": sync_type,
                 "records_fetched": records_fetched,
-                "next_sync_token": sync_result.get("next_sync_token")
+                "next_sync_token": sync_result.get("next_sync_token"),
             }
         except Exception as e:
             # Implement retry mechanisms or DLQ here
-            return {
-                "status": "failed",
-                "error": str(e)
-            }
+            return {"status": "failed", "error": str(e)}

@@ -13,12 +13,14 @@ celery_app.conf.update(
     enable_utc=True,
 )
 
+
 @celery_app.task(name="governance.trust_calculator")
 def calculate_trust(asset_id: str):
     """
     Background worker to recalculate composite trust score for an asset.
     """
     return {"status": "calculated", "asset_id": asset_id}
+
 
 @celery_app.task(name="governance.evaluator")
 def evaluate_governance(asset_id: str, policy_id: str):
@@ -27,6 +29,7 @@ def evaluate_governance(asset_id: str, policy_id: str):
     """
     return {"status": "evaluated", "asset_id": asset_id, "policy_id": policy_id}
 
+
 @celery_app.task(name="governance.evidence_verifier")
 def verify_evidence(asset_id: str):
     """
@@ -34,12 +37,14 @@ def verify_evidence(asset_id: str):
     """
     return {"status": "verified", "asset_id": asset_id}
 
+
 @celery_app.task(name="governance.continuous_assurance")
 def continuous_assurance_monitor():
     """
     Cron job to scan all ACTIVE assets and re-verify their trust and certifications.
     """
     return {"status": "assurance_run_complete"}
+
 
 @celery_app.task(name="governance.maturity_calculator")
 def recalculate_maturity(asset_id: str):

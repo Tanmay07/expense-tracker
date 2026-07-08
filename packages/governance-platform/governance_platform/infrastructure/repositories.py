@@ -3,17 +3,27 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 
 from governance_platform.infrastructure.database import (
-    GovernancePolicyModel, TrustScoreModel, MaturityRecordModel,
-    AIGovernanceModel, EvidenceLedgerModel, WorkflowStateModel
+    GovernancePolicyModel,
+    TrustScoreModel,
+    MaturityRecordModel,
+    AIGovernanceModel,
+    EvidenceLedgerModel,
+    WorkflowStateModel,
 )
 from governance_platform.domain.models import (
-    GovernancePolicy, TrustScore, MaturityRecord,
-    AIGovernanceRecord, EvidenceLedgerEntry, WorkflowState
+    GovernancePolicy,
+    TrustScore,
+    MaturityRecord,
+    AIGovernanceRecord,
+    EvidenceLedgerEntry,
+    WorkflowState,
 )
+
 
 class BaseRepository:
     def __init__(self, session: Session):
         self.session = session
+
 
 class PolicyRepository(BaseRepository):
     def get_by_id(self, policy_id: str) -> Optional[GovernancePolicy]:

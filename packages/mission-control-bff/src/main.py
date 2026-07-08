@@ -5,7 +5,7 @@ from src.api.routers import router
 app = FastAPI(
     title="Mission Control BFF",
     version="1.0.0",
-    description="Backend for Frontend for Mission Control OS"
+    description="Backend for Frontend for Mission Control OS",
 )
 
 # In a real enterprise app, CORS origins should be strict.
@@ -19,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(router)
+
 
 @app.get("/health")
 async def health_check():

@@ -3,11 +3,13 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 from enum import Enum
 
+
 class Role(str, Enum):
     USER = "user"
     ASSISTANT = "assistant"
     SYSTEM = "system"
     TOOL = "tool"
+
 
 class ApprovalStatus(str, Enum):
     PENDING = "PENDING"
@@ -16,12 +18,14 @@ class ApprovalStatus(str, Enum):
     REQUEST_CLARIFICATION = "REQUEST_CLARIFICATION"
     SCHEDULED = "SCHEDULED"
 
+
 class ApprovalLevel(str, Enum):
     INFORM_ONLY = "INFORM_ONLY"
     RECOMMENDATION = "RECOMMENDATION"
     ONE_CLICK = "ONE_CLICK"
     TWO_STEP = "TWO_STEP"
     HOUSEHOLD = "HOUSEHOLD"
+
 
 class ApprovalMetadata(BaseModel):
     title: str
@@ -37,6 +41,7 @@ class ApprovalMetadata(BaseModel):
     rollback_availability: bool = False
     referenced_policies: List[str] = Field(default_factory=list)
 
+
 class ToolInvocation(BaseModel):
     id: str
     tool_name: str
@@ -49,6 +54,7 @@ class ToolInvocation(BaseModel):
     approval_status: Optional[ApprovalStatus] = None
     error: Optional[str] = None
 
+
 class AITurn(BaseModel):
     id: str
     role: Role
@@ -56,7 +62,8 @@ class AITurn(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.utcnow)
     tool_invocations: List[ToolInvocation] = Field(default_factory=list)
     metadata: Dict[str, Any] = Field(default_factory=dict)
-    
+
+
 class ToolConfig(BaseModel):
     name: str
     description: str
@@ -65,12 +72,14 @@ class ToolConfig(BaseModel):
     feature_flag: Optional[str] = None
     permissions: List[str] = Field(default_factory=list)
 
+
 class AIContextMetadata(BaseModel):
     active_workspace: Optional[str] = None
     selected_entity_id: Optional[str] = None
     active_mission: Optional[str] = None
     current_time: datetime = Field(default_factory=datetime.utcnow)
     user_persona: Optional[str] = None
+
 
 class ConversationSession(BaseModel):
     id: str
@@ -79,6 +88,7 @@ class ConversationSession(BaseModel):
     context_snapshot: AIContextMetadata
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
+
 
 class AICapability(BaseModel):
     id: str

@@ -3,11 +3,13 @@ from typing import List, Optional, Dict, Any
 from enum import Enum
 from datetime import datetime
 
+
 class ContextPriority(str, Enum):
     LOW = "LOW"
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
     CRITICAL = "CRITICAL"
+
 
 class ContextCardType(str, Enum):
     DEBT_ALERT = "DEBT_ALERT"
@@ -22,6 +24,7 @@ class ContextCardType(str, Enum):
     INSURANCE_GAP = "INSURANCE_GAP"
     AI_RECOMMENDATION = "AI_RECOMMENDATION"
 
+
 class AdaptiveAction(BaseModel):
     id: str
     label: str
@@ -30,12 +33,14 @@ class AdaptiveAction(BaseModel):
     payload: Dict[str, Any]
     primary: bool = False
 
+
 class ContextExplanation(BaseModel):
     reason: str
     expected_impact: str
     recommended_action: str
     confidence_score: int
     supporting_evidence: List[str]
+
 
 class ContextCard(BaseModel):
     id: str
@@ -46,6 +51,7 @@ class ContextCard(BaseModel):
     explanation: ContextExplanation
     actions: List[AdaptiveAction]
     data: Dict[str, Any]
+
 
 class FinancialContext(BaseModel):
     id: str

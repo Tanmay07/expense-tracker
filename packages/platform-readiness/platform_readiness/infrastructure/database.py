@@ -1,15 +1,12 @@
 import os
 from datetime import datetime
-from sqlalchemy import (
-    create_engine, Column, String, Float, DateTime,
-    Boolean
-)
+from sqlalchemy import create_engine, Column, String, Float, DateTime, Boolean
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.dialects.postgresql import JSONB
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://ledger_user:ledger_password@localhost:5432/finance_ledger"
+    "postgresql://ledger_user:ledger_password@localhost:5432/finance_ledger",
 )
 
 engine = create_engine(DATABASE_URL)
@@ -23,7 +20,9 @@ class ArchitectureFitnessModel(Base):
     id = Column(String, primary_key=True)
     component_name = Column(String, nullable=False, index=True)
     compliance_score = Column(Float, nullable=False)
-    violations = Column(JSONB, nullable=True) # e.g. ["cyclic_dependency", "layer_violation"]
+    violations = Column(
+        JSONB, nullable=True
+    )  # e.g. ["cyclic_dependency", "layer_violation"]
     last_scanned_at = Column(DateTime, default=datetime.utcnow)
 
 
@@ -75,6 +74,7 @@ class ProductionReadinessModel(Base):
     """
     The final Go/No-Go aggregated score.
     """
+
     __tablename__ = "readiness_production_score"
 
     id = Column(String, primary_key=True)

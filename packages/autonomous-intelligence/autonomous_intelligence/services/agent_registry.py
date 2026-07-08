@@ -5,6 +5,7 @@ from sqlalchemy import select
 
 from autonomous_intelligence.domain.models import Agent, RiskClassification
 
+
 class AgentRegistryService:
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -18,7 +19,7 @@ class AgentRegistryService:
         capabilities: dict = None,
         allowed_tools: List[str] = None,
         risk_classification: RiskClassification = RiskClassification.MEDIUM,
-        policies: List[str] = None
+        policies: List[str] = None,
     ) -> Agent:
         agent = Agent(
             name=name,
@@ -28,13 +29,13 @@ class AgentRegistryService:
             capabilities=capabilities or {},
             allowed_tools=allowed_tools or [],
             risk_classification=risk_classification,
-            policies=policies or []
+            policies=policies or [],
         )
         self.session.add(agent)
         await self.session.flush()
-        
+
         # In a real event-driven system, we'd publish AgentRegistered to Redis/Kafka here
-        
+
         return agent
 
     async def get_agent(self, agent_id: uuid.UUID) -> Optional[Agent]:

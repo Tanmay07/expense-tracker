@@ -4,10 +4,12 @@ from data_intelligence.domain.events import FinancialEvent
 import uuid
 from datetime import datetime
 
+
 class BaseConnector(ABC):
     @abstractmethod
     def sync(self, user_id: str) -> List[FinancialEvent]:
         pass
+
 
 class GmailConnector(BaseConnector):
     def sync(self, user_id: str) -> List[FinancialEvent]:
@@ -23,9 +25,10 @@ class GmailConnector(BaseConnector):
                 amount=24.50,
                 transaction_type="EXPENSE",
                 merchant_raw="Uber BV",
-                status="PENDING_REVIEW"
+                status="PENDING_REVIEW",
             )
         ]
+
 
 class SMSConnector(BaseConnector):
     def sync(self, user_id: str) -> List[FinancialEvent]:
@@ -41,6 +44,6 @@ class SMSConnector(BaseConnector):
                 amount=5.00,
                 transaction_type="EXPENSE",
                 merchant_raw="STARBUCKS",
-                status="PENDING_REVIEW"
+                status="PENDING_REVIEW",
             )
         ]

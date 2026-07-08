@@ -3,6 +3,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 import uuid
 
+
 class ArchitectureFitness(BaseModel):
     id: str = Field(default_factory=lambda: f"arch_{uuid.uuid4().hex}")
     component_name: str
@@ -10,6 +11,7 @@ class ArchitectureFitness(BaseModel):
     violations: Optional[List[str]] = None
     last_scanned_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
+
 
 class SecurityCertification(BaseModel):
     id: str = Field(default_factory=lambda: f"sec_{uuid.uuid4().hex}")
@@ -19,6 +21,7 @@ class SecurityCertification(BaseModel):
     is_certified: bool = False
     last_scanned_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
+
 
 class PerformanceCertification(BaseModel):
     id: str = Field(default_factory=lambda: f"perf_{uuid.uuid4().hex}")
@@ -30,6 +33,7 @@ class PerformanceCertification(BaseModel):
     last_tested_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
 
+
 class ChaosExperiment(BaseModel):
     id: str = Field(default_factory=lambda: f"chaos_{uuid.uuid4().hex}")
     scenario_name: str
@@ -39,6 +43,7 @@ class ChaosExperiment(BaseModel):
     executed_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
 
+
 class CostProjection(BaseModel):
     id: str = Field(default_factory=lambda: f"cost_{uuid.uuid4().hex}")
     component_name: str
@@ -46,6 +51,7 @@ class CostProjection(BaseModel):
     optimization_recommendations: Optional[List[str]] = None
     calculated_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
+
 
 class ProductionReadiness(BaseModel):
     id: str = Field(default_factory=lambda: f"pr_score_{uuid.uuid4().hex}")

@@ -13,12 +13,14 @@ celery_app.conf.update(
     enable_utc=True,
 )
 
+
 @celery_app.task(name="experimentation.scheduler")
 def schedule_experiment():
     """
     Background worker to transition experiments from DRAFT to RUNNING or PAUSED.
     """
     return {"status": "schedule_complete"}
+
 
 @celery_app.task(name="experimentation.rollout_manager")
 def manage_rollouts():
@@ -27,12 +29,14 @@ def manage_rollouts():
     """
     return {"status": "rollout_managed"}
 
+
 @celery_app.task(name="experimentation.rollback_monitor")
 def monitor_rollback():
     """
     Consumes observability events and triggers RollbackService if anomalies are tied to a flag.
     """
     return {"status": "rollback_check_complete"}
+
 
 @celery_app.task(name="experimentation.analytics_aggregator")
 def aggregate_analytics():

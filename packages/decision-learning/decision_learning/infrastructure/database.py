@@ -1,18 +1,33 @@
-from sqlalchemy import create_engine, Column, String, Float, Boolean, JSON, DateTime, Integer, Text, ARRAY
+from sqlalchemy import (
+    create_engine,
+    Column,
+    String,
+    Float,
+    Boolean,
+    JSON,
+    DateTime,
+    Integer,
+    Text,
+    ARRAY,
+)
 from sqlalchemy.orm import sessionmaker, declarative_base
 from datetime import datetime
 import os
 from pgvector.sqlalchemy import Vector
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://ledger_user:ledger_password@localhost:5432/finance_ledger")
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://ledger_user:ledger_password@localhost:5432/finance_ledger",
+)
 
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+
 class DecisionMemoryModel(Base):
     __tablename__ = "decision_memory"
-    
+
     id = Column(String, primary_key=True, index=True)
     decision_id = Column(String, index=True)
     user_id = Column(String, index=True)
@@ -31,9 +46,10 @@ class DecisionMemoryModel(Base):
     embedding = Column(Vector(1536))
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class PatternModel(Base):
     __tablename__ = "learning_patterns"
-    
+
     id = Column(String, primary_key=True, index=True)
     user_id = Column(String, index=True)
     pattern_type = Column(String, index=True)
@@ -43,9 +59,10 @@ class PatternModel(Base):
     metadata_json = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class PersonalizationModel(Base):
     __tablename__ = "adaptive_personalizations"
-    
+
     id = Column(String, primary_key=True, index=True)
     user_id = Column(String, index=True, unique=True)
     preferred_strategies_json = Column(JSON)
@@ -54,9 +71,10 @@ class PersonalizationModel(Base):
     recommendation_frequency = Column(String)
     last_updated = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+
 class PolicyCacheModel(Base):
     __tablename__ = "policy_decision_cache"
-    
+
     id = Column(String, primary_key=True, index=True)
     decision_id = Column(String, index=True)
     policy_version = Column(Integer)
@@ -66,9 +84,10 @@ class PolicyCacheModel(Base):
     is_valid = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class PredictionModel(Base):
     __tablename__ = "decision_predictions"
-    
+
     id = Column(String, primary_key=True, index=True)
     decision_id = Column(String, index=True)
     user_id = Column(String, index=True)
@@ -79,9 +98,10 @@ class PredictionModel(Base):
     confidence_interval_json = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class FinancialDNAModel(Base):
     __tablename__ = "financial_dna_profiles"
-    
+
     id = Column(String, primary_key=True, index=True)
     user_id = Column(String, index=True, unique=True)
     investor_type = Column(String)
@@ -92,9 +112,10 @@ class FinancialDNAModel(Base):
     goal_discipline_score = Column(Float)
     last_updated = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+
 class BehaviorModel(Base):
     __tablename__ = "behavioral_evolutions"
-    
+
     id = Column(String, primary_key=True, index=True)
     user_id = Column(String, index=True)
     evolution_type = Column(String)
@@ -103,18 +124,20 @@ class BehaviorModel(Base):
     reasoning = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class LearningModel(Base):
     __tablename__ = "continuous_learnings"
-    
+
     id = Column(String, primary_key=True, index=True)
     learning_type = Column(String)
     target_id = Column(String)
     weight_adjustments_json = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class ReplayModel(Base):
     __tablename__ = "learning_replays"
-    
+
     id = Column(String, primary_key=True, index=True)
     session_id = Column(String, index=True)
     replay_data_json = Column(JSON)

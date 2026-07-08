@@ -3,18 +3,20 @@ from typing import Dict, Any, List
 from pydantic import BaseModel
 from ..domain.models import ConnectorMetadata
 
+
 class SyncContext(BaseModel):
     connection_id: str
     user_id: str
     last_sync_token: str | None = None
     parameters: Dict[str, Any] = {}
 
+
 class ConnectorBase(ABC):
     """
     The abstract base class that every EFCIP Connector must implement.
     Ensures a standardized lifecycle across all integrations.
     """
-    
+
     @abstractmethod
     def get_metadata(self) -> ConnectorMetadata:
         """Returns the static metadata defining this connector."""

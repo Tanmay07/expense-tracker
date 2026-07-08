@@ -6,6 +6,7 @@ CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
 
 celery_app = Celery("decision_lifecycle_tasks", broker=CELERY_BROKER_URL)
 
+
 @celery_app.task(name="monitor_blocked_states")
 def monitor_blocked_states():
     """
@@ -18,6 +19,7 @@ def monitor_blocked_states():
         pass
     finally:
         db.close()
+
 
 @celery_app.task(name="evaluate_checkpoints")
 def evaluate_checkpoints():

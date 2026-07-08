@@ -1,11 +1,13 @@
 from pydantic import BaseModel
 
+
 class DurablePostgresRepository:
     """
     PostgreSQL abstraction acting as the System of Record.
     Only finalized or checkpointed cognitive outcomes (Missions, Consensus, Reflections)
     are written here. Ensures durability, auditability, and regulatory compliance.
     """
+
     def __init__(self):
         # Stub for SQLAlchemy / asyncpg
         pass

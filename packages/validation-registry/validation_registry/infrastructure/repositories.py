@@ -3,15 +3,23 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 
 from validation_registry.infrastructure.database import (
-    ArtifactRecordModel, ArtifactLineageModel, EvidencePackageModel, ReuseEvaluationModel
+    ArtifactRecordModel,
+    ArtifactLineageModel,
+    EvidencePackageModel,
+    ReuseEvaluationModel,
 )
 from validation_registry.domain.models import (
-    ArtifactRecord, ArtifactLineage, EvidencePackage, ReuseEvaluation
+    ArtifactRecord,
+    ArtifactLineage,
+    EvidencePackage,
+    ReuseEvaluation,
 )
+
 
 class BaseRepository:
     def __init__(self, session: Session):
         self.session = session
+
 
 class ArtifactRepository(BaseRepository):
     def get_by_id(self, artifact_id: str) -> Optional[ArtifactRecord]:
@@ -20,7 +28,9 @@ class ArtifactRepository(BaseRepository):
         ).scalar_one_or_none()
         return ArtifactRecord.model_validate(result) if result else None
 
-    def list_artifacts(self, category: Optional[str] = None, limit: int = 50) -> List[ArtifactRecord]:
+    def list_artifacts(
+        self, category: Optional[str] = None, limit: int = 50
+    ) -> List[ArtifactRecord]:
         query = select(ArtifactRecordModel)
         if category:
             query = query.where(ArtifactRecordModel.category == category)
@@ -44,9 +54,15 @@ class ArtifactRepository(BaseRepository):
 
 class ArtifactLineageRepository(BaseRepository):
     def get_by_source_id(self, source_id: str) -> List[ArtifactLineage]:
-        results = self.session.execute(
-            select(ArtifactLineageModel).where(ArtifactLineageModel.source_id == source_id)
-        ).scalars().all()
+        results = (
+            self.session.execute(
+                select(ArtifactLineageModel).where(
+                    ArtifactLineageModel.source_id == source_id
+                )
+            )
+            .scalars()
+            .all()
+        )
         return [ArtifactLineage.model_validate(r) for r in results]
 
     def save(self, domain: ArtifactLineage) -> ArtifactLineage:
@@ -89,7 +105,9 @@ class EvidenceRepository(BaseRepository):
 class ReuseRepository(BaseRepository):
     def get_by_input_hash(self, input_hash: str) -> Optional[ReuseEvaluation]:
         result = self.session.execute(
-            select(ReuseEvaluationModel).where(ReuseEvaluationModel.input_hash == input_hash)
+            select(ReuseEvaluationModel).where(
+                ReuseEvaluationModel.input_hash == input_hash
+            )
         ).scalar_one_or_none()
         return ReuseEvaluation.model_validate(result) if result else None
 

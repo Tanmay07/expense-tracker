@@ -4,11 +4,13 @@ from datetime import datetime
 import uuid
 from enum import Enum
 
+
 class Role(str, Enum):
     USER = "user"
     ASSISTANT = "assistant"
     SYSTEM = "system"
     TOOL = "tool"
+
 
 class Message(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -19,6 +21,7 @@ class Message(BaseModel):
     tool_calls: Optional[List[Dict[str, Any]]] = None
     explainability_metadata: Optional[Dict[str, Any]] = None
 
+
 class Conversation(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str
@@ -27,11 +30,13 @@ class Conversation(BaseModel):
     messages: List[Message] = Field(default_factory=list)
     context_summaries: List[str] = Field(default_factory=list)
 
+
 class MemoryItemType(str, Enum):
     PREFERENCE = "PREFERENCE"
     FACT = "FACT"
     DECISION = "DECISION"
     BEHAVIOR = "BEHAVIOR"
+
 
 class MemoryItem(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -42,6 +47,7 @@ class MemoryItem(BaseModel):
     expiration_date: Optional[datetime] = None
     confidence_score: float = 1.0
 
+
 class PromptTemplate(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
@@ -50,6 +56,7 @@ class PromptTemplate(BaseModel):
     description: str
     tags: List[str] = Field(default_factory=list)
 
+
 class AgentDefinition(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
@@ -57,13 +64,15 @@ class AgentDefinition(BaseModel):
     system_prompt: str
     tools: List[str] = Field(default_factory=list)
 
+
 class ActionProposal(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     conversation_id: str
     action_type: str
     parameters: Dict[str, Any]
-    status: str = "PENDING_CONFIRMATION" # PENDING_CONFIRMATION, ACCEPTED, REJECTED
+    status: str = "PENDING_CONFIRMATION"  # PENDING_CONFIRMATION, ACCEPTED, REJECTED
     justification: str
+
 
 class ContextFrame(BaseModel):
     metrics: Dict[str, Any] = Field(default_factory=dict)

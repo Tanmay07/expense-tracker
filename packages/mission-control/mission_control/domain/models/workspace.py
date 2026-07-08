@@ -2,13 +2,17 @@ from typing import List, Dict, Any, Optional
 from pydantic import BaseModel, Field
 from datetime import datetime
 
+
 class WidgetConfig(BaseModel):
     id: str
-    widget_type: str # 'CHART', 'KPI', 'NOTE', 'TABLE', 'AI_CARD'
+    widget_type: str  # 'CHART', 'KPI', 'NOTE', 'TABLE', 'AI_CARD'
     title: str
     data_source: str
-    layout: Dict[str, Any] = Field(default_factory=lambda: {"w": 4, "h": 2, "x": 0, "y": 0})
+    layout: Dict[str, Any] = Field(
+        default_factory=lambda: {"w": 4, "h": 2, "x": 0, "y": 0}
+    )
     settings: Dict[str, Any] = Field(default_factory=dict)
+
 
 class WorkspaceSnapshot(BaseModel):
     id: str
@@ -16,6 +20,7 @@ class WorkspaceSnapshot(BaseModel):
     created_at: datetime
     widgets: List[WidgetConfig]
     layout_config: Dict[str, Any]
+
 
 class WorkspaceModel(BaseModel):
     id: str

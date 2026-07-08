@@ -13,12 +13,14 @@ celery_app.conf.update(
     enable_utc=True,
 )
 
+
 @celery_app.task(name="observability.telemetry_aggregator")
 def aggregate_telemetry():
     """
     Background worker to roll up raw telemetry events into summary MetricRecords.
     """
     return {"status": "aggregation_complete"}
+
 
 @celery_app.task(name="observability.metric_calculator")
 def calculate_metrics():
@@ -27,12 +29,14 @@ def calculate_metrics():
     """
     return {"status": "calculation_complete"}
 
+
 @celery_app.task(name="observability.incident_correlator")
 def correlate_incidents():
     """
     Scans recent errors and metric spikes across domains to proactively open an Incident.
     """
     return {"status": "correlation_complete"}
+
 
 @celery_app.task(name="observability.retention_manager")
 def manage_retention():

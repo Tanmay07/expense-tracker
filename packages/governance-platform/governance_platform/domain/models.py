@@ -2,6 +2,7 @@ from typing import Any, Dict, Optional
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
+
 class GovernancePolicy(BaseModel):
     id: str
     name: str
@@ -14,12 +15,14 @@ class GovernancePolicy(BaseModel):
     updated_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
+
 class GovernancePolicyCreate(BaseModel):
     name: str
     description: Optional[str] = None
     domain: str
     version: str = "1.0.0"
     policy_payload_json: Dict[str, Any]
+
 
 class TrustScore(BaseModel):
     id: str
@@ -34,6 +37,7 @@ class TrustScore(BaseModel):
     last_calculated_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
+
 class MaturityRecord(BaseModel):
     id: str
     asset_id: str
@@ -42,6 +46,7 @@ class MaturityRecord(BaseModel):
     promoted_by: str
     reason: Optional[str] = None
     model_config = ConfigDict(from_attributes=True)
+
 
 class AIGovernanceRecord(BaseModel):
     id: str
@@ -54,6 +59,7 @@ class AIGovernanceRecord(BaseModel):
     evaluated_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
+
 class AIGovernanceRecordCreate(BaseModel):
     asset_id: str
     hallucination_rate: float = 0.0
@@ -61,6 +67,7 @@ class AIGovernanceRecordCreate(BaseModel):
     fairness_score: float = 0.0
     prompt_drift: float = 0.0
     privacy_violation_count: float = 0.0
+
 
 class EvidenceLedgerEntry(BaseModel):
     id: str
@@ -72,6 +79,7 @@ class EvidenceLedgerEntry(BaseModel):
     previous_ledger_id: Optional[str] = None
     recorded_at: datetime
     model_config = ConfigDict(from_attributes=True)
+
 
 class WorkflowState(BaseModel):
     id: str

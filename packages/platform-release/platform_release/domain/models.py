@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from typing import List, Dict, Any
 from datetime import datetime
 
+
 class PlatformBaseline(BaseModel):
     id: str
     version: str
@@ -10,6 +11,7 @@ class PlatformBaseline(BaseModel):
     ai_metrics: Dict[str, float]
     operational_metrics: Dict[str, float]
     timestamp: datetime = Field(default_factory=datetime.utcnow)
+
 
 class CertificationReport(BaseModel):
     id: str
@@ -30,6 +32,7 @@ class CertificationReport(BaseModel):
     recommendations: List[str]
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
+
 class ContractVersionMatrix(BaseModel):
     version: str
     rest_apis: Dict[str, str]
@@ -38,11 +41,13 @@ class ContractVersionMatrix(BaseModel):
     plugins: Dict[str, str]
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
+
 class DocumentationIndex(BaseModel):
     version: str
     documents: Dict[str, str]
     completeness_score: float
     timestamp: datetime = Field(default_factory=datetime.utcnow)
+
 
 class GovernancePolicy(BaseModel):
     policy_id: str
@@ -50,6 +55,7 @@ class GovernancePolicy(BaseModel):
     description: str
     rules: List[str]
     enforced: bool
+
 
 class ReleaseManifest(BaseModel):
     id: str

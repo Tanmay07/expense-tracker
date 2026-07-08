@@ -3,6 +3,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 import uuid
 
+
 class Feature(BaseModel):
     id: str = Field(default_factory=lambda: f"feat_{uuid.uuid4().hex}")
     name: str
@@ -15,6 +16,7 @@ class Feature(BaseModel):
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
 
+
 class FeatureCreate(BaseModel):
     name: str
     version: str
@@ -22,6 +24,7 @@ class FeatureCreate(BaseModel):
     feature_type: str
     owner_id: str
     dependencies: Optional[List[str]] = None
+
 
 class FeatureFlag(BaseModel):
     id: str = Field(default_factory=lambda: f"flag_{uuid.uuid4().hex}")
@@ -34,6 +37,7 @@ class FeatureFlag(BaseModel):
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
 
+
 class Rollout(BaseModel):
     id: str = Field(default_factory=lambda: f"roll_{uuid.uuid4().hex}")
     feature_id: str
@@ -43,6 +47,7 @@ class Rollout(BaseModel):
     started_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
+
 
 class Experiment(BaseModel):
     id: str = Field(default_factory=lambda: f"exp_{uuid.uuid4().hex}")
@@ -56,12 +61,14 @@ class Experiment(BaseModel):
     ended_at: Optional[datetime] = None
     model_config = ConfigDict(from_attributes=True)
 
+
 class ExperimentCreate(BaseModel):
     name: str
     experiment_type: str
     variants_json: Dict[str, Any]
     weights_json: Dict[str, int]
     target_metrics: List[str]
+
 
 class ExperimentResult(BaseModel):
     id: str = Field(default_factory=lambda: f"expr_{uuid.uuid4().hex}")

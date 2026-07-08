@@ -10,6 +10,7 @@ app = FastAPI(
 
 app.include_router(router, prefix="/learning", tags=["learning"])
 
+
 @app.on_event("startup")
 def startup_event():
     # Attempt OpenTelemetry instrumentation. In a real environment, the provider would be configured.
@@ -17,7 +18,8 @@ def startup_event():
         FastAPIInstrumentor.instrument_app(app)
     except Exception:
         pass
-        
+
+
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "service": "hierarchical-learning"}

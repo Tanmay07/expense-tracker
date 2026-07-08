@@ -4,6 +4,7 @@ from datetime import datetime
 import uuid
 from enum import Enum
 
+
 class AutomationLevel(str, Enum):
     MANUAL = "MANUAL"
     SEMI_AUTOMATED = "SEMI_AUTOMATED"
@@ -11,17 +12,20 @@ class AutomationLevel(str, Enum):
     FULLY_AUTOMATED = "FULLY_AUTOMATED"
     SIMULATION_ONLY = "SIMULATION_ONLY"
 
+
 class RiskLevel(str, Enum):
     LOW = "LOW"
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
     CRITICAL = "CRITICAL"
 
+
 class ExecutionPrerequisite(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     type: str  # e.g., AUTHENTICATION, KYC, SUFFICIENT_BALANCE
     is_met: bool = False
     details: Dict[str, Any] = Field(default_factory=dict)
+
 
 class ExecutionCapability(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -35,11 +39,13 @@ class ExecutionCapability(BaseModel):
     is_active: bool = True
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+
 class ApprovalStatus(str, Enum):
     PENDING = "PENDING"
     APPROVED = "APPROVED"
     REJECTED = "REJECTED"
     EXPIRED = "EXPIRED"
+
 
 class ApprovalRequest(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -51,6 +57,7 @@ class ApprovalRequest(BaseModel):
     reason: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     expires_at: Optional[datetime] = None
+
 
 class ExecutionRoute(BaseModel):
     step_id: str

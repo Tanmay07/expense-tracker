@@ -7,15 +7,16 @@ from ..domain.models import Message
 
 router = APIRouter()
 
+
 class ChatRequest(BaseModel):
     user_id: str
     conversation_id: str
     content: str
 
+
 @router.post("/chat", response_model=Message)
 def chat(
-    request: ChatRequest,
-    coach_service: CoachService = Depends(get_coach_service)
+    request: ChatRequest, coach_service: CoachService = Depends(get_coach_service)
 ):
     try:
         response_message = coach_service.process_message(

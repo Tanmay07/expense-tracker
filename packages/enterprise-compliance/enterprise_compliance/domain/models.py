@@ -4,17 +4,20 @@ from datetime import datetime
 import uuid
 from enum import Enum
 
+
 class RiskLevel(str, Enum):
     LOW = "LOW"
     MODERATE = "MODERATE"
     HIGH = "HIGH"
     CRITICAL = "CRITICAL"
 
+
 class DecisionStatus(str, Enum):
     APPROVED = "APPROVED"
     REJECTED = "REJECTED"
     REQUIRES_REVIEW = "REQUIRES_REVIEW"
     WARNING = "WARNING"
+
 
 class PolicyType(str, Enum):
     ALLOCATION = "ALLOCATION"
@@ -25,10 +28,12 @@ class PolicyType(str, Enum):
     BROKER = "BROKER"
     CUSTOM = "CUSTOM"
 
+
 class PolicySeverity(str, Enum):
     INFO = "INFO"
     WARNING = "WARNING"
     VIOLATION = "VIOLATION"
+
 
 class RiskProfile(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -42,6 +47,7 @@ class RiskProfile(BaseModel):
     overall_risk_level: RiskLevel
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
+
 class CompliancePolicy(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
@@ -54,6 +60,7 @@ class CompliancePolicy(BaseModel):
     is_active: bool = True
     version: int = 1
 
+
 class SuitabilityProfile(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str
@@ -61,19 +68,21 @@ class SuitabilityProfile(BaseModel):
     confidence_score: float
     last_evaluated_at: datetime = Field(default_factory=datetime.utcnow)
     factors: Dict[str, Any] = Field(default_factory=dict)
-    
+
+
 class InvestmentConstraint(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str
     constraint_type: str  # e.g., "ASSET_CLASS_LIMIT", "ESG_PREFERENCE"
-    target: str          # e.g., "CRYPTO", "FOSSIL_FUELS"
-    operator: str        # e.g., "MAX", "EXCLUDE"
+    target: str  # e.g., "CRYPTO", "FOSSIL_FUELS"
+    operator: str  # e.g., "MAX", "EXCLUDE"
     value: Any
+
 
 class DecisionRecord(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     context_id: str
-    action_type: str     # e.g., "PORTFOLIO_REBALANCE", "RECOMMENDATION"
+    action_type: str  # e.g., "PORTFOLIO_REBALANCE", "RECOMMENDATION"
     status: DecisionStatus
     confidence: float
     policies_evaluated: List[str] = Field(default_factory=list)

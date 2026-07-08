@@ -13,12 +13,14 @@ celery_app.conf.update(
     enable_utc=True,
 )
 
+
 @celery_app.task(name="registry.artifact_indexer")
 def index_artifact(artifact_id: str):
     """
     Background worker to extract metadata and push semantic embeddings into pgvector.
     """
     return {"status": "indexed", "artifact_id": artifact_id}
+
 
 @celery_app.task(name="registry.integrity_verifier")
 def verify_integrity(artifact_id: str):
@@ -27,6 +29,7 @@ def verify_integrity(artifact_id: str):
     """
     return {"status": "verified", "artifact_id": artifact_id}
 
+
 @celery_app.task(name="registry.retention_manager")
 def manage_retention():
     """
@@ -34,12 +37,14 @@ def manage_retention():
     """
     return {"status": "retention_run_complete"}
 
+
 @celery_app.task(name="registry.reuse_analyzer")
 def analyze_reuse(artifact_id: str):
     """
     Scans recent artifacts to proactively build the reuse equivalency graph.
     """
     return {"status": "reuse_analysis_complete", "artifact_id": artifact_id}
+
 
 @celery_app.task(name="registry.evidence_packager")
 def build_evidence_package(package_id: str):

@@ -13,12 +13,14 @@ celery_app.conf.update(
     enable_utc=True,
 )
 
+
 @celery_app.task(name="marketplace.indexer")
 def index_marketplace_assets():
     """
     Periodically syncs new published assets into pgvector/Elasticsearch for fast semantic search.
     """
     return {"status": "success"}
+
 
 @celery_app.task(name="marketplace.ranking_calculator")
 def calculate_marketplace_rankings():
@@ -27,12 +29,14 @@ def calculate_marketplace_rankings():
     """
     return {"status": "success"}
 
+
 @celery_app.task(name="marketplace.certification_validator")
 def validate_certifications():
     """
     Checks for expired certifications or revoked compliance requirements.
     """
     return {"status": "success"}
+
 
 @celery_app.task(name="marketplace.governance_monitor")
 def monitor_asset_governance():

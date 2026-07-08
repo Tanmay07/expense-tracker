@@ -5,6 +5,7 @@ from sqlalchemy import select
 
 from autonomous_intelligence.domain.models import Goal, GoalType
 
+
 class GoalEngineService:
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -16,7 +17,7 @@ class GoalEngineService:
         goal_type: GoalType,
         target_amount: Optional[float] = None,
         target_date: Optional[str] = None,
-        parameters: dict = None
+        parameters: dict = None,
     ) -> Goal:
         goal = Goal(
             agent_id=agent_id,
@@ -24,7 +25,7 @@ class GoalEngineService:
             goal_type=goal_type,
             target_amount=target_amount,
             target_date=target_date,
-            parameters=parameters or {}
+            parameters=parameters or {},
         )
         self.session.add(goal)
         await self.session.flush()
@@ -40,7 +41,9 @@ class GoalEngineService:
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
 
-    async def update_goal_progress(self, goal_id: uuid.UUID, current_amount: float) -> Optional[Goal]:
+    async def update_goal_progress(
+        self, goal_id: uuid.UUID, current_amount: float
+    ) -> Optional[Goal]:
         goal = await self.get_goal(goal_id)
         if goal:
             goal.current_amount = current_amount

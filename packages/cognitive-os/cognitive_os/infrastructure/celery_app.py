@@ -7,7 +7,7 @@ celery_app = Celery(
     "cognitive_os",
     broker=REDIS_URL,
     backend=REDIS_URL,
-    include=["cognitive_os.infrastructure.workers"]
+    include=["cognitive_os.infrastructure.workers"],
 )
 
 celery_app.conf.update(
@@ -18,6 +18,8 @@ celery_app.conf.update(
     enable_utc=True,
     task_routes={
         "cognitive_os.infrastructure.workers.execute_mission": {"queue": "planning"},
-        "cognitive_os.infrastructure.workers.reflect_on_mission": {"queue": "reflection"}
-    }
+        "cognitive_os.infrastructure.workers.reflect_on_mission": {
+            "queue": "reflection"
+        },
+    },
 )

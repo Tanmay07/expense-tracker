@@ -8,6 +8,7 @@ from autonomous_intelligence.domain.models import Plan
 
 logger = logging.getLogger(__name__)
 
+
 class PlanningService:
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -17,28 +18,28 @@ class PlanningService:
         agent_id: uuid.UUID,
         mission_id: Optional[uuid.UUID],
         horizon: str,
-        context: Dict[str, Any]
+        context: Dict[str, Any],
     ) -> Plan:
         logger.info(f"Generating {horizon} plan for agent {agent_id}")
-        
+
         # In reality, this calls an LLM or Planning Engine logic
         content = {
             "steps": [
                 {"action": "analyze_expenses", "timeframe": "day_1"},
-                {"action": "propose_reallocation", "timeframe": "day_2"}
+                {"action": "propose_reallocation", "timeframe": "day_2"},
             ],
-            "context_used": context
+            "context_used": context,
         }
-        
+
         plan = Plan(
             agent_id=agent_id,
             mission_id=mission_id,
             horizon=horizon,
             content=content,
             is_contingency=context.get("is_contingency", False),
-            is_alternative=context.get("is_alternative", False)
+            is_alternative=context.get("is_alternative", False),
         )
-        
+
         self.session.add(plan)
         await self.session.flush()
         return plan

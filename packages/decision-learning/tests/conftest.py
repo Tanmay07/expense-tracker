@@ -5,14 +5,17 @@ from decision_learning.api.dependencies import get_db
 
 from unittest.mock import MagicMock
 
+
 @pytest.fixture(scope="session")
 def db_engine():
     yield MagicMock()
+
 
 @pytest.fixture(scope="function")
 def db_session(db_engine):
     session_mock = MagicMock()
     yield session_mock
+
 
 @pytest.fixture(scope="function")
 def client(db_session):

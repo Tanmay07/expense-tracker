@@ -3,17 +3,25 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 
 from observability_platform.infrastructure.database import (
-    TelemetryEventModel, MetricRecordModel, IncidentModel,
-    SLORecordModel, DashboardConfigModel
+    TelemetryEventModel,
+    MetricRecordModel,
+    IncidentModel,
+    SLORecordModel,
+    DashboardConfigModel,
 )
 from observability_platform.domain.models import (
-    TelemetryEvent, MetricRecord, Incident,
-    SLORecord, DashboardConfig
+    TelemetryEvent,
+    MetricRecord,
+    Incident,
+    SLORecord,
+    DashboardConfig,
 )
+
 
 class BaseRepository:
     def __init__(self, session: Session):
         self.session = session
+
 
 class TelemetryRepository(BaseRepository):
     def save(self, domain: TelemetryEvent) -> TelemetryEvent:
@@ -29,14 +37,18 @@ class TelemetryRepository(BaseRepository):
         self.session.commit()
         self.session.refresh(model)
         return TelemetryEvent.model_validate(model)
-        
+
     def get_by_category(self, category: str, limit: int = 100) -> List[TelemetryEvent]:
-        results = self.session.execute(
-            select(TelemetryEventModel)
-            .where(TelemetryEventModel.category == category)
-            .order_by(TelemetryEventModel.timestamp.desc())
-            .limit(limit)
-        ).scalars().all()
+        results = (
+            self.session.execute(
+                select(TelemetryEventModel)
+                .where(TelemetryEventModel.category == category)
+                .order_by(TelemetryEventModel.timestamp.desc())
+                .limit(limit)
+            )
+            .scalars()
+            .all()
+        )
         return [TelemetryEvent.model_validate(r) for r in results]
 
 

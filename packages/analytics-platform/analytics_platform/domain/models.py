@@ -3,6 +3,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 import uuid
 
+
 class ExperimentRegistry(BaseModel):
     id: str = Field(default_factory=lambda: f"exp_reg_{uuid.uuid4().hex}")
     name: str
@@ -18,6 +19,7 @@ class ExperimentRegistry(BaseModel):
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
 
+
 class ExperimentRegistryCreate(BaseModel):
     name: str
     description: Optional[str] = None
@@ -25,6 +27,7 @@ class ExperimentRegistryCreate(BaseModel):
     business_objective: str
     hypothesis: str
     feature_id: Optional[str] = None
+
 
 class StatisticalGuardrail(BaseModel):
     id: str = Field(default_factory=lambda: f"grdl_{uuid.uuid4().hex}")
@@ -39,6 +42,7 @@ class StatisticalGuardrail(BaseModel):
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
 
+
 class KPICatalog(BaseModel):
     id: str = Field(default_factory=lambda: f"kpi_{uuid.uuid4().hex}")
     kpi_name: str
@@ -51,6 +55,7 @@ class KPICatalog(BaseModel):
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
 
+
 class Insight(BaseModel):
     id: str = Field(default_factory=lambda: f"ins_{uuid.uuid4().hex}")
     insight_type: str
@@ -60,6 +65,7 @@ class Insight(BaseModel):
     metadata_json: Optional[Dict[str, Any]] = None
     generated_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
+
 
 class ExecutiveReport(BaseModel):
     id: str = Field(default_factory=lambda: f"rep_{uuid.uuid4().hex}")

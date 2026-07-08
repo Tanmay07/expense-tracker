@@ -8,6 +8,7 @@ CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
 
 celery_app = Celery("decision_intelligence_tasks", broker=CELERY_BROKER_URL)
 
+
 @celery_app.task(name="optimize_portfolio")
 def optimize_portfolio(user_id: str, profile_data: dict):
     db = SessionLocal()
@@ -18,6 +19,7 @@ def optimize_portfolio(user_id: str, profile_data: dict):
         # Would emit a domain event here to notify Mission Control
     finally:
         db.close()
+
 
 @celery_app.task(name="calculate_opportunity_cost")
 def calculate_opportunity_cost(candidate_id: str):

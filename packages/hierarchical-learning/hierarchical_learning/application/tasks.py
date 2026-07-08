@@ -13,6 +13,7 @@ celery_app.conf.update(
     enable_utc=True,
 )
 
+
 @celery_app.task(name="hlkep.promotion_worker")
 def process_knowledge_promotions():
     """
@@ -21,6 +22,7 @@ def process_knowledge_promotions():
     """
     return {"status": "success", "processed_promotions": 0}
 
+
 @celery_app.task(name="hlkep.validation_worker")
 def validate_learning_observations():
     """
@@ -28,13 +30,15 @@ def validate_learning_observations():
     """
     return {"status": "success"}
 
+
 @celery_app.task(name="hlkep.decay_worker")
 def evaluate_knowledge_decay():
     """
-    Iterates through stored knowledge across scopes and reduces confidence based on 
+    Iterates through stored knowledge across scopes and reduces confidence based on
     the DecayService. Deprecates knowledge that falls below threshold.
     """
     return {"status": "success"}
+
 
 @celery_app.task(name="hlkep.consensus_builder")
 def build_household_consensus(household_id: str, topic: str):
@@ -44,6 +48,7 @@ def build_household_consensus(household_id: str, topic: str):
     """
     return {"status": "success", "household_id": household_id, "topic": topic}
 
+
 @celery_app.task(name="hlkep.regional_aggregator")
 def aggregate_regional_intelligence():
     """
@@ -52,12 +57,14 @@ def aggregate_regional_intelligence():
     """
     return {"status": "success"}
 
+
 @celery_app.task(name="hlkep.global_aggregator")
 def aggregate_global_intelligence():
     """
     Aggregates regional intelligence to update GlobalLearning heuristics.
     """
     return {"status": "success"}
+
 
 @celery_app.task(name="hlkep.privacy_auditor")
 def audit_privacy_compliance():

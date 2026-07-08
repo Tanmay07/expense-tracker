@@ -3,6 +3,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 import uuid
 
+
 class TelemetryEvent(BaseModel):
     id: str = Field(default_factory=lambda: f"tel_{uuid.uuid4().hex}")
     category: str
@@ -13,12 +14,14 @@ class TelemetryEvent(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
 
+
 class TelemetryEventCreate(BaseModel):
     category: str
     trace_id: Optional[str] = None
     correlation_id: Optional[str] = None
     source: str
     payload: Dict[str, Any]
+
 
 class MetricRecord(BaseModel):
     id: str = Field(default_factory=lambda: f"met_{uuid.uuid4().hex}")
@@ -29,11 +32,13 @@ class MetricRecord(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
 
+
 class MetricRecordCreate(BaseModel):
     metric_name: str
     metric_type: str
     value: float
     tags: Optional[Dict[str, str]] = None
+
 
 class Incident(BaseModel):
     id: str = Field(default_factory=lambda: f"inc_{uuid.uuid4().hex}")
@@ -47,6 +52,7 @@ class Incident(BaseModel):
     resolved_at: Optional[datetime] = None
     model_config = ConfigDict(from_attributes=True)
 
+
 class SLORecord(BaseModel):
     id: str = Field(default_factory=lambda: f"slo_{uuid.uuid4().hex}")
     service_name: str
@@ -57,6 +63,7 @@ class SLORecord(BaseModel):
     is_breached: bool = False
     evaluated_at: datetime = Field(default_factory=datetime.utcnow)
     model_config = ConfigDict(from_attributes=True)
+
 
 class DashboardConfig(BaseModel):
     id: str = Field(default_factory=lambda: f"dash_{uuid.uuid4().hex}")

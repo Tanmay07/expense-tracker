@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 
+
 class KnowledgeCapabilityMatrix(BaseModel):
     id: str
     asset_id: str
@@ -14,8 +15,9 @@ class KnowledgeCapabilityMatrix(BaseModel):
     explainability_level: str
     ai_usability_json: Dict[str, Any]
     updated_at: datetime
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class KnowledgeCapabilityMatrixCreate(BaseModel):
     scope: str
@@ -26,6 +28,7 @@ class KnowledgeCapabilityMatrixCreate(BaseModel):
     promotion_eligible_scopes: List[str] = Field(default_factory=list)
     explainability_level: str = "STANDARD"
     ai_usability_json: Dict[str, Any] = Field(default_factory=dict)
+
 
 class AssetRanking(BaseModel):
     id: str
@@ -41,8 +44,9 @@ class AssetRanking(BaseModel):
     decision_success_rate: float
     overall_quality_score: float
     last_calculated: datetime
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class Certification(BaseModel):
     id: str
@@ -54,8 +58,9 @@ class Certification(BaseModel):
     security_metadata_json: Dict[str, Any]
     granted_at: Optional[datetime] = None
     expires_at: Optional[datetime] = None
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class MarketplaceAsset(BaseModel):
     id: str
@@ -72,12 +77,13 @@ class MarketplaceAsset(BaseModel):
     dependencies_json: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
-    
+
     capability_matrix: Optional[KnowledgeCapabilityMatrix] = None
     certification: Optional[Certification] = None
     ranking: Optional[AssetRanking] = None
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class MarketplaceAssetCreate(BaseModel):
     asset_type: str

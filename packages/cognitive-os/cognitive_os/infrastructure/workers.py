@@ -16,6 +16,7 @@ db = DurablePostgresRepository()
 orchestrator = CognitiveOrchestrator(registry, router, transient_store)
 reflection_engine = ReflectionEngine(db)
 
+
 @celery_app.task(bind=True, max_retries=3)
 def execute_mission(self, mission_id: str, context: dict):
     """
@@ -24,22 +25,27 @@ def execute_mission(self, mission_id: str, context: dict):
     try:
         # Run the async orchestrator in a synchronous celery task wrapper
         result = asyncio.run(orchestrator.orchestrate_mission(mission_id, context))
-        
+
         # Trigger reflection asynchronously after execution
         reflect_on_mission.delay(mission_id, result)
-        
+
         return result
     except Exception as e:
-        self.retry(exc=e, countdown=60) # Retry after 1 minute
+        self.retry(exc=e, countdown=60)  # Retry after 1 minute
+
 
 @celery_app.task(bind=True)
 def reflect_on_mission(self, mission_id: str, execution_data: dict):
     """
     Background worker that evaluates mission outcome.
     """
-    reflection_result = reflection_engine.evaluate_mission_outcome(mission_id, execution_data)
-    
+    reflection_result = reflection_engine.evaluate_mission_outcome(
+        mission_id, execution_data
+    )
+
     # Store reflection result in Learning Platform (stub)
-    print(f"Mission {mission_id} completed with score: {reflection_result.success_score}")
-    
+    print(
+        f"Mission {mission_id} completed with score: {reflection_result.success_score}"
+    )
+
     return reflection_result.model_dump()

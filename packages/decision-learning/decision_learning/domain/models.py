@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 
+
 class DecisionMemoryBase(BaseModel):
     decision_id: str
     user_id: str
@@ -19,8 +20,10 @@ class DecisionMemoryBase(BaseModel):
     user_feedback_score: Optional[float] = None
     embedding: Optional[List[float]] = None
 
+
 class DecisionMemoryCreate(DecisionMemoryBase):
     pass
+
 
 class DecisionMemoryResponse(DecisionMemoryBase):
     id: str
@@ -36,8 +39,10 @@ class PatternBase(BaseModel):
     evidence_events: List[str] = Field(default_factory=list)
     metadata_json: Dict[str, Any] = Field(default_factory=dict)
 
+
 class PatternCreate(PatternBase):
     pass
+
 
 class PatternResponse(PatternBase):
     id: str
@@ -52,8 +57,10 @@ class PersonalizationBase(BaseModel):
     risk_preference: Optional[str] = None
     recommendation_frequency: Optional[str] = None
 
+
 class PersonalizationCreate(PersonalizationBase):
     pass
+
 
 class PersonalizationResponse(PersonalizationBase):
     id: str
@@ -69,8 +76,10 @@ class PolicyCacheBase(BaseModel):
     expires_at: Optional[datetime] = None
     is_valid: bool = True
 
+
 class PolicyCacheCreate(PolicyCacheBase):
     pass
+
 
 class PolicyCacheResponse(PolicyCacheBase):
     id: str
@@ -87,8 +96,10 @@ class PredictionBase(BaseModel):
     risk_reduction: float
     confidence_interval_json: Dict[str, Any] = Field(default_factory=dict)
 
+
 class PredictionCreate(PredictionBase):
     pass
+
 
 class PredictionResponse(PredictionBase):
     id: str
@@ -105,8 +116,10 @@ class FinancialDNABase(BaseModel):
     impulse_spending_index: float = 0.0
     goal_discipline_score: float = 0.0
 
+
 class FinancialDNACreate(FinancialDNABase):
     pass
+
 
 class FinancialDNAResponse(FinancialDNABase):
     id: str
@@ -121,8 +134,10 @@ class BehaviorBase(BaseModel):
     new_value: Optional[str] = None
     reasoning: Optional[str] = None
 
+
 class BehaviorCreate(BehaviorBase):
     pass
+
 
 class BehaviorResponse(BehaviorBase):
     id: str
@@ -135,8 +150,10 @@ class LearningBase(BaseModel):
     target_id: str
     weight_adjustments_json: Dict[str, Any] = Field(default_factory=dict)
 
+
 class LearningCreate(LearningBase):
     pass
+
 
 class LearningResponse(LearningBase):
     id: str
@@ -148,8 +165,10 @@ class ReplayBase(BaseModel):
     session_id: str
     replay_data_json: Dict[str, Any] = Field(default_factory=dict)
 
+
 class ReplayCreate(ReplayBase):
     pass
+
 
 class ReplayResponse(ReplayBase):
     id: str

@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 
+
 class ValidationProfile(BaseModel):
     id: str
     name: str
@@ -15,6 +16,7 @@ class ValidationProfile(BaseModel):
     created_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
+
 class ValidationProfileCreate(BaseModel):
     name: str
     profile_type: str
@@ -24,6 +26,7 @@ class ValidationProfileCreate(BaseModel):
     scoring_weights_json: Dict[str, Any] = Field(default_factory=dict)
     timeout_seconds: int = 3600
     approval_requirements: List[str] = Field(default_factory=list)
+
 
 class FitnessScore(BaseModel):
     id: str
@@ -41,6 +44,7 @@ class FitnessScore(BaseModel):
     composite_score: float
     model_config = ConfigDict(from_attributes=True)
 
+
 class BenchmarkRecord(BaseModel):
     id: str
     run_id: str
@@ -49,6 +53,7 @@ class BenchmarkRecord(BaseModel):
     regression_report_json: Dict[str, Any] = Field(default_factory=dict)
     improvement_analysis_json: Dict[str, Any] = Field(default_factory=dict)
     model_config = ConfigDict(from_attributes=True)
+
 
 class PromptValidation(BaseModel):
     id: str
@@ -62,6 +67,7 @@ class PromptValidation(BaseModel):
     token_usage: int = 0
     model_compatibility: List[str] = Field(default_factory=list)
     model_config = ConfigDict(from_attributes=True)
+
 
 class ReplaySnapshot(BaseModel):
     id: str
@@ -77,6 +83,7 @@ class ReplaySnapshot(BaseModel):
     validation_configuration_json: Dict[str, Any] = Field(default_factory=dict)
     model_config = ConfigDict(from_attributes=True)
 
+
 class SandboxCertification(BaseModel):
     id: str
     run_id: str
@@ -87,6 +94,7 @@ class SandboxCertification(BaseModel):
     review_schedule_json: Dict[str, Any] = Field(default_factory=dict)
     model_config = ConfigDict(from_attributes=True)
 
+
 class SandboxRun(BaseModel):
     id: str
     asset_id: str
@@ -96,15 +104,16 @@ class SandboxRun(BaseModel):
     stage_results_json: Dict[str, Any] = Field(default_factory=dict)
     started_at: datetime
     completed_at: Optional[datetime] = None
-    
+
     profile: Optional[ValidationProfile] = None
     fitness_score: Optional[FitnessScore] = None
     prompt_validation: Optional[PromptValidation] = None
     benchmark: Optional[BenchmarkRecord] = None
     replay_snapshot: Optional[ReplaySnapshot] = None
     certification: Optional[SandboxCertification] = None
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class SandboxRunCreate(BaseModel):
     asset_id: str

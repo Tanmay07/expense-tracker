@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 
+
 class ConsentProfile(BaseModel):
     id: str
     user_id: str
@@ -12,8 +13,9 @@ class ConsentProfile(BaseModel):
     federated_learning_opt_in: bool = False
     differential_privacy_budget: float = 1.0
     last_updated: datetime
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class GlobalLearning(BaseModel):
     id: str
@@ -24,8 +26,9 @@ class GlobalLearning(BaseModel):
     last_updated: datetime
     version: int
     status: str
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class RegionalLearning(BaseModel):
     id: str
@@ -37,8 +40,9 @@ class RegionalLearning(BaseModel):
     last_updated: datetime
     version: int
     overrides_global: bool
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class HouseholdLearning(BaseModel):
     id: str
@@ -49,8 +53,9 @@ class HouseholdLearning(BaseModel):
     consensus_score: float
     last_updated: datetime
     version: int
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class HouseholdConsensus(BaseModel):
     id: str
@@ -62,8 +67,9 @@ class HouseholdConsensus(BaseModel):
     status: str
     created_at: datetime
     resolved_at: Optional[datetime] = None
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class PersonalLearning(BaseModel):
     id: str
@@ -74,8 +80,9 @@ class PersonalLearning(BaseModel):
     last_updated: datetime
     decay_rate: float
     version: int
-    
+
     model_config = ConfigDict(from_attributes=True)
+
 
 class KnowledgePromotion(BaseModel):
     id: str
@@ -88,10 +95,12 @@ class KnowledgePromotion(BaseModel):
     evidence_json: Dict[str, Any]
     created_at: datetime
     resolved_at: Optional[datetime] = None
-    
+
     model_config = ConfigDict(from_attributes=True)
 
+
 # Update / Create requests
+
 
 class ConsentProfileUpdate(BaseModel):
     allow_anonymous_aggregation: Optional[bool] = None
@@ -101,12 +110,14 @@ class ConsentProfileUpdate(BaseModel):
     federated_learning_opt_in: Optional[bool] = None
     differential_privacy_budget: Optional[float] = None
 
+
 class PersonalLearningCreate(BaseModel):
     user_id: str
     topic: str
     personal_knowledge_json: Dict[str, Any]
     financial_dna_snapshot: Dict[str, Any]
     semantic_embedding: Optional[List[float]] = None
+
 
 class KnowledgePromotionCreate(BaseModel):
     source_scope: str
@@ -115,6 +126,7 @@ class KnowledgePromotionCreate(BaseModel):
     topic: str
     proposed_knowledge_json: Dict[str, Any]
     evidence_json: Dict[str, Any]
+
 
 class HouseholdConsensusCreate(BaseModel):
     household_id: str

@@ -2,10 +2,12 @@ from typing import Dict, List, Optional
 from ..domain.models import ConnectorMetadata
 from ..sdk.connector_base import ConnectorBase
 
+
 class ConnectorRegistryService:
     """
     Central registry for discovering and loading installed Connectors.
     """
+
     def __init__(self):
         self._connectors: Dict[str, ConnectorBase] = {}
 
@@ -20,4 +22,8 @@ class ConnectorRegistryService:
         return [c.get_metadata() for c in self._connectors.values()]
 
     def list_active_connectors(self) -> List[ConnectorMetadata]:
-        return [c.get_metadata() for c in self._connectors.values() if c.get_metadata().status.value == "ACTIVE"]
+        return [
+            c.get_metadata()
+            for c in self._connectors.values()
+            if c.get_metadata().status.value == "ACTIVE"
+        ]

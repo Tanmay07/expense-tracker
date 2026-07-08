@@ -3,6 +3,7 @@ import httpx
 from httpx import AsyncClient
 from autonomous_intelligence.presentation.api import app
 
+
 @pytest_asyncio.fixture
 async def async_client():
     transport = httpx.ASGITransport(app=app)

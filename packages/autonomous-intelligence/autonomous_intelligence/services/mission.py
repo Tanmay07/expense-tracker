@@ -8,6 +8,7 @@ from autonomous_intelligence.domain.models import Mission, HITLClassification
 
 logger = logging.getLogger(__name__)
 
+
 class MissionService:
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -19,7 +20,7 @@ class MissionService:
         hitl_classification: HITLClassification,
         goal_id: Optional[uuid.UUID] = None,
         description: str = "",
-        plan: dict = None
+        plan: dict = None,
     ) -> Mission:
         logger.info(f"Creating mission {name} for agent {agent_id}")
         mission = Mission(
@@ -28,7 +29,7 @@ class MissionService:
             name=name,
             description=description,
             plan=plan or {},
-            hitl_classification=hitl_classification
+            hitl_classification=hitl_classification,
         )
         self.session.add(mission)
         await self.session.flush()
@@ -44,7 +45,9 @@ class MissionService:
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
 
-    async def update_mission_status(self, mission_id: uuid.UUID, status: str) -> Optional[Mission]:
+    async def update_mission_status(
+        self, mission_id: uuid.UUID, status: str
+    ) -> Optional[Mission]:
         mission = await self.get_mission(mission_id)
         if mission:
             mission.status = status

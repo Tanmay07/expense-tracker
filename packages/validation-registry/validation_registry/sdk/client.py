@@ -2,23 +2,24 @@ import httpx
 from typing import Dict, Any, List, Optional
 import json
 
+
 class ValidationArtifactSDK:
     """
     SDK for the Enterprise Validation Artifact Registry.
     Provides methods to register, search, link lineage, and package evidence.
     """
-    
+
     def __init__(self, base_url: str):
         self.base_url = base_url.rstrip("/")
         self.client = httpx.Client(base_url=self.base_url)
 
-    def registerArtifact(self, metadata: Dict[str, Any], payload_bytes: bytes) -> Dict[str, Any]:
+    def registerArtifact(
+        self, metadata: Dict[str, Any], payload_bytes: bytes
+    ) -> Dict[str, Any]:
         files = {
             "payload_file": ("artifact.bin", payload_bytes, "application/octet-stream"),
         }
-        data = {
-            "metadata": json.dumps(metadata)
-        }
+        data = {"metadata": json.dumps(metadata)}
         resp = self.client.post("/api/v1/artifacts", files=files, data=data)
         resp.raise_for_status()
         return resp.json()
@@ -47,7 +48,9 @@ class ValidationArtifactSDK:
         resp.raise_for_status()
         return resp.json()
 
-    def generateEvidencePackage(self, name: str, artifact_ids: List[str]) -> Dict[str, Any]:
+    def generateEvidencePackage(
+        self, name: str, artifact_ids: List[str]
+    ) -> Dict[str, Any]:
         payload = {"name": name, "artifact_ids": artifact_ids}
         resp = self.client.post("/api/v1/evidence", json=payload)
         resp.raise_for_status()

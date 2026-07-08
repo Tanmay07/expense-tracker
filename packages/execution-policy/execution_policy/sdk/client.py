@@ -1,6 +1,7 @@
 import requests
 from typing import Dict, Any
 
+
 class ExecutionPolicySDK:
     def __init__(self, base_url: str = "http://localhost:8010/api/v1/execution-policy"):
         self.base_url = base_url

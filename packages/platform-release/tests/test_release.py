@@ -5,12 +5,14 @@ def test_capture_baseline(client):
     assert data["status"] == "captured"
     assert "baseline_id" in data
 
+
 def test_freeze_contracts(client):
     response = client.post("/api/v1/platform/contracts/freeze?version=1.0.0")
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "frozen"
     assert "contract_matrix_id" in data
+
 
 def test_freeze_documentation(client):
     response = client.post("/api/v1/platform/documentation/freeze?version=1.0.0")
@@ -19,6 +21,7 @@ def test_freeze_documentation(client):
     assert data["status"] == "frozen"
     assert "documentation_index_id" in data
 
+
 def test_certify_release(client):
     response = client.post("/api/v1/platform/certification?version=1.0.0")
     assert response.status_code == 200
@@ -26,12 +29,21 @@ def test_certify_release(client):
     assert data["status"] == "certified"
     assert "certification_id" in data
 
+
 def test_generate_and_fetch_release(client):
     # Setup dependencies
-    baseline_id = client.post("/api/v1/platform/baseline?version=1.0.0").json()["baseline_id"]
-    cert_id = client.post("/api/v1/platform/certification?version=1.0.0").json()["certification_id"]
-    contract_id = client.post("/api/v1/platform/contracts/freeze?version=1.0.0").json()["contract_matrix_id"]
-    doc_id = client.post("/api/v1/platform/documentation/freeze?version=1.0.0").json()["documentation_index_id"]
+    baseline_id = client.post("/api/v1/platform/baseline?version=1.0.0").json()[
+        "baseline_id"
+    ]
+    cert_id = client.post("/api/v1/platform/certification?version=1.0.0").json()[
+        "certification_id"
+    ]
+    contract_id = client.post("/api/v1/platform/contracts/freeze?version=1.0.0").json()[
+        "contract_matrix_id"
+    ]
+    doc_id = client.post("/api/v1/platform/documentation/freeze?version=1.0.0").json()[
+        "documentation_index_id"
+    ]
 
     # Generate release
     response = client.post(
@@ -41,8 +53,8 @@ def test_generate_and_fetch_release(client):
             "certification_id": cert_id,
             "baseline_id": baseline_id,
             "contract_matrix_id": contract_id,
-            "doc_index_id": doc_id
-        }
+            "doc_index_id": doc_id,
+        },
     )
     assert response.status_code == 200
     data = response.json()
@@ -57,6 +69,7 @@ def test_generate_and_fetch_release(client):
     ready_res = client.get("/api/v1/platform/readiness/1.0.0")
     assert ready_res.status_code == 200
     assert ready_res.json()["ready"]
+
 
 def test_governance_lifecycle(client):
     response = client.get("/api/v1/platform/governance/lifecycle")

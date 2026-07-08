@@ -1,15 +1,16 @@
 from typing import List, Any
 
 from ..domain.models import (
-    ExecutionPolicy, 
-    PolicyContext, 
-    EvaluationResult, 
+    ExecutionPolicy,
+    PolicyContext,
+    EvaluationResult,
     EvaluationOutcome,
     RuleAST,
     RuleOperator,
-    PolicyExplanation
+    PolicyExplanation,
 )
 from ..infrastructure.repositories import PolicyRepository, EvaluationRepository
+
 
 class ASTEvaluator:
     @staticmethod
@@ -28,12 +29,16 @@ class ASTEvaluator:
     @staticmethod
     def evaluate(ast: RuleAST, context: PolicyContext) -> bool:
         if ast.operator == RuleOperator.AND:
-            return all(ASTEvaluator.evaluate(cond, context) for cond in (ast.conditions or []))
+            return all(
+                ASTEvaluator.evaluate(cond, context) for cond in (ast.conditions or [])
+            )
         if ast.operator == RuleOperator.OR:
-            return any(ASTEvaluator.evaluate(cond, context) for cond in (ast.conditions or []))
-            
+            return any(
+                ASTEvaluator.evaluate(cond, context) for cond in (ast.conditions or [])
+            )
+
         field_val = ASTEvaluator._get_field_value(context, ast.field)
-        
+
         if ast.operator == RuleOperator.EQ:
             return field_val == ast.value
         if ast.operator == RuleOperator.NEQ:
@@ -48,8 +53,9 @@ class ASTEvaluator:
             return field_val is not None and field_val <= ast.value
         if ast.operator == RuleOperator.IN:
             return field_val is not None and field_val in (ast.value or [])
-            
+
         return False
+
 
 class PolicyRegistryService:
     def __init__(self, repo: PolicyRepository):
@@ -61,40 +67,43 @@ class PolicyRegistryService:
     def list_active_policies(self) -> List[ExecutionPolicy]:
         return self.repo.list_active()
 
+
 class PolicyEvaluationService:
     def __init__(self, policy_repo: PolicyRepository, eval_repo: EvaluationRepository):
         self.policy_repo = policy_repo
         self.eval_repo = eval_repo
-        
+
     def evaluate(self, context: PolicyContext) -> EvaluationResult:
         policies = self.policy_repo.list_active()
-        
+
         # Default outcome if no policies match
         outcome = EvaluationOutcome.ALLOW
         triggering_policy = None
         matched_conditions = []
-        
+
         # Policies are assumed to be sorted by priority desc
         for policy in policies:
             is_match = ASTEvaluator.evaluate(policy.rule_ast, context)
             if is_match:
                 outcome = policy.outcome_if_matched
                 triggering_policy = policy
-                matched_conditions.append(f"Matched rule tree for field: {policy.rule_ast.field if policy.rule_ast.field else 'complex'}")
-                break # First match wins in this simple priority model
-                
+                matched_conditions.append(
+                    f"Matched rule tree for field: {policy.rule_ast.field if policy.rule_ast.field else 'complex'}"
+                )
+                break  # First match wins in this simple priority model
+
         explanation = PolicyExplanation(
             triggering_policy_id=triggering_policy.id if triggering_policy else None,
-            triggering_policy_name=triggering_policy.name if triggering_policy else "Default Allow",
+            triggering_policy_name=triggering_policy.name
+            if triggering_policy
+            else "Default Allow",
             matched_conditions=matched_conditions,
-            human_readable=f"Execution is {outcome.value} due to {triggering_policy.name if triggering_policy else 'default policy'}."
+            human_readable=f"Execution is {outcome.value} due to {triggering_policy.name if triggering_policy else 'default policy'}.",
         )
-        
+
         result = EvaluationResult(
-            request_id=context.request_id,
-            outcome=outcome,
-            explanation=explanation
+            request_id=context.request_id, outcome=outcome, explanation=explanation
         )
-        
+
         self.eval_repo.save(result)
         return result
