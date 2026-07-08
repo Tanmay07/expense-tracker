@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   db:
     image: postgres:15
@@ -8,32 +7,47 @@ services:
       POSTGRES_PASSWORD: ledger_password
       POSTGRES_DB: finance_ledger
     ports:
-      - "5432:5432"
-    volumes:
+    - 5432:5432
+    volumes: null
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U ledger_user -d finance_ledger
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+    - db
   validation_artifacts:
-      - postgres_data:/var/lib/postgresql/data
-
+  - postgres_data:/var/lib/postgresql/data
   redis:
     image: redis:7
     ports:
-      - "6379:6379"
-
+    - 6379:6379
+    healthcheck:
+      test:
+      - CMD
+      - redis-cli
+      - ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+    - db
 volumes:
-  validation_artifacts:
-  postgres_data:
-
+  validation_artifacts: null
+  postgres_data: null
   enterprise-compliance:
     build:
       context: ./packages/enterprise-compliance
     ports:
-      - "8002:8000"
+    - 8002:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   compliance-worker:
     build:
       context: ./packages/enterprise-compliance
@@ -42,22 +56,20 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   ai-coach-api:
     build:
       context: ./packages/ai-financial-coach
     ports:
-      - "8003:8000"
+    - 8003:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
       OPENAI_API_KEY: ${OPENAI_API_KEY:-mock}
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   ai-coach-worker:
     build:
       context: ./packages/ai-financial-coach
@@ -67,22 +79,20 @@ volumes:
       CELERY_BROKER_URL: redis://redis:6379/0
       OPENAI_API_KEY: ${OPENAI_API_KEY:-mock}
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   ai-copilot-api:
     build:
       context: ./packages/ai-copilot
     ports:
-      - "8004:8000"
+    - 8004:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
       OPENAI_API_KEY: ${OPENAI_API_KEY:-mock}
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   ai-copilot-worker:
     build:
       context: ./packages/ai-copilot
@@ -92,22 +102,20 @@ volumes:
       CELERY_BROKER_URL: redis://redis:6379/0
       OPENAI_API_KEY: ${OPENAI_API_KEY:-mock}
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   mission-control-api:
     build:
       context: ./packages/mission-control
     ports:
-      - "8005:8000"
+    - 8005:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
       OPENAI_API_KEY: ${OPENAI_API_KEY:-mock}
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   mission-control-worker:
     build:
       context: ./packages/mission-control
@@ -117,31 +125,28 @@ volumes:
       CELERY_BROKER_URL: redis://redis:6379/0
       OPENAI_API_KEY: ${OPENAI_API_KEY:-mock}
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   decision-registry-api:
     build:
       context: ./packages/decision-registry
     ports:
-      - "8006:8000"
+    - 8006:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
     depends_on:
-      - db
-
+    - db
   decision-intelligence-api:
     build:
       context: ./packages/decision-intelligence
     ports:
-      - "8007:8000"
+    - 8007:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   decision-intelligence-worker:
     build:
       context: ./packages/decision-intelligence
@@ -150,21 +155,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   decision-lifecycle-api:
     build:
       context: ./packages/decision-lifecycle
     ports:
-      - "8008:8000"
+    - 8008:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   decision-lifecycle-worker:
     build:
       context: ./packages/decision-lifecycle
@@ -173,21 +176,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   execution-capability-api:
     build:
       context: ./packages/execution-capability
     ports:
-      - "8009:8000"
+    - 8009:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   execution-capability-worker:
     build:
       context: ./packages/execution-capability
@@ -196,21 +197,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   execution-policy-api:
     build:
       context: ./packages/execution-policy
     ports:
-      - "8010:8000"
+    - 8010:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   execution-policy-worker:
     build:
       context: ./packages/execution-policy
@@ -219,21 +218,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   decision-learning-api:
     build:
       context: ./packages/decision-learning
     ports:
-      - "8011:8000"
+    - 8011:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   decision-learning-worker:
     build:
       context: ./packages/decision-learning
@@ -242,21 +239,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   hierarchical-learning-api:
     build:
       context: ./packages/hierarchical-learning
     ports:
-      - "8012:8000"
+    - 8012:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   hierarchical-learning-worker:
     build:
       context: ./packages/hierarchical-learning
@@ -265,21 +260,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   marketplace-platform-api:
     build:
       context: ./packages/marketplace-platform
     ports:
-      - "8013:8000"
+    - 8013:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   marketplace-platform-worker:
     build:
       context: ./packages/marketplace-platform
@@ -288,21 +281,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   strategy-sandbox-api:
     build:
       context: ./packages/strategy-sandbox
     ports:
-      - "8014:8000"
+    - 8014:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   strategy-sandbox-worker:
     build:
       context: ./packages/strategy-sandbox
@@ -311,23 +302,21 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   validation-registry-api:
     build:
       context: ./packages/validation-registry
     ports:
-      - "8015:8000"
+    - 8015:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
+    - db
+    - redis
     volumes:
-      - validation_artifacts:/app/data/artifacts
-
+    - validation_artifacts:/app/data/artifacts
   validation-registry-worker:
     build:
       context: ./packages/validation-registry
@@ -336,23 +325,21 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
+    - db
+    - redis
     volumes:
-      - validation_artifacts:/app/data/artifacts
-
+    - validation_artifacts:/app/data/artifacts
   governance-platform-api:
     build:
       context: ./packages/governance-platform
     ports:
-      - "8016:8000"
+    - 8016:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   governance-platform-worker:
     build:
       context: ./packages/governance-platform
@@ -361,21 +348,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   observability-platform-api:
     build:
       context: ./packages/observability-platform
     ports:
-      - "8017:8000"
+    - 8017:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   observability-platform-worker:
     build:
       context: ./packages/observability-platform
@@ -384,21 +369,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   experimentation-platform-api:
     build:
       context: ./packages/experimentation-platform
     ports:
-      - "8018:8000"
+    - 8018:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   experimentation-platform-worker:
     build:
       context: ./packages/experimentation-platform
@@ -407,21 +390,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   analytics-platform-api:
     build:
       context: ./packages/analytics-platform
     ports:
-      - "8019:8000"
+    - 8019:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   analytics-platform-worker:
     build:
       context: ./packages/analytics-platform
@@ -430,21 +411,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   platform-readiness-api:
     build:
       context: ./packages/platform-readiness
     ports:
-      - "8020:8000"
+    - 8020:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   platform-readiness-worker:
     build:
       context: ./packages/platform-readiness
@@ -453,21 +432,19 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   platform-release-api:
     build:
       context: ./packages/platform-release
     ports:
-      - "8021:8000"
+    - 8021:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   platform-release-worker:
     build:
       context: ./packages/platform-release
@@ -476,39 +453,35 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   mission-control-bff:
     build:
       context: ./packages/mission-control-bff
     ports:
-      - "8030:8000"
+    - 8030:8000
     environment:
       REDIS_URL: redis://redis:6379/0
     depends_on:
-      - redis
-
+    - redis
   mission-control-ui:
     build:
       context: ./packages/mission-control-ui
     ports:
-      - "3000:3000"
+    - 3000:3000
     depends_on:
-      - mission-control-bff
-
+    - mission-control-bff
   autonomous-intelligence-api:
     build:
       context: ./packages/autonomous-intelligence
     ports:
-      - "8022:8000"
+    - 8022:8000
     environment:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
-
+    - db
+    - redis
   autonomous-intelligence-worker:
     build:
       context: ./packages/autonomous-intelligence
@@ -517,5 +490,5 @@ volumes:
       DATABASE_URL: postgresql://ledger_user:ledger_password@db:5432/finance_ledger
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
-      - db
-      - redis
+    - db
+    - redis

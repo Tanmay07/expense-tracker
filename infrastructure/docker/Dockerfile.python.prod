@@ -1,0 +1,64 @@
+# syntax=docker/dockerfile:1.4
+# ==============================================================================
+# PFOS Standard Production Dockerfile (Python)
+# ==============================================================================
+
+# 1. Base Builder Stage
+FROM python:3.11-slim AS builder
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100
+
+WORKDIR /build
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Assuming uv for fast dependency resolution, but standard pip works too
+COPY requirements.txt pyproject.toml ./
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /build/wheels -r requirements.txt || pip wheel --no-cache-dir --no-deps --wheel-dir /build/wheels .
+
+# 2. Final Production Stage
+FROM python:3.11-slim AS production
+
+LABEL maintainer="PFOS Platform Engineering"
+LABEL com.financeos.platform.version="1.0.0"
+LABEL org.opencontainers.image.source="https://github.com/Tanmay07/expense-tracker"
+LABEL org.opencontainers.image.vendor="FinanceOS"
+LABEL security.scanning.enabled="true"
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    APP_HOME=/app
+
+WORKDIR $APP_HOME
+
+# Install runtime dependencies (e.g., pg_isready for healthchecks)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    postgresql-client \
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd -r appgroup && useradd -r -g appgroup appuser
+
+# Copy wheels from builder and install
+COPY --from=builder /build/wheels /wheels
+RUN pip install --no-cache /wheels/* \
+    && rm -rf /wheels
+
+# Copy application code
+COPY --chown=appuser:appgroup . $APP_HOME
+
+USER appuser
+
+# Standard Healthcheck
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:8000/health || exit 1
+
+EXPOSE 8000
+
+CMD ["uvicorn", "application.main:app", "--host", "0.0.0.0", "--port", "8000"]

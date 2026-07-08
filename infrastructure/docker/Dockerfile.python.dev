@@ -1,0 +1,46 @@
+# syntax=docker/dockerfile:1.4
+# ==============================================================================
+# PFOS Standard Development Dockerfile (Python)
+# ==============================================================================
+
+FROM python:3.11-slim
+
+LABEL maintainer="PFOS Platform Engineering"
+LABEL environment="development"
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    APP_HOME=/app
+
+WORKDIR $APP_HOME
+
+# Install development dependencies (compilers, git, curl, etc.)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    postgresql-client \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install uv globally for fast dependency resolution
+RUN pip install uv
+
+# Create a non-root user for security even in dev
+RUN groupadd -r appgroup && useradd -r -g appgroup -s /bin/bash -m appuser
+RUN chown -R appuser:appgroup $APP_HOME
+
+# Copy only the dependency specs first for caching
+COPY --chown=appuser:appgroup pyproject.toml requirements.txt ./
+
+# We don't install dependencies in the Dockerfile for dev, we let docker-compose
+# mount the volume and we run `uv pip install` on startup to keep host/container in sync,
+# or we install them here if we want a fully contained dev image.
+# For this template, we pre-install.
+USER appuser
+RUN uv pip install --system -r requirements.txt || uv pip install --system -e .
+
+EXPOSE 8000
+
+# Dev command uses reload
+CMD ["uvicorn", "application.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
