@@ -550,3 +550,27 @@ volumes:
     profiles:
       - integration
       - full
+
+  # ---------------------------------------------------------
+  # Phase 14: Collaboration Platform (ECHAP)
+  # ---------------------------------------------------------
+  collaboration-platform:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.python.dev
+    command: ["uv", "run", "uvicorn", "collaboration_platform.api.main:app", "--host", "0.0.0.0", "--port", "8023", "--reload"]
+    volumes:
+      - ./packages/collaboration-platform:/app/packages/collaboration-platform
+    ports:
+      - "8023:8023"
+    environment:
+      - APP_ENV=development
+      - LOG_LEVEL=DEBUG
+      - REDIS_URL=redis://redis:6379/0
+      - COLLABORATION_DB_URL=postgresql+asyncpg://ledger_user:ledger_password@db:5432/finance_ledger
+    depends_on:
+      - db
+      - redis
+    profiles:
+      - collaboration
+      - full
