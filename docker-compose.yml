@@ -574,3 +574,27 @@ volumes:
     profiles:
       - collaboration
       - full
+
+  # ---------------------------------------------------------
+  # Phase 15: Trust, Risk, Compliance & Governance Platform
+  # ---------------------------------------------------------
+  trust-platform:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.python.dev
+    command: ["uv", "run", "uvicorn", "trust_platform.api.main:app", "--host", "0.0.0.0", "--port", "8024", "--reload"]
+    volumes:
+      - ./packages/trust-platform:/app/packages/trust-platform
+    ports:
+      - "8024:8024"
+    environment:
+      - APP_ENV=development
+      - LOG_LEVEL=DEBUG
+      - REDIS_URL=redis://redis:6379/0
+      - TRUST_DB_URL=postgresql+asyncpg://ledger_user:ledger_password@db:5432/finance_ledger
+    depends_on:
+      - db
+      - redis
+    profiles:
+      - trust
+      - full
