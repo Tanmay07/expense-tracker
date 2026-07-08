@@ -15,7 +15,7 @@ class CollaborationClient:
     async def verify_delegation(self, delegator_id: str, delegatee_id: str, required_scope: str) -> bool:
         # Dummy implementation for inter-service check
         response = await self.client.get(
-            f"/api/v1/collaboration/delegations/verify",
+            "/api/v1/collaboration/delegations/verify",
             params={"delegator": delegator_id, "delegatee": delegatee_id, "scope": required_scope}
         )
         return response.status_code == 200 and response.json().get("is_valid", False)

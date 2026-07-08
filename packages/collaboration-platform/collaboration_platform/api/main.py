@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
-from opentelemetry import trace
 import logging
 
 from collaboration_platform.api.routers import router

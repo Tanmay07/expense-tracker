@@ -1,4 +1,4 @@
-from typing import List, Optional, TypeVar, Type, Any
+from typing import List, Optional, TypeVar
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from .database import Base, HouseholdModel, HouseholdMemberModel, DelegationModel, AdvisorModel, SharedWorkspaceModel
@@ -27,7 +27,7 @@ class HouseholdRepository(BaseRepository):
     async def get_households_by_user(self, user_id: str) -> List[HouseholdModel]:
         stmt = select(HouseholdModel).join(HouseholdMemberModel).where(
             HouseholdMemberModel.user_id == user_id,
-            HouseholdMemberModel.is_active == True
+            HouseholdMemberModel.is_active.is_(True)
         )
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
@@ -47,7 +47,7 @@ class DelegationRepository(BaseRepository):
     async def get_active_delegations_for_delegatee(self, delegatee_id: str) -> List[DelegationModel]:
         stmt = select(DelegationModel).where(
             DelegationModel.delegatee_user_id == delegatee_id,
-            DelegationModel.is_active == True
+            DelegationModel.is_active.is_(True)
         )
         result = await self.session.execute(stmt)
         return list(result.scalars().all())

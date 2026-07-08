@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock
 from fastapi.testclient import TestClient
 from collaboration_platform.api.main import app
 from collaboration_platform.infrastructure.database import get_db_session

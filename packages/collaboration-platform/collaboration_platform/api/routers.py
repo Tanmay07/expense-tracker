@@ -1,15 +1,14 @@
-from fastapi import APIRouter, Depends, HTTPException
-from typing import List, Optional
+from fastapi import APIRouter, Depends
+from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
 
 from collaboration_platform.domain.models import (
     Household, HouseholdMember, MemberRole, Advisor, Delegation, DelegationScope,
-    SharedWorkspace, SharedMission, Message
+    SharedWorkspace
 )
 from collaboration_platform.application.services import (
-    HouseholdService, DelegationService, AdvisorService, WorkspaceSharingService,
-    MessagingService, SharedMissionService
+    HouseholdService, DelegationService, AdvisorService, WorkspaceSharingService
 )
 from collaboration_platform.infrastructure.database import get_db_session
 from collaboration_platform.infrastructure.repositories import (
