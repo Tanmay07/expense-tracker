@@ -492,3 +492,35 @@ volumes:
     depends_on:
     - db
     - redis
+
+  cognitive-os-api:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.python.dev
+    command: uv run uvicorn packages.cognitive-os.cognitive_os.main:app --host 0.0.0.0 --port 8005 --reload
+    volumes:
+      - ./packages:/app/packages
+    ports:
+      - "8005:8005"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    profiles:
+      - cognitive
+      - full
+
+  cognitive-os-worker:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.python.dev
+    command: uv run celery -A packages.cognitive-os.cognitive_os.infrastructure.celery_app worker --loglevel=info
+    volumes:
+      - ./packages:/app/packages
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    profiles:
+      - cognitive
+      - full
