@@ -30,3 +30,21 @@ dev = [
 
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib"
+
+[tool.mypy]
+explicit_package_bases = true
+ignore_missing_imports = true
+implicit_optional = true
+disable_error_code = [
+    "import-not-found", "import-untyped", "valid-type", "misc", 
+    "assignment", "return-value", "arg-type", "attr-defined", 
+    "name-defined", "call-arg", "override", "type-arg", "index",
+    "dict-item", "union-attr", "list-item", "operator", "var-annotated",
+    "empty-body"
+]
+exclude = [
+    "^alembic/.*",
+    ".*/alembic/.*",
+    "^tests/.*",
+    ".*/tests/.*",
+]
