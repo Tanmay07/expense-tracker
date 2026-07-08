@@ -24,3 +24,6 @@ export 'src/files/file_transfer_service.dart';
 export 'src/repositories/base_repository.dart';
 export 'src/repositories/accounts_repository.dart';
 export 'src/repositories/expenses_repository.dart';
+
+// Expose AI Services
+export 'src/ai/ai_service.dart';
