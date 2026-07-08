@@ -1,5 +1,5 @@
 from typing import Dict, List, Optional
-from .models import AgentDefinition, AgentRole, MemoryScope
+from ..domain.models import AgentDefinition, AgentRole, MemoryScope
 
 class AgentRegistryService:
     """
