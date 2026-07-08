@@ -524,3 +524,29 @@ volumes:
     profiles:
       - cognitive
       - full
+
+
+  # ---------------------------------------------------------
+  # Phase 13: Integration Platform (EFCIP)
+  # ---------------------------------------------------------
+  integration-platform:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.python.dev
+    command: ["uv", "run", "uvicorn", "integration_platform.api.main:app", "--host", "0.0.0.0", "--port", "8014", "--reload"]
+    volumes:
+      - ./packages/integration-platform:/app/packages/integration-platform
+    ports:
+      - "8014:8014"
+    environment:
+      - APP_ENV=development
+      - LOG_LEVEL=DEBUG
+      - REDIS_URL=redis://redis:6379/0
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - AWS_SECRETS_MOCK=true
+    depends_on:
+      - redis
+      - otel-collector
+    profiles:
+      - integration
+      - full
